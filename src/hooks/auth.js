@@ -11,8 +11,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     data: user,
     error,
     mutate,
-  } = useSWR("/api/user", () =>
-    console.log(process.env.NEXT_PUBLIC_BACKEND_URL, "==>NEXT_PUBLIC_BACKEND_URL"),
+  } = useSWR(
+    "/api/user",
+    () =>
+      console.log(
+        process.env.NEXT_PUBLIC_BACKEND_URL,
+        "==>NEXT_PUBLIC_BACKEND_URL"
+      ),
     axios
       .get("/api/user")
       .then((res) => res.data)
