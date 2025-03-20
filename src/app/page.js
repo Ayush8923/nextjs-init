@@ -16,7 +16,7 @@ const Home = () => {
         <LoginLinks />
       </div>
 
-      <section className="w-full bg-gray-800 text-white py-12 px-4">
+      <section className="w-full bg-[#373435] text-white py-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-2">
             Become Unos y Otros
