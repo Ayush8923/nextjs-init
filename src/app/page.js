@@ -1,4 +1,6 @@
 import LoginLinks from "@/app/LoginLinks";
+import ApplicationLogo from "@/components/custom-icons/ApplicationLogo";
+import Link from "next/link";
 
 export const metadata = {
   title: "Unos y Otros",
@@ -7,15 +9,32 @@ export const metadata = {
 const Home = () => {
   return (
     <>
-      <div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+      <div className="container mx-auto max-w-6xl px-4 py-4 flex justify-between items-center">
+        <div className="flex items-center">
+          <ApplicationLogo />
+        </div>
         <LoginLinks />
+      </div>
 
-        <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
-          <div className="flex justify-center pt-8 sm:justify-start sm:pt-0 font-bold text-2xl">
-            Unos y Otros
+      <section className="w-full bg-gray-800 text-white py-12 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <h1 className="text-4xl md:text-5xl font-bold mb-2">
+            Become Unos y Otros
+          </h1>
+          <p className="text-xl mb-8">
+            Take control of your hobby with a managed cigar & humidor
+            collection.
+          </p>
+          <div className="flex items-center">
+            <Link
+              href="/login"
+              className="bg-white text-gray-800 font-bold py-3 px-8 rounded-full mr-4"
+            >
+              Join Now
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };
