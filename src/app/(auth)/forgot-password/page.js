@@ -25,7 +25,7 @@ const Page = () => {
   };
 
   return (
-    <>
+    <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
       <div className="mb-4 text-sm text-gray-600">
         Forgot your password? No problem. Just let us know your email address
         and we will email you a password reset link that will allow you to
@@ -54,10 +54,10 @@ const Page = () => {
         </div>
 
         <div className="flex items-center justify-end mt-4">
-          <Button>Email Password Reset Link</Button>
+          <Button title="Email Password Reset Link" className="mt-0" />
         </div>
       </form>
-    </>
+    </div>
   );
 };
 
