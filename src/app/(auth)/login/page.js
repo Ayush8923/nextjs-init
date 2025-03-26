@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
       <AuthSessionStatus className="mb-4" status={status} />
       <form onSubmit={submitForm}>
         {/* Email Address */}
@@ -105,10 +105,10 @@ const Login = () => {
             Forgot your password?
           </Link>
 
-          <Button className="ml-3">Login</Button>
+          <Button title="Login" className="ml-3 mt-0" />
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

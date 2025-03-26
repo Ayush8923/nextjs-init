@@ -13,7 +13,7 @@ const Page = () => {
   const [status, setStatus] = useState(null);
 
   return (
-    <>
+    <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
       <div className="mb-4 text-sm text-gray-600">
         Thanks for signing up! Before getting started, could you verify your
         email address by clicking on the link we just emailed to you? If you
@@ -28,9 +28,10 @@ const Page = () => {
       )}
 
       <div className="mt-4 flex items-center justify-between">
-        <Button onClick={() => resendEmailVerification({ setStatus })}>
-          Resend Verification Email
-        </Button>
+        <Button
+          onClick={() => resendEmailVerification({ setStatus })}
+          title="Resend Verification Email"
+        />
 
         <button
           type="button"
@@ -40,7 +41,7 @@ const Page = () => {
           Logout
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

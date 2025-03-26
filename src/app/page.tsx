@@ -25,7 +25,7 @@ const Home = () => {
           </p>
           <div className="flex items-center">
             <Link
-              href="/register"
+              href="/consent"
               className="bg-white text-primary-100 font-semibold text-sm py-[10px] px-[15px] rounded-full"
             >
               Join Now

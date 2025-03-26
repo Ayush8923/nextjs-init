@@ -33,7 +33,10 @@ const Page = () => {
   };
 
   return (
-    <form onSubmit={submitForm}>
+    <form
+      onSubmit={submitForm}
+      className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
+    >
       {/* Name */}
       <div>
         <Label htmlFor="name">Name</Label>
@@ -108,7 +111,7 @@ const Page = () => {
           Already registered?
         </Link>
 
-        <Button className="ml-4">Register</Button>
+        <Button className="ml-4" title="Register" />
       </div>
     </form>
   );
