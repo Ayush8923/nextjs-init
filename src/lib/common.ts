@@ -9,3 +9,9 @@ export const calculateAge = (dob: string): number => {
     (today < new Date(birthDate.setFullYear(today.getFullYear())) ? 1 : 0);
   return age;
 };
+
+export const getCookie = (name: string) => {
+  const cookies = document.cookie.split("; ");
+  const cookie = cookies.find((c) => c.startsWith(`${name}=`));
+  return cookie ? decodeURIComponent(cookie.split("=")[1]) : "";
+};
