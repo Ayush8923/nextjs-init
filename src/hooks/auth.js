@@ -24,7 +24,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
   const csrf = () => axios.get("/sanctum/csrf-cookie");
 
-  const register = async ({ setErrors, ...props }) => {
+  const register = async ({ setErrors, setIsLoading, ...props }) => {
+    setIsLoading(true);
     await csrf();
 
     setErrors([]);
@@ -36,6 +37,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         if (error.response.status !== 422) throw error;
 
         setErrors(error.response.data.errors);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -89,10 +93,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       });
   };
 
-  const resendEmailVerification = ({ setStatus }) => {
+  const resendEmailVerification = ({ setStatus, setIsLoading }) => {
+    setIsLoading(true);
     axios
       .post("/email/verification-notification")
-      .then((response) => setStatus(response.data.status));
+      .then((response) => setStatus(response.data.status))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const logout = async () => {

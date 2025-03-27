@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ApplicationLogo from "@/components/custom-icons/ApplicationLogo";
+import ApplicationLogo from "@/components/icon/ApplicationLogo";
 
 const Page = () => {
   return (

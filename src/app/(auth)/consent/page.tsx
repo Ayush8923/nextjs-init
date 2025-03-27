@@ -14,15 +14,15 @@ const Page = () => {
 
   const selectedDate = watch("dob");
 
-  const onSubmit = ({ dob }: ConsentFormData) => {
+  const onSubmit = async ({ dob }: ConsentFormData) => {
     const age = calculateAge(dob);
 
     // Save the user date of birth in a cookie
-    createCookie("DOB", dob);
+    await createCookie("DOB", dob);
 
-    // If the user is 21 or older, redirect to the login page
+    // If the user is 21 or older, redirect to the sign-up page
     // Otherwise, redirect to the no-access page
-    router.push(age >= AGE_LIMIT ? "/login" : "/no-access");
+    router.push(age >= AGE_LIMIT ? "/sign-up" : "/no-access");
   };
 
   return (
@@ -50,6 +50,7 @@ const Page = () => {
               type="submit"
               className="w-full mt-4"
               disabled={!selectedDate}
+              loading={false}
               title="Next"
             />
           </form>

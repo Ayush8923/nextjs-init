@@ -1,6 +1,5 @@
-import ApplicationLogo from "@/components/custom-icons/ApplicationLogo";
+import ApplicationLogo from "@/components/icon/ApplicationLogo";
 import Link from "next/link";
-import LoginLinks from "@/app/LoginLinks";
 
 export const metadata = {
   title: "Unos y Otros",
@@ -13,7 +12,12 @@ const Home = () => {
         <div className="flex items-center">
           <ApplicationLogo />
         </div>
-        <LoginLinks />
+        <Link
+          href="/login"
+          className="border border-primary-100 rounded-full px-[26px] py-[10px] text-primary-100 font-semibold text-sm"
+        >
+          Login
+        </Link>
       </div>
 
       <section className="w-full bg-primary-100 text-white p-[24px]">

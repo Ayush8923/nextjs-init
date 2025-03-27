@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
   }
 
   if (
-    request.nextUrl.pathname === "/login" &&
+    request.nextUrl.pathname === "/sign-up" &&
     age !== null &&
     age <= AGE_LIMIT
   ) {
@@ -22,5 +22,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/no-access", "/login"],
+  matcher: ["/no-access", "/sign-up"],
 };
