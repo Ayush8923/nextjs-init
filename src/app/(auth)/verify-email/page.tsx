@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/auth";
 import { useState } from "react";
 
 const Page = () => {
-  const { resendEmailVerification, user } = useAuth({
+  const { resendEmailVerification, user, logout } = useAuth({
     middleware: "auth",
     redirectIfAuthenticated: "/account-details",
   });
@@ -40,6 +40,16 @@ const Page = () => {
           disabled={isLoading}
           loading={isLoading}
         />
+
+        <div className="flex justify-center text-xs font-normal mt-5">
+          Not your email?
+          <div
+            className="font-bold ml-1 cursor-pointer"
+            onClick={() => logout("/sign-up")}
+          >
+            Change Email
+          </div>
+        </div>
       </div>
     </AuthFlowHeader>
   );

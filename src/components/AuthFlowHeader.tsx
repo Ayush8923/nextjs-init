@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import ApplicationLogo from "./icon/ApplicationLogo";
+import { ApplicationLogo } from "./icons";
 
 const AuthFlowHeader = ({
   label,
@@ -9,7 +9,7 @@ const AuthFlowHeader = ({
   children: ReactNode;
 }) => {
   return (
-    <div className="w-full sm:max-w-md px-[36px] mt-14">
+    <div className="w-full sm:max-w-md px-9 mt-14">
       <div className="flex justify-center">
         <div className="w-16 h-16 flex items-center justify-center">
           <ApplicationLogo />

@@ -15,3 +15,10 @@ export const getCookie = (name: string) => {
   const cookie = cookies.find((c) => c.startsWith(`${name}=`));
   return cookie ? decodeURIComponent(cookie.split("=")[1]) : "";
 };
+
+export const getImagePreviewUrl = (
+  event: React.ChangeEvent<HTMLInputElement>
+): string => {
+  const file = event.target.files?.[0];
+  return file ? URL.createObjectURL(file) : "";
+};

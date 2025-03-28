@@ -8,7 +8,8 @@ type InputFieldProps = {
   register?: UseFormRegister<any>;
   errors?: FieldErrors;
   isRequired?: boolean;
-};
+  className?: string;
+} & Record<string, any>;
 
 const InputField = ({
   type,
@@ -17,11 +18,14 @@ const InputField = ({
   register,
   errors,
   isRequired = true,
+  className,
+  ...props
 }: InputFieldProps) => {
   return (
     <div className="relative">
       <input
         type={type}
+        id={name}
         placeholder={label}
         {...(register && name
           ? register(
@@ -29,7 +33,8 @@ const InputField = ({
               isRequired ? { required: `${label} is required` } : {}
             )
           : {})}
-        className="w-full p-[10px] border rounded-md"
+        className={`w-full p-[10px] border rounded-md ${className}`}
+        {...props}
       />
       <InputError messages={name ? [errors?.[name]?.message as string] : []} />
     </div>

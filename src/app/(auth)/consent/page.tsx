@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Button from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { ConsentFormData } from "@/lib/types";
@@ -11,10 +11,12 @@ import { AGE_LIMIT, calculateAge } from "@/lib/common";
 const Page = () => {
   const { register, handleSubmit, watch } = useForm<ConsentFormData>();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const selectedDate = watch("dob");
 
   const onSubmit = async ({ dob }: ConsentFormData) => {
+    setIsLoading(true);
     const age = calculateAge(dob);
 
     // Save the user date of birth in a cookie
@@ -22,6 +24,7 @@ const Page = () => {
 
     // If the user is 21 or older, redirect to the sign-up page
     // Otherwise, redirect to the no-access page
+    setIsLoading(false);
     router.push(age >= AGE_LIMIT ? "/sign-up" : "/no-access");
   };
 
@@ -50,7 +53,7 @@ const Page = () => {
               type="submit"
               className="w-full mt-4"
               disabled={!selectedDate}
-              loading={false}
+              loading={isLoading}
               title="Next"
             />
           </form>

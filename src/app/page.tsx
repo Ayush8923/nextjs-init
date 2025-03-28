@@ -1,4 +1,4 @@
-import ApplicationLogo from "@/components/icon/ApplicationLogo";
+import { ApplicationLogo } from "@/components/icons";
 import Link from "next/link";
 
 export const metadata = {

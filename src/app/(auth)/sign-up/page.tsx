@@ -2,16 +2,17 @@
 
 import { useAuth } from "@/hooks/auth";
 import { useForm } from "react-hook-form";
-import AuthFlowHeader from "@/components/AuthFlowHeader";
-import GoogleIcon from "@/components/icon/GoogleIcon";
-import AppleIcon from "@/components/icon/AppleIcon";
+import { AppleIcon, GoogleIcon } from "@/components/icons";
 import Link from "next/link";
-import Button from "@/components/Button";
-import PasswordInput from "@/components/PasswordInput";
-import InputField from "@/components/InputField";
 import { SignUpFormData } from "@/lib/types";
 import { getCookie } from "@/lib/common";
-import InputError from "@/components/InputError";
+import {
+  InputError,
+  InputField,
+  PasswordInput,
+  Button,
+  AuthFlowHeader,
+} from "@/components";
 import { useState } from "react";
 
 const Page = () => {
@@ -103,7 +104,7 @@ const Page = () => {
         />
       </form>
 
-      <div className="fixed bottom-8 left-0 right-0 text-center">
+      <div className="text-center mt-9">
         <span className="text-primary-100 font-normal text-xs">
           Already have an account?
           <Link
