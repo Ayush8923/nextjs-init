@@ -1,5 +1,5 @@
 const AuthCard = ({ children }) => (
-  <div className="min-h-screen flex flex-col items-center pt-6 sm:pt-0 bg-white">
+  <div className="min-h-screen flex flex-col items-center bg-white">
     {children}
   </div>
 );

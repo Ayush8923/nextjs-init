@@ -1,8 +1,7 @@
-import EyeIcon from "@/components/icon/EyeIcon";
 import { useState } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import InputError from "@/components/InputError";
-import CrossEyeIcon from "./icon/CrossEyeIcon";
+import { CrossEyeIcon, EyeIcon } from "@/components/icons";
 
 type PasswordInputProps = {
   label?: string;

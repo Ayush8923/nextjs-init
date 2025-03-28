@@ -103,12 +103,12 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       });
   };
 
-  const logout = async () => {
+  const logout = async (redirectUrl = "/login") => {
     if (!error) {
       await axios.post("/logout").then(() => mutate());
     }
 
-    window.location.pathname = "/login";
+    window.location.pathname = redirectUrl;
   };
 
   useEffect(() => {
@@ -120,7 +120,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     if (window.location.pathname === "/verify-email" && user?.email_verified_at)
       router.push(redirectIfAuthenticated);
-    if (middleware === "auth" && error) logout();
   }, [user, error]);
 
   return {
