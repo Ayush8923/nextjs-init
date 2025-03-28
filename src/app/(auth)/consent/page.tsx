@@ -52,7 +52,7 @@ const Page = () => {
             <Button
               type="submit"
               className="w-full mt-4"
-              disabled={!selectedDate}
+              disabled={!selectedDate || isLoading}
               loading={isLoading}
               title="Next"
             />
