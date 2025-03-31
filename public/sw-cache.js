@@ -3,7 +3,7 @@ const CACHE_NAME = "uyo-cache-v1";
 self.addEventListener("install", async (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      // We’re only caching the homepage for now
+      // We’re only caching the homepage & offline for now
       return cache.addAll(["/", "/offline"]);
     })
   );
@@ -14,22 +14,16 @@ self.addEventListener("fetch", (e) => {
   // Only handle GET requests
   if (request.method !== "GET") return;
   e.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(request)
-        .then((networkResponse) => {
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, networkResponse.clone());
-            return networkResponse;
-          });
-        })
-        .catch(() => {
-          // Network request failed.
-          // Show /offline.tsx
-          return caches.match("/offline");
-        });
-    })
+    fetch(request)
+      .then(async (networkResponse) => {
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(request, networkResponse.clone());
+        return networkResponse;
+      })
+      .catch(async () => {
+        // Network request failed.
+        const cachedResponse = await caches.match(request);
+        return cachedResponse || caches.match("/offline");
+      })
   );
 });
