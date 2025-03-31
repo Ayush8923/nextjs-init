@@ -11,13 +11,15 @@ self.addEventListener("install", async (event) => {
 
 self.addEventListener("fetch", (e) => {
   const request = e.request;
-  // Only handle GET requests
-  if (request.method !== "GET") return;
+  // Only handle GET requests and HTTP(S) schemes
+  if (request.method !== "GET" || !request.url.startsWith("http")) return;
   e.respondWith(
     fetch(request)
       .then(async (networkResponse) => {
-        const cache = await caches.open(CACHE_NAME);
-        cache.put(request, networkResponse.clone());
+        if (networkResponse && networkResponse.status === 200) {
+          const cache = await caches.open(CACHE_NAME);
+          cache.put(request, networkResponse.clone());
+        }
         return networkResponse;
       })
       .catch(async () => {

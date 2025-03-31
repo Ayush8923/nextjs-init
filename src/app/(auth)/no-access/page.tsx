@@ -2,13 +2,16 @@
 
 import React from "react";
 import { ApplicationLogo } from "@/components/icons";
+import Link from "next/link";
 
 const Page = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center mx-[36px] bg-white">
       <main className="w-full max-w-md mx-auto flex flex-col items-center justify-center text-center font-extralight text-base text-primary-100">
         <div className="mb-[41px]">
-          <ApplicationLogo />
+          <Link href="/">
+            <ApplicationLogo />
+          </Link>
         </div>
 
         <div className="mb-8">

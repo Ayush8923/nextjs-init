@@ -22,7 +22,12 @@ const Welcome = () => {
 
       <div className="fixed bottom-10 left-0 right-0 pb-5 px-9">
         <div className="max-w-md mx-auto space-y-4">
-          <Button title="Set Your Cigar Preferences" className="w-full mt-0" />
+          {/* TODO: When the Cigar Preferences Screen created then need to enable this option. */}
+          <Button
+            title="Set Your Cigar Preferences"
+            disabled
+            className="w-full mt-0"
+          />
           <Button title="Skip for now" className="w-full" variant="secondary" />
         </div>
       </div>

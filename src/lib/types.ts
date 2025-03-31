@@ -9,6 +9,21 @@ export type SignUpFormData = {
   confirmPassword: string;
 };
 
+export type LoginFormData = {
+  email: string;
+  password: string;
+};
+
+export type ForgotPasswordFormData = {
+  email: string;
+};
+
+export type PasswordResetFormData = {
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+};
+
 export type AccountDetailsFormData = {
   firstName: string;
   middleName?: string;

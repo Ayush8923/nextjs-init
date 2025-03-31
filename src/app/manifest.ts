@@ -3,7 +3,7 @@ import { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Unos Y Otros",
-    short_name: "uyo",
+    short_name: "Unos Y Otros",
     description: "A Unos y Otros Web App.",
     start_url: "/",
     display: "standalone",

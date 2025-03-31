@@ -43,7 +43,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       });
   };
 
-  const login = async ({ setErrors, setStatus, ...props }) => {
+  const login = async ({ setErrors, setStatus, setIsLoading, ...props }) => {
+    setIsLoading(true);
     await csrf();
 
     setErrors([]);
@@ -56,10 +57,19 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         if (error.response.status !== 422) throw error;
 
         setErrors(error.response.data.errors);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
-  const forgotPassword = async ({ setErrors, setStatus, email }) => {
+  const forgotPassword = async ({
+    setErrors,
+    setStatus,
+    setIsLoading,
+    email,
+  }) => {
+    setIsLoading(true);
     await csrf();
 
     setErrors([]);
@@ -72,10 +82,19 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         if (error.response.status !== 422) throw error;
 
         setErrors(error.response.data.errors);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
-  const resetPassword = async ({ setErrors, setStatus, ...props }) => {
+  const resetPassword = async ({
+    setErrors,
+    setStatus,
+    setIsLoading,
+    ...props
+  }) => {
+    setIsLoading(true);
     await csrf();
 
     setErrors([]);
@@ -90,6 +109,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         if (error.response.status !== 422) throw error;
 
         setErrors(error.response.data.errors);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
