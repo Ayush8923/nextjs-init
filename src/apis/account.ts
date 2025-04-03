@@ -13,7 +13,7 @@ const profileUpdate = async ({
     .post("/api/profile/details", props)
     .then((res) => {
       res.data;
-      router.push("/profile-details");
+      window.location.href = "/profile-details";
     })
     .catch((error) => {
       if (error.response.status !== 422) throw error;
