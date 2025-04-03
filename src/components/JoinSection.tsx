@@ -2,14 +2,9 @@
 
 import { useAuth } from "@/hooks/auth";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 const JoinSection = () => {
-  const { user } = useAuth({ middleware: "guest" });
-
-  if (user) {
-    redirect("/account-details");
-  }
+  useAuth({ middleware: "guest", redirectIfAuthenticated: "/dashboard" });
 
   return (
     <section className="w-full bg-primary-100 text-white p-[24px]">

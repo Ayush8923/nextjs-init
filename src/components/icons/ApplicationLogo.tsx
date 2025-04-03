@@ -1,11 +1,19 @@
 import React from "react";
 
-const ApplicationLogo = () => (
+type ApplicationLogoProps = {
+  width?: string;
+  height?: string;
+};
+
+const ApplicationLogo = ({
+  width = "67",
+  height = "48",
+}: ApplicationLogoProps) => (
   <>
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="67"
-      height="48"
+      width={width}
+      height={height}
       viewBox="0 0 67 48"
       fill="none"
     >

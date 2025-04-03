@@ -69,7 +69,10 @@ const accountDetailsField = [
 ];
 
 const Page = () => {
-  const { user } = useAuth({ middleware: "auth" });
+  const { user } = useAuth({
+    middleware: "auth",
+    redirectIfAuthenticated: "/dashboard",
+  });
   const [error, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();

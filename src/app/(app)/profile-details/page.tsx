@@ -12,9 +12,12 @@ import {
   Button,
   AuthHeader,
 } from "@/components";
+import { useAuth } from "@/hooks/auth";
 
 const Page = () => {
   const router = useRouter();
+  useAuth({ middleware: "auth", redirectIfAuthenticated: "/dashboard" });
+
   const {
     register,
     handleSubmit,
@@ -23,7 +26,7 @@ const Page = () => {
 
   const [error, setErrors] = useState<{
     profile_image?: string[];
-    profile_name?: string[];
+    username?: string[];
   }>({});
   const [isLoading, setIsLoading] = useState(false);
   const [selectedProfileImage, setSelectedProfileImage] = useState<File | null>(
@@ -73,7 +76,7 @@ const Page = () => {
             />
           </div>
 
-          <InputError messages={error.profile_name} className="!mt-1" />
+          <InputError messages={error.username} className="!mt-1" />
 
           <Button
             type="submit"

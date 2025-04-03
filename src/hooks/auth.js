@@ -133,15 +133,23 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     router.replace(redirectUrl);
   };
 
+  const getRedirectPathIfAuthenticated = (redirectIfAuthenticated) => {
+    if (user && !user.email_verified_at) return "/verify-email";
+    if (!user?.first_name) return "/account-details";
+    if (!user?.username) return "/profile-details";
+    return redirectIfAuthenticated;
+  };
+
   useEffect(() => {
-    if (middleware === "guest" && redirectIfAuthenticated && user)
-      router.push(redirectIfAuthenticated);
+    if (
+      (middleware === "guest" || middleware === "auth") &&
+      redirectIfAuthenticated &&
+      user
+    )
+      router.push(getRedirectPathIfAuthenticated(redirectIfAuthenticated));
 
     if (middleware === "admin" && redirectIfAuthenticated && user)
       router.push(redirectIfAuthenticated);
-
-    if (middleware === "auth" && user && !user.email_verified_at)
-      router.push("/verify-email");
 
     if (window.location.pathname === "/verify-email" && user?.email_verified_at)
       router.push(redirectIfAuthenticated);

@@ -46,6 +46,7 @@ const Cigars = () => {
         headers={headers}
         rows={extractCigarDB}
         loading={isLoading}
+        noDataMessage="No cigars available."
       />
     </div>
   );

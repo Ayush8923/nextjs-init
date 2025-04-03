@@ -28,13 +28,12 @@ const profileUpdate = async ({
 const profileImageUpdate = async ({
   setErrors,
   setIsLoading,
-  router,
   ...props
 }: ProfileUpdateApiData) => {
   setIsLoading(true);
   const profileDetailsFormData = new FormData();
   profileDetailsFormData.append(
-    "profile_name",
+    "username",
     props?.profileDetailsFormData?.profileName || ""
   );
   if (props?.selectedProfileImage) {
@@ -44,7 +43,7 @@ const profileImageUpdate = async ({
     .post("/api/profile/image", profileDetailsFormData)
     .then((res) => {
       res.data;
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     })
     .catch((error) => {
       if (error.response.status !== 422) throw error;

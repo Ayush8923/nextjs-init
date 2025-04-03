@@ -6,6 +6,14 @@ import {
   SettingIcon,
   CigarTabIcon,
   ActiveCigarTabIcon,
+  ActiveHomeTabIcon,
+  CommunityIcon,
+  HomeTabIcon,
+  CollectionIcon,
+  JournalIcon,
+  ActiveCommunityIcon,
+  ActiveCollectionIcon,
+  ActiveJournalIcon,
 } from "@/components/icons";
 
 export const routes = [
@@ -41,6 +49,36 @@ export const routes = [
     href: "/settings",
     label: "SETTINGS",
     icon: SettingIcon,
+    disabled: true,
+  },
+];
+
+export const bottomTabBarRoutes = [
+  {
+    href: "/dashboard",
+    label: "HOME",
+    icon: HomeTabIcon,
+    activeIcon: ActiveHomeTabIcon,
+  },
+  {
+    href: "/community",
+    label: "COMMUNITY",
+    icon: CommunityIcon,
+    activeIcon: ActiveCommunityIcon,
+    disabled: true,
+  },
+  {
+    href: "/collection",
+    label: "COLLECTION",
+    icon: CollectionIcon,
+    activeIcon: ActiveCollectionIcon,
+    disabled: true,
+  },
+  {
+    href: "/journal",
+    label: "JOURNAL",
+    icon: JournalIcon,
+    activeIcon: ActiveJournalIcon,
     disabled: true,
   },
 ];

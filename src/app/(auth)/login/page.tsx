@@ -20,7 +20,7 @@ const Login = () => {
 
   const { login } = useAuth({
     middleware: "guest",
-    redirectIfAuthenticated: "/account-details",
+    redirectIfAuthenticated: "/dashboard",
   });
 
   const [isLoading, setIsLoading] = useState(false);
