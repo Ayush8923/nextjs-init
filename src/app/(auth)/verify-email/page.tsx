@@ -1,7 +1,6 @@
 "use client";
 
-import AuthFlowHeader from "@/components/AuthFlowHeader";
-import Button from "@/components/Button";
+import { AuthHeader, Button } from "@/components";
 import { useAuth } from "@/hooks/auth";
 import { useState } from "react";
 
@@ -15,7 +14,7 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <AuthFlowHeader label="Sign up to start">
+    <AuthHeader label="Sign up to start">
       <div className="w-full max-w-md text-center">
         <div className="mb-4 flex items-center justify-center mt-[90px]">
           <p className="text-base text-primary-100 font-extralight text-center">
@@ -51,7 +50,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </AuthFlowHeader>
+    </AuthHeader>
   );
 };
 

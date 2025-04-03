@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import InputError from "@/components/InputError";
 import { useAuth } from "@/hooks/auth";
 import { useEffect, useState } from "react";
-import { AuthFlowHeader, InputField } from "@/components";
+import { AuthHeader, InputField } from "@/components";
 import { ForgotPasswordFormData } from "@/lib/types";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -40,7 +40,7 @@ const ForgotPassword = () => {
   }, [status, email, router]);
 
   return (
-    <AuthFlowHeader label="Reset Password">
+    <AuthHeader label="Reset Password">
       <form onSubmit={handleSubmit(submitForm)}>
         <div className="space-y-6">
           <div className="text-base font-extralight">
@@ -72,7 +72,7 @@ const ForgotPassword = () => {
         variant="secondary"
         onClick={() => router.push("/login")}
       />
-    </AuthFlowHeader>
+    </AuthHeader>
   );
 };
 

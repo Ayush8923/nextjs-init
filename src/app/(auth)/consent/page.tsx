@@ -24,8 +24,11 @@ const Page = () => {
 
     // If the user is 21 or older, redirect to the sign-up page
     // Otherwise, redirect to the no-access page
+    const destination = age >= AGE_LIMIT ? "/sign-up" : "/no-access";
+
+    router.push(destination);
+
     setIsLoading(false);
-    router.push(age >= AGE_LIMIT ? "/sign-up" : "/no-access");
   };
 
   return (

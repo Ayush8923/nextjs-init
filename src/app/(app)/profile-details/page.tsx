@@ -2,7 +2,7 @@
 
 import { ProfileDetailsFormData } from "@/lib/types";
 import { useForm } from "react-hook-form";
-import account from "@/hooks/account";
+import account from "@/apis/account";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -10,7 +10,7 @@ import {
   ImageUploader,
   InputField,
   Button,
-  AuthFlowHeader,
+  AuthHeader,
 } from "@/components";
 
 const Page = () => {
@@ -42,7 +42,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <AuthFlowHeader label="Setting up your account">
+      <AuthHeader label="Setting up your account">
         <div className="flex items-center justify-between mb-6 font-extralight text-base text-primary-100">
           <div>Profile details</div>
           <div className="text-center">3/4</div>
@@ -83,7 +83,7 @@ const Page = () => {
             loading={isLoading}
           />
         </form>
-      </AuthFlowHeader>
+      </AuthHeader>
     </div>
   );
 };

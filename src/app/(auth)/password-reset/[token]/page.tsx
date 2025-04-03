@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/auth";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import AuthSessionStatus from "@/app/(auth)/AuthSessionStatus";
-import { AuthFlowHeader, PasswordInput } from "@/components";
+import { AuthHeader, PasswordInput } from "@/components";
 import { PasswordResetFormData } from "@/lib/types";
 import { useForm } from "react-hook-form";
 
@@ -47,7 +47,7 @@ const PasswordReset = () => {
   }, [searchParams]);
 
   return (
-    <AuthFlowHeader label="Reset Password">
+    <AuthHeader label="Reset Password">
       <form onSubmit={handleSubmit(submitForm)}>
         <div className="space-y-6">
           <div className="text-base font-extralight">
@@ -80,7 +80,7 @@ const PasswordReset = () => {
           loading={isLoading}
         />
       </form>
-    </AuthFlowHeader>
+    </AuthHeader>
   );
 };
 

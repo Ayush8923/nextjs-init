@@ -62,3 +62,21 @@ export type ProfileUpdateApiData = {
   };
   selectedProfileImage?: any;
 };
+
+export type CigarData = {
+  name: string;
+  vitola: string;
+  dimensions: string;
+  wrapper: string;
+  brand: string;
+  filler: string;
+  origin: string;
+  strength: string;
+  flavour: string;
+  manufacturer: string;
+  rating: string;
+};
+
+export type AdminApiProps = {
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};

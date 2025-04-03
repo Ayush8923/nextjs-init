@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { ApplicationLogo } from "./icons";
 
-const AuthFlowHeader = ({
+const AuthHeader = ({
   label,
   children,
 }: {
@@ -21,4 +21,4 @@ const AuthFlowHeader = ({
   );
 };
 
-export default AuthFlowHeader;
+export default AuthHeader;

@@ -21,7 +21,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   register,
   errors,
   labelClassName,
-  isRequired = true,
+  isRequired = false,
   imageWidth = 120,
   imageHeight = 120,
   setSelectedFile,

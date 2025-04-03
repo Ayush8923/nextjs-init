@@ -6,9 +6,9 @@ import {
   InputField,
   StateSelect,
   Button,
-  AuthFlowHeader,
+  AuthHeader,
 } from "@/components";
-import account from "@/hooks/account";
+import account from "@/apis/account";
 import { useAuth } from "@/hooks/auth";
 import { AccountDetailsFormData, CountryData } from "@/lib/types";
 import { useRouter } from "next/navigation";
@@ -104,7 +104,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center mb-6">
-      <AuthFlowHeader label="Setting up your account">
+      <AuthHeader label="Setting up your account">
         <div className="flex items-center justify-between mb-6 font-extralight text-base text-primary-100">
           <div>Account details</div>
           <div className="text-center">2/4</div>
@@ -149,7 +149,7 @@ const Page = () => {
             loading={isLoading}
           />
         </form>
-      </AuthFlowHeader>
+      </AuthHeader>
     </div>
   );
 };

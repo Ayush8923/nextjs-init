@@ -1,15 +1,15 @@
 "use client";
 
 import Button from "@/components/Button";
-import InputError from "@/components/InputError";
 import Link from "next/link";
 import { useAuth } from "@/hooks/auth";
 import { useState } from "react";
 import { LoginFormData } from "@/lib/types";
-import { AuthFlowHeader, InputField, PasswordInput } from "@/components";
+import { AuthHeader } from "@/components";
 import { useForm } from "react-hook-form";
 import { AppleIcon, GoogleIcon } from "@/components/icons";
 import AuthSessionStatus from "@/app/(auth)/AuthSessionStatus";
+import LoginForm from "@/components/LoginForm";
 
 const Login = () => {
   const {
@@ -42,67 +42,38 @@ const Login = () => {
   };
 
   return (
-    <AuthFlowHeader label="Login to Unos y Otros">
+    <AuthHeader label="Login to Unos y Otros">
       <AuthSessionStatus className="mb-4" status={status} />
-      <form onSubmit={handleSubmit(submitForm)}>
-        <div className="space-y-4">
-          <InputField
-            type="email"
-            label="Email"
-            name="email"
-            register={register}
-            errors={errors}
-          />
-          <InputError messages={error.email} className="mt-2" />
+      <LoginForm
+        submitForm={submitForm}
+        handleSubmit={handleSubmit}
+        register={register}
+        errors={errors}
+        error={error}
+        isLoading={isLoading}
+      />
 
-          <PasswordInput
-            label="Password"
-            name="password"
-            register={register}
-            errors={errors}
-          />
-          <InputError messages={error.password} className="mt-2" />
-        </div>
+      <div className="flex items-center my-6">
+        <div className="flex-grow border-t border-gray-300"></div>
+        <span className="mx-4 text-gray-500">or</span>
+        <div className="flex-grow border-t border-gray-300"></div>
+      </div>
 
-        <Button
-          type="submit"
-          className="w-full"
-          title="Next"
-          disabled={isLoading}
-          loading={isLoading}
-        />
+      <Button
+        type="button"
+        title="Sign up with Google"
+        className="w-full"
+        variant="secondary"
+        icon={<GoogleIcon />}
+      />
 
-        <div className="text-center mt-5">
-          <Link
-            href="/forgot-password"
-            className="text-primary-100 text-xs font-bold"
-          >
-            Forgot Password
-          </Link>
-        </div>
-
-        <div className="flex items-center my-6">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="mx-4 text-gray-500">or</span>
-          <div className="flex-grow border-t border-gray-300"></div>
-        </div>
-
-        <Button
-          type="button"
-          title="Sign up with Google"
-          className="w-full"
-          variant="secondary"
-          icon={<GoogleIcon />}
-        />
-
-        <Button
-          className="w-full"
-          type="button"
-          title="Sign up with Apple"
-          variant="secondary"
-          icon={<AppleIcon />}
-        />
-      </form>
+      <Button
+        className="w-full"
+        type="button"
+        title="Sign up with Apple"
+        variant="secondary"
+        icon={<AppleIcon />}
+      />
 
       <div className="text-center mt-9">
         <span className="text-primary-100 font-normal text-xs">
@@ -115,7 +86,7 @@ const Login = () => {
           </Link>
         </span>
       </div>
-    </AuthFlowHeader>
+    </AuthHeader>
   );
 };
 

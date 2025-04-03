@@ -1,6 +1,6 @@
 "use client";
 
-import AuthFlowHeader from "@/components/AuthFlowHeader";
+import AuthHeader from "@/components/AuthHeader";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 
@@ -9,7 +9,7 @@ const PasswordResetEmail = ({ params }: any) => {
   const email = params?.email ? decodeURIComponent(params.email) : "";
 
   return (
-    <AuthFlowHeader label="Reset Password">
+    <AuthHeader label="Reset Password">
       <div className="w-full max-w-md text-center">
         <div className="mb-4 flex items-center justify-center mt-[90px]">
           <p className="text-base text-primary-100 font-extralight text-center">
@@ -26,7 +26,7 @@ const PasswordResetEmail = ({ params }: any) => {
           variant="secondary"
         />
       </div>
-    </AuthFlowHeader>
+    </AuthHeader>
   );
 };
 

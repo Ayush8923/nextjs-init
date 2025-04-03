@@ -11,7 +11,7 @@ import {
   InputField,
   PasswordInput,
   Button,
-  AuthFlowHeader,
+  AuthHeader,
 } from "@/components";
 import { useState } from "react";
 
@@ -45,7 +45,7 @@ const Page = () => {
   };
 
   return (
-    <AuthFlowHeader label="Sign up to start">
+    <AuthHeader label="Sign up to start">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4">
           <InputField
@@ -115,7 +115,7 @@ const Page = () => {
           </Link>
         </span>
       </div>
-    </AuthFlowHeader>
+    </AuthHeader>
   );
 };
 

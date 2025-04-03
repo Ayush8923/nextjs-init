@@ -125,23 +125,34 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       });
   };
 
-  const logout = async (redirectUrl = "/login") => {
+  const logout = async (redirectUrl) => {
     if (!error) {
-      await axios.post("/logout").then(() => mutate());
+      await axios.post("/logout").then(() => mutate(null, false));
     }
 
-    window.location.pathname = redirectUrl;
+    router.replace(redirectUrl);
   };
 
   useEffect(() => {
     if (middleware === "guest" && redirectIfAuthenticated && user)
       router.push(redirectIfAuthenticated);
 
-    if (middleware === "auth" && !user?.email_verified_at)
+    if (middleware === "admin" && redirectIfAuthenticated && user)
+      router.push(redirectIfAuthenticated);
+
+    if (middleware === "auth" && user && !user.email_verified_at)
       router.push("/verify-email");
 
     if (window.location.pathname === "/verify-email" && user?.email_verified_at)
       router.push(redirectIfAuthenticated);
+
+    if (!user && error) {
+      if (middleware === "admin") {
+        router.replace("/admin/login");
+      } else if (middleware === "auth") {
+        router.replace("/login");
+      }
+    }
   }, [user, error]);
 
   return {
