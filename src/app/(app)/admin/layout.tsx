@@ -22,6 +22,7 @@ export default function AdminAuthLayout({
           handleLogout={() => logout("/admin/login")}
           userName={user?.first_name || "Admin"}
           routes={routes}
+          userProfile={user?.profile_image_url}
         />
       </div>
       <div className="flex-1 overflow-y-auto h-screen mx-[60px] pt-12">

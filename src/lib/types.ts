@@ -38,7 +38,7 @@ export type AccountDetailsFormData = {
 
 export type ProfileDetailsFormData = {
   profileImage?: any;
-  profileName?: any;
+  profileHandle?: any;
 };
 
 export type CountryData = {
@@ -58,7 +58,7 @@ export type ProfileUpdateApiData = {
   suffix?: string;
   referred_by?: string;
   profileDetailsFormData?: {
-    profileName?: string;
+    profileHandle?: string;
   };
   selectedProfileImage?: any;
 };

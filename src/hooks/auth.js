@@ -136,7 +136,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const getRedirectPathIfAuthenticated = (redirectIfAuthenticated) => {
     if (user && !user.email_verified_at) return "/verify-email";
     if (!user?.first_name) return "/account-details";
-    if (!user?.username) return "/profile-details";
+    if (!user?.profile_handle) return "/profile-details";
     return redirectIfAuthenticated;
   };
 

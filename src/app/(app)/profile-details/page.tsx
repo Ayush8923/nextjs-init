@@ -13,6 +13,7 @@ import {
   AuthHeader,
 } from "@/components";
 import { useAuth } from "@/hooks/auth";
+import { profileValidationRules } from "@/lib/validations/profileValidation";
 
 const Page = () => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const Page = () => {
 
   const [error, setErrors] = useState<{
     profile_image?: string[];
-    username?: string[];
+    profile_handle?: string[];
   }>({});
   const [isLoading, setIsLoading] = useState(false);
   const [selectedProfileImage, setSelectedProfileImage] = useState<File | null>(
@@ -67,16 +68,17 @@ const Page = () => {
 
           <div className="w-full">
             <InputField
-              key="profileName"
+              key="profileHandle"
               type="text"
-              label="Profile Name *"
-              name="profileName"
+              label="Profile Handle *"
+              name="profileHandle"
               register={register}
               errors={errors}
+              validationRules={profileValidationRules.profileHandle}
             />
           </div>
 
-          <InputError messages={error.username} className="!mt-1" />
+          <InputError messages={error.profile_handle} className="!mt-1" />
 
           <Button
             type="submit"

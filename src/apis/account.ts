@@ -4,7 +4,6 @@ import { ProfileUpdateApiData } from "@/lib/types";
 const profileUpdate = async ({
   setErrors,
   setIsLoading,
-  router,
   ...props
 }: ProfileUpdateApiData) => {
   setIsLoading(true);
@@ -33,8 +32,8 @@ const profileImageUpdate = async ({
   setIsLoading(true);
   const profileDetailsFormData = new FormData();
   profileDetailsFormData.append(
-    "username",
-    props?.profileDetailsFormData?.profileName || ""
+    "profile_handle",
+    props?.profileDetailsFormData?.profileHandle || ""
   );
   if (props?.selectedProfileImage) {
     profileDetailsFormData.append("profile_image", props?.selectedProfileImage);

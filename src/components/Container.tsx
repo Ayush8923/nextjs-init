@@ -13,7 +13,10 @@ const Container = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex flex-col h-screen mx-6 text-primary-100">
-      <AppHeader userName={user?.username} />
+      <AppHeader
+        userName={user?.profile_handle}
+        userProfile={user?.profile_image_url}
+      />
       <main className="flex flex-col flex-grow justify-start max-w-lg mx-auto px-6 mt-[60px]">
         {children}
       </main>

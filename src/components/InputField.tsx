@@ -9,6 +9,7 @@ type InputFieldProps = {
   errors?: FieldErrors;
   isRequired?: boolean;
   className?: string;
+  validationRules?: object;
 } & Record<string, any>;
 
 const InputField = ({
@@ -19,20 +20,21 @@ const InputField = ({
   errors,
   isRequired = true,
   className,
+  validationRules = {},
   ...props
 }: InputFieldProps) => {
+  const validation = {
+    ...(isRequired ? { required: `${label} is required` } : {}),
+    ...validationRules,
+  };
+
   return (
     <div className="relative">
       <input
         type={type}
         id={name}
         placeholder={label}
-        {...(register && name
-          ? register(
-              name,
-              isRequired ? { required: `${label} is required` } : {}
-            )
-          : {})}
+        {...(register && name ? register(name, validation) : {})}
         className={`w-full p-[10px] border rounded-md ${className}`}
         {...props}
       />

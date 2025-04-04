@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ApplicationLogo, LogoutIcon } from "./icons";
+import Image from "next/image";
 
 type Route = {
   href: string;
@@ -21,9 +22,15 @@ type SidebarProps = {
   handleLogout: () => void;
   userName: string;
   routes: Route[];
+  userProfile?: string;
 };
 
-const Sidebar = ({ handleLogout, userName, routes }: SidebarProps) => {
+const Sidebar = ({
+  handleLogout,
+  userName,
+  routes,
+  userProfile,
+}: SidebarProps) => {
   const pathname = usePathname();
   const disabledClass = "opacity-50 cursor-not-allowed pointer-events-none";
 
@@ -91,7 +98,17 @@ const Sidebar = ({ handleLogout, userName, routes }: SidebarProps) => {
       </nav>
       <div className="mb-8 flex items-center justify-between mr-6">
         <div className="flex items-center">
-          <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+          {!userProfile ? (
+            <div className="h-[35px] w-[35px] bg-gray-200 rounded-full relative"></div>
+          ) : (
+            <Image
+              src={userProfile}
+              alt="Profile"
+              width={35}
+              height={35}
+              className="rounded-full"
+            />
+          )}
           <span className="ml-2 text-gray-600">{userName}</span>
         </div>
         <div

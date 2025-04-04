@@ -8,7 +8,7 @@ const WelcomeMessage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
-      <h1 className="text-2xl font-medium">Welcome, {user?.username}</h1>
+      <h1 className="text-2xl font-medium">Welcome, {user?.profile_handle}</h1>
       <div className="font-extralight text-base mt-3 text-center">
         We are excited to have you as a part of Unos y Otros! Begin your journey
         by adding your collection today.
