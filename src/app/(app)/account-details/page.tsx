@@ -14,6 +14,7 @@ import { AccountDetailsFormData, CountryData } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { profileValidationRules } from "@/lib/validations/profileValidation";
 
 const accountDetailsField = [
   {
@@ -55,7 +56,7 @@ const accountDetailsField = [
   {
     name: "phoneNumber",
     label: "Phone Number",
-    type: "number",
+    type: "tel",
     required: false,
     key: "phone",
   },
@@ -84,6 +85,9 @@ const Page = () => {
     formState: { errors },
   } = useForm<AccountDetailsFormData>({
     defaultValues: {
+      firstName: user?.first_name || "",
+      middleName: user?.middle_name || "",
+      lastName: user?.last_name || "",
       email: user?.email || "",
     },
   });
@@ -115,21 +119,30 @@ const Page = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
             {accountDetailsField.map(
-              ({ name, label, type, required, key, disabled = false }) => (
-                <div key={key}>
-                  <InputField
-                    key={name}
-                    type={type}
-                    label={label}
-                    name={name}
-                    register={register}
-                    errors={errors}
-                    isRequired={required}
-                    disabled={disabled}
-                  />
-                  <InputError messages={[error[key]]} className="!mt-1" />
-                </div>
-              )
+              ({ name, label, type, required, key, disabled = false }) => {
+                const rule =
+                  name in profileValidationRules
+                    ? profileValidationRules[
+                        name as keyof typeof profileValidationRules
+                      ]
+                    : {};
+                return (
+                  <div key={key}>
+                    <InputField
+                      key={name}
+                      type={type}
+                      label={label}
+                      name={name}
+                      register={register}
+                      errors={errors}
+                      isRequired={required}
+                      disabled={disabled}
+                      validationRules={rule}
+                    />
+                    <InputError messages={[error[key]]} className="!mt-1" />
+                  </div>
+                );
+              }
             )}
 
             <CountrySelect

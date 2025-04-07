@@ -1,11 +1,13 @@
 import useSWR from "swr";
 import axios from "@/lib/axios";
 import { useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { removeCookie } from "@/lib/cookieService";
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const router = useRouter();
   const params = useParams();
+  const pathname = usePathname();
 
   const {
     data: user,
@@ -127,39 +129,84 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
   const logout = async (redirectUrl) => {
     if (!error) {
-      await axios.post("/logout").then(() => mutate(null, false));
+      await axios.post("/logout").then(async () => {
+        mutate(null, false);
+        await removeCookie("authToken");
+      });
     }
 
-    router.replace(redirectUrl);
+    window.location.href = redirectUrl;
+  };
+
+  const socialLogin = (provider) => {
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/${provider}`;
+  };
+
+  const updateDob = async ({ setErrors, setIsLoading, ...props }) => {
+    axios
+      .post("/api/profile/dob", props)
+      .then((res) => {
+        res.data;
+        mutate();
+      })
+      .catch((error) => {
+        if (error.response.status !== 422) throw error;
+
+        setErrors(error.response.data.errors);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const getRedirectPathIfAuthenticated = (redirectIfAuthenticated) => {
     if (user && !user.email_verified_at) return "/verify-email";
-    if (!user?.first_name) return "/account-details";
+    if (!user?.country || !user?.state) return "/account-details";
     if (!user?.profile_handle) return "/profile-details";
     return redirectIfAuthenticated;
   };
 
+  const isAdminMiddleware = () => middleware === "admin";
+  const isGuestOrAuthMiddleware = () =>
+    middleware === "guest" || middleware === "auth";
+  const isAdminRoute = () => pathname.startsWith("/admin");
+  const isVerifyEmailPage = () => pathname === "/verify-email";
+  const isUserAdmin = () => user?.roles?.some((role) => role.name === "admin");
+
+  const handleUnauthenticatedAccess = () => {
+    if (isAdminMiddleware()) {
+      router.replace("/admin/login");
+    } else if (middleware === "auth") {
+      router.replace("/login");
+    }
+  };
+
   useEffect(() => {
-    if (
-      (middleware === "guest" || middleware === "auth") &&
-      redirectIfAuthenticated &&
-      user
-    )
+    if (isGuestOrAuthMiddleware() && redirectIfAuthenticated && user)
       router.push(getRedirectPathIfAuthenticated(redirectIfAuthenticated));
 
-    if (middleware === "admin" && redirectIfAuthenticated && user)
+    if (isAdminMiddleware() && redirectIfAuthenticated && user && isUserAdmin())
       router.push(redirectIfAuthenticated);
 
-    if (window.location.pathname === "/verify-email" && user?.email_verified_at)
+    if (isAdminRoute() && user && !isUserAdmin()) router.push("/admin");
+
+    if (isVerifyEmailPage() && user?.email_verified_at)
       router.push(redirectIfAuthenticated);
+
+    if (isAdminRoute()) {
+      if (user && !isUserAdmin()) {
+        window.location.href = "/login";
+      }
+
+      if (!user && error) {
+        handleUnauthenticatedAccess();
+        return;
+      }
+    }
 
     if (!user && error) {
-      if (middleware === "admin") {
-        router.replace("/admin/login");
-      } else if (middleware === "auth") {
-        router.replace("/login");
-      }
+      handleUnauthenticatedAccess();
+      return;
     }
   }, [user, error]);
 
@@ -171,5 +218,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     resetPassword,
     resendEmailVerification,
     logout,
+    socialLogin,
+    updateDob,
+    isUserAdmin,
   };
 };

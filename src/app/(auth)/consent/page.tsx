@@ -4,14 +4,22 @@ import React, { useState } from "react";
 import Button from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { ConsentFormData } from "@/lib/types";
-import { useRouter } from "next/navigation";
 import { createCookie } from "@/lib/cookieService";
 import { AGE_LIMIT, calculateAge } from "@/lib/common";
+import { InputError } from "@/components";
+import { useAuth } from "@/hooks/auth";
 
 const Page = () => {
   const { register, handleSubmit, watch } = useForm<ConsentFormData>();
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setErrors] = useState<{
+    dob?: string[];
+  }>({});
+
+  const { updateDob } = useAuth({
+    middleware: "guest",
+    redirectIfAuthenticated: "/dashboard",
+  });
 
   const selectedDate = watch("dob");
 
@@ -21,14 +29,33 @@ const Page = () => {
 
     // Save the user date of birth in a cookie
     await createCookie("DOB", dob);
+    const isOfEligibleAge = age >= AGE_LIMIT;
 
     // If the user is 21 or older, redirect to the sign-up page
     // Otherwise, redirect to the no-access page
-    const destination = age >= AGE_LIMIT ? "/sign-up" : "/no-access";
-
-    router.push(destination);
-
+    const destination = isOfEligibleAge ? "/sign-up" : "/no-access";
+    redirectUser(isOfEligibleAge, destination);
     setIsLoading(false);
+  };
+
+  const redirectUser = async (
+    isOfEligibleAge: boolean,
+    destination: string
+  ) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+
+    if (token && isOfEligibleAge) {
+      setIsLoading(true);
+      await createCookie("authToken", token);
+      updateDob({
+        dob: selectedDate,
+        setErrors,
+        setIsLoading,
+      });
+    } else {
+      window.location.href = destination;
+    }
   };
 
   return (
@@ -51,6 +78,7 @@ const Page = () => {
               className="w-full py-3 px-4 border border-gray-300 rounded text-gray-600 appearance-none"
               {...register("dob", { required: true })}
             />
+            <InputError messages={error?.dob} className="!mt-2" />
 
             <Button
               type="submit"

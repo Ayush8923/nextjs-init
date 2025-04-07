@@ -11,6 +11,7 @@ interface LoginFormProps {
   errors: FieldErrors;
   error: { email?: string[]; password?: string[] };
   isLoading: boolean;
+  notAccessibleMessage?: string;
 }
 
 const LoginForm = ({
@@ -20,6 +21,7 @@ const LoginForm = ({
   errors,
   error,
   isLoading,
+  notAccessibleMessage = "",
 }: LoginFormProps) => {
   return (
     <form onSubmit={handleSubmit(submitForm)}>
@@ -41,6 +43,7 @@ const LoginForm = ({
         />
         <InputError messages={error?.password} className="mt-2" />
       </div>
+      <InputError messages={[notAccessibleMessage]} className="!mt-2" />
 
       <Button
         type="submit"

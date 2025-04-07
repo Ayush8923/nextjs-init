@@ -4,7 +4,7 @@ import { Button } from "@/components";
 import { useAuth } from "@/hooks/auth";
 
 const WelcomeMessage = () => {
-  const { user } = useAuth({ middleware: "auth" });
+  const { user } = useAuth({ middleware: "admin" });
 
   return (
     <div className="flex flex-col justify-center items-center h-full">

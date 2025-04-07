@@ -15,3 +15,4 @@ export { default as BottomTabBar } from "./BottomTabBar";
 export { default as AppHeader } from "./AppHeader";
 export { default as Container } from "./Container";
 export { default as WelcomeMessage } from "./WelcomeMessage";
+export { default as LoadingOverlay } from "./LoadingOverlay";

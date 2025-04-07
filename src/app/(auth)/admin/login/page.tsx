@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LoginFormData } from "@/lib/types";
 import { useAuth } from "@/hooks/auth";
 import LoginForm from "@/components/LoginForm";
-import AuthSessionStatus from "@/app/(auth)/AuthSessionStatus";
 import { AuthHeader } from "@/components";
 
 const AdminLogin = () => {
@@ -15,7 +14,7 @@ const AdminLogin = () => {
     formState: { errors },
   } = useForm<LoginFormData>();
 
-  const { login } = useAuth({
+  const { login, user, isUserAdmin } = useAuth({
     middleware: "admin",
     redirectIfAuthenticated: "/admin/dashboard",
   });
@@ -25,7 +24,13 @@ const AdminLogin = () => {
     email?: string[];
     password?: string[];
   }>({});
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user && !isUserAdmin()) {
+      setStatus("You are not authorized to access admin page.");
+    }
+  }, [user]);
 
   const submitForm = async (data: LoginFormData) => {
     login({
@@ -40,7 +45,6 @@ const AdminLogin = () => {
   return (
     <div className="min-h-screen w-full flex justify-center items-center">
       <AuthHeader label="Login to Unos y Otros">
-        <AuthSessionStatus status={status} className="mt-2" />
         <LoginForm
           submitForm={submitForm}
           handleSubmit={handleSubmit}
@@ -48,6 +52,7 @@ const AdminLogin = () => {
           errors={errors}
           error={error}
           isLoading={isLoading}
+          notAccessibleMessage={status || ""}
         />
       </AuthHeader>
     </div>

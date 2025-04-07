@@ -10,4 +10,11 @@ export const profileValidationRules = {
       message: "Profile Handle cannot exceed 15 characters.",
     },
   },
+  phoneNumber: {
+    pattern: {
+      value: /^(\+?\d{1,4}[\s\-]?)?(\(?\d{2,5}\)?[\s\-]?)?\d{3,5}[\s\-]?\d{4}$/,
+      message:
+        "Enter a valid mobile number (e.g., +1 201-515-1633 or 9876543210).",
+    },
+  },
 };
