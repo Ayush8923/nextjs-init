@@ -80,3 +80,15 @@ export type CigarData = {
 export type AdminApiProps = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+export type MembersData = {
+  first_name: string;
+  last_name: string;
+  profile_handle: string;
+  state: string;
+  email: string;
+  phone: string;
+  dob: string;
+  referred_by: string;
+  user_cigars_count: string;
+};

@@ -4,6 +4,8 @@ import { CustomTable } from "@/components";
 import useSWR from "swr";
 import { CigarData } from "@/lib/types";
 import admin from "@/apis/admin";
+import { getTotalPages, PAGINATION_SIZE } from "@/lib/common";
+import { useState } from "react";
 
 const headers = [
   "Name",
@@ -18,7 +20,11 @@ const headers = [
 ];
 
 const Cigars = () => {
-  const { data: cigarDB, error } = useSWR("/api/cigar", admin.getCigars);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data: cigarDB, error } = useSWR(
+    `/api/cigar?page=${currentPage}&limit=${PAGINATION_SIZE}`,
+    admin.getCigars
+  );
   const isLoading = !cigarDB && !error;
 
   const extractCigarDB =
@@ -29,14 +35,14 @@ const Cigars = () => {
         cigar.brand || "",
         cigar?.rating || "",
       ],
-      cigar.vitola || "",
-      cigar.dimensions || "",
-      cigar.wrapper || "",
-      cigar.brand || "",
-      cigar.filler || "",
-      cigar.origin || "",
-      cigar.strength || "",
-      cigar.flavour && JSON.parse(cigar.flavour).join(", "),
+      cigar.vitola || "-",
+      cigar.dimensions || "-",
+      cigar.wrapper || "-",
+      cigar.brand || "-",
+      cigar.filler || "-",
+      cigar.origin || "-",
+      cigar.strength || "-",
+      (cigar.flavour && JSON.parse(cigar.flavour).join(", ")) || "-",
     ]) || [];
 
   return (
@@ -47,6 +53,9 @@ const Cigars = () => {
         rows={extractCigarDB}
         loading={isLoading}
         noDataMessage="No cigars available."
+        currentPage={currentPage}
+        lastPage={getTotalPages(cigarDB?.total)}
+        onPageChange={setCurrentPage}
       />
     </div>
   );

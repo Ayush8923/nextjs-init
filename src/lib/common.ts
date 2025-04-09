@@ -1,4 +1,5 @@
 export const AGE_LIMIT = 21;
+export const PAGINATION_SIZE = 10;
 
 export const calculateAge = (dob: string): number => {
   const birthDate = new Date(dob);
@@ -21,4 +22,18 @@ export const getImagePreviewUrl = (
 ): string => {
   const file = event.target.files?.[0];
   return file ? URL.createObjectURL(file) : "";
+};
+
+export const formatMemberSince = (dateString: string): string => {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = { month: "short" };
+  const month = new Intl.DateTimeFormat("en-US", options).format(date);
+  const year = `'${String(date.getFullYear()).slice(2)}`;
+
+  return `${month} ${year}`;
+};
+
+export const getTotalPages = (pages: number) => {
+  const totalPages = Math.ceil((pages || 0) / PAGINATION_SIZE);
+  return totalPages;
 };

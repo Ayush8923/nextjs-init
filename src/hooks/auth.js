@@ -3,6 +3,7 @@ import axios from "@/lib/axios";
 import { useEffect } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { removeCookie } from "@/lib/cookieService";
+import { handleAuthRedirect } from "@/lib/routeGuard";
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const router = useRouter();
@@ -147,7 +148,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       .post("/api/profile/dob", props)
       .then((res) => {
         res.data;
-        mutate();
+        window.location.href = "/dashboard";
       })
       .catch((error) => {
         if (error.response.status !== 422) throw error;
@@ -159,55 +160,15 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       });
   };
 
-  const getRedirectPathIfAuthenticated = (redirectIfAuthenticated) => {
-    if (user && !user.email_verified_at) return "/verify-email";
-    if (!user?.country || !user?.state) return "/account-details";
-    if (!user?.profile_handle) return "/profile-details";
-    return redirectIfAuthenticated;
-  };
-
-  const isAdminMiddleware = () => middleware === "admin";
-  const isGuestOrAuthMiddleware = () =>
-    middleware === "guest" || middleware === "auth";
-  const isAdminRoute = () => pathname.startsWith("/admin");
-  const isVerifyEmailPage = () => pathname === "/verify-email";
   const isUserAdmin = () => user?.roles?.some((role) => role.name === "admin");
 
-  const handleUnauthenticatedAccess = () => {
-    if (isAdminMiddleware()) {
-      router.replace("/admin/login");
-    } else if (middleware === "auth") {
-      router.replace("/login");
-    }
-  };
-
   useEffect(() => {
-    if (isGuestOrAuthMiddleware() && redirectIfAuthenticated && user)
-      router.push(getRedirectPathIfAuthenticated(redirectIfAuthenticated));
-
-    if (isAdminMiddleware() && redirectIfAuthenticated && user && isUserAdmin())
-      router.push(redirectIfAuthenticated);
-
-    if (isAdminRoute() && user && !isUserAdmin()) router.push("/admin");
-
-    if (isVerifyEmailPage() && user?.email_verified_at)
-      router.push(redirectIfAuthenticated);
-
-    if (isAdminRoute()) {
-      if (user && !isUserAdmin()) {
-        window.location.href = "/login";
-      }
-
-      if (!user && error) {
-        handleUnauthenticatedAccess();
-        return;
-      }
-    }
-
-    if (!user && error) {
-      handleUnauthenticatedAccess();
-      return;
-    }
+    handleAuthRedirect({
+      middleware,
+      redirectIfAuthenticated,
+      pathname,
+      user,
+    });
   }, [user, error]);
 
   return {

@@ -16,3 +16,4 @@ export { default as AppHeader } from "./AppHeader";
 export { default as Container } from "./Container";
 export { default as WelcomeMessage } from "./WelcomeMessage";
 export { default as LoadingOverlay } from "./LoadingOverlay";
+export { default as Pagination } from "./Pagination";

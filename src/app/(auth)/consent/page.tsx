@@ -1,22 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Button from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { ConsentFormData } from "@/lib/types";
 import { createCookie } from "@/lib/cookieService";
-import { AGE_LIMIT, calculateAge } from "@/lib/common";
-import { InputError } from "@/components";
+import { AGE_LIMIT, calculateAge, getCookie } from "@/lib/common";
+import { InputError, LoadingOverlay } from "@/components";
 import { useAuth } from "@/hooks/auth";
+import { useSearchParams } from "next/navigation";
 
-const Page = () => {
+const ConsentContent = ({
+  setIsApiLoading,
+}: {
+  setIsApiLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token") ?? null;
   const { register, handleSubmit, watch } = useForm<ConsentFormData>();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setErrors] = useState<{
-    dob?: string[];
-  }>({});
+  const [error, setErrors] = useState<{ dob?: string[] }>({});
 
-  const { updateDob } = useAuth({
+  const { updateDob, user } = useAuth({
     middleware: "guest",
     redirectIfAuthenticated: "/dashboard",
   });
@@ -35,27 +40,48 @@ const Page = () => {
     // Otherwise, redirect to the no-access page
     const destination = isOfEligibleAge ? "/sign-up" : "/no-access";
     redirectUser(isOfEligibleAge, destination);
-    setIsLoading(false);
   };
+
+  useEffect(() => {
+    const checkTokenAndRedirect = async () => {
+      if (!token) return;
+
+      setIsApiLoading(true);
+      await createCookie("authToken", token);
+
+      if (!user) return;
+
+      if (user.dob) {
+        window.location.href = "/dashboard";
+        return;
+      }
+
+      const dobFromCookie = getCookie("DOB");
+      if (dobFromCookie) {
+        const isOfEligibleAge = calculateAge(dobFromCookie) >= AGE_LIMIT;
+        const destination = isOfEligibleAge ? "/sign-up" : "/no-access";
+        redirectUser(isOfEligibleAge, destination);
+      } else {
+        setIsApiLoading(false);
+      }
+    };
+
+    checkTokenAndRedirect();
+  }, [token, user]);
 
   const redirectUser = async (
     isOfEligibleAge: boolean,
     destination: string
   ) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get("token");
+    const hasTokenInCookie = getCookie("authToken");
+    const hasDOBInCookie = getCookie("DOB");
 
-    if (token && isOfEligibleAge) {
-      setIsLoading(true);
-      await createCookie("authToken", token);
-      updateDob({
-        dob: selectedDate,
-        setErrors,
-        setIsLoading,
-      });
+    if (hasTokenInCookie && isOfEligibleAge && hasDOBInCookie) {
+      await updateDob({ dob: hasDOBInCookie, setErrors, setIsLoading });
     } else {
       window.location.href = destination;
     }
+    setIsApiLoading(false);
   };
 
   return (
@@ -90,6 +116,18 @@ const Page = () => {
           </form>
         </div>
       </div>
+    </>
+  );
+};
+
+const Page = () => {
+  const [isApiLoading, setIsApiLoading] = useState(false);
+  return (
+    <>
+      <LoadingOverlay isLoading={isApiLoading} />
+      <Suspense fallback={<LoadingOverlay isLoading={true} />}>
+        <ConsentContent setIsApiLoading={setIsApiLoading} />
+      </Suspense>
     </>
   );
 };

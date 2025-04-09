@@ -20,3 +20,5 @@ export { default as JournalIcon } from "./JournalIcon";
 export { default as ActiveCollectionIcon } from "./ActiveCollectionIcon";
 export { default as ActiveJournalIcon } from "./ActiveJournalIcon";
 export { default as ActiveCommunityIcon } from "./ActiveCommunityIcon";
+export { default as ActiveMembershipIcon } from "./ActiveMembershipIcon";
+export { default as RightArrowIcon } from "./RightArrowIcon";

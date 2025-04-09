@@ -5,12 +5,17 @@ import React from "react";
 import { ApplicationLogo } from "./icons";
 import Image from "next/image";
 
-type ApplicationHeaderProps = {
+type AppHeaderProps = {
   userName: string;
   userProfile?: string;
+  userProfileClick?: () => void;
 };
 
-const AppHeader = ({ userName, userProfile = "" }: ApplicationHeaderProps) => {
+const AppHeader = ({
+  userName,
+  userProfile = "",
+  userProfileClick,
+}: AppHeaderProps) => {
   return (
     <header className="fixed top-0 py-4 left-6 right-6 bg-white">
       <div className="flex justify-between max-w-lg mx-auto px-6">
@@ -34,7 +39,8 @@ const AppHeader = ({ userName, userProfile = "" }: ApplicationHeaderProps) => {
               alt="Profile"
               width={35}
               height={35}
-              className="rounded-full"
+              className="rounded-full cursor-pointer"
+              onClick={userProfileClick}
             />
           )}
         </div>

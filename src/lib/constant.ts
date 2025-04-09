@@ -14,6 +14,8 @@ import {
   ActiveCommunityIcon,
   ActiveCollectionIcon,
   ActiveJournalIcon,
+  RightArrowIcon,
+  ActiveMembershipIcon,
 } from "@/components/icons";
 
 export const routes = [
@@ -24,10 +26,10 @@ export const routes = [
     activeIcon: ActiveHomeIcon,
   },
   {
-    href: "/members",
+    href: "/admin/members",
     label: "MEMBERS",
     icon: MembersIcon,
-    disabled: true,
+    activeIcon: ActiveMembershipIcon,
   },
   {
     href: "/admin/cigars",
@@ -80,5 +82,26 @@ export const bottomTabBarRoutes = [
     icon: JournalIcon,
     activeIcon: ActiveJournalIcon,
     disabled: true,
+  },
+];
+
+export const profileOptions = [
+  {
+    label: "Account Information",
+    icon: RightArrowIcon,
+    href: "/profile",
+    disable: true,
+  },
+  {
+    label: "Password Settings",
+    icon: RightArrowIcon,
+    href: "/profile/password",
+    disable: true,
+  },
+  {
+    label: "Cigar Preferences",
+    icon: RightArrowIcon,
+    href: "/profile/cigar-preferences",
+    disable: true,
   },
 ];
