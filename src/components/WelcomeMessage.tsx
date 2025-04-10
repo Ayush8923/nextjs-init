@@ -4,7 +4,10 @@ import { Button } from "@/components";
 import { useAuth } from "@/hooks/auth";
 
 const WelcomeMessage = () => {
-  const { user } = useAuth({ middleware: "auth", redirectIfAuthenticated: "/dashboard" });
+  const { user } = useAuth({
+    middleware: "auth",
+    redirectIfAuthenticated: "/dashboard",
+  });
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
