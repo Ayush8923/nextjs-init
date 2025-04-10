@@ -32,10 +32,7 @@ const AppHeader = ({
         <div className="flex items-center">
           <p className="font-extralight text-xs mr-1.5">{userName}</p>
           {!userProfile ? (
-            <div
-              className="h-[35px] w-[35px] bg-gray-200 rounded-full relative cursor-pointer"
-              onClick={userProfileClick}
-            ></div>
+            <div className="h-[35px] w-[35px] bg-gray-200 rounded-full relative cursor-pointer" onClick={userProfileClick}></div>
           ) : (
             <Image
               src={userProfile}

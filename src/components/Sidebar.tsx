@@ -106,7 +106,7 @@ const Sidebar = ({
               alt="Profile"
               width={35}
               height={35}
-              className="rounded-full h-[35px]"
+              className="rounded-full"
             />
           )}
           <span className="ml-2 text-gray-600">{userName}</span>
