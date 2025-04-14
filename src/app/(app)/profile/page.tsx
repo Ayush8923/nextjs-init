@@ -9,7 +9,10 @@ import { useState } from "react";
 import Link from "next/link";
 
 const Profile = () => {
-  const { user, logout } = useAuth({ middleware: "auth" });
+  const { user, logout } = useAuth({
+    middleware: "auth",
+    redirectIfAuthenticated: "/profile",
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = () => {
@@ -26,7 +29,7 @@ const Profile = () => {
             alt="Profile"
             width={50}
             height={50}
-            className="rounded-full"
+            className="rounded-full w-[50px] h-[50px]"
           />
         ) : (
           <div className="h-[50px] w-[50px] bg-gray-200 rounded-full relative"></div>

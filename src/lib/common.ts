@@ -26,6 +26,11 @@ export const getImagePreviewUrl = (
 
 export const formatMemberSince = (dateString: string): string => {
   const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) {
+    return "Invalid Date";
+  }
+
   const options: Intl.DateTimeFormatOptions = { month: "short" };
   const month = new Intl.DateTimeFormat("en-US", options).format(date);
   const year = `'${String(date.getFullYear()).slice(2)}`;

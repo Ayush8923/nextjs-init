@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type ConsentFormData = {
   dob: string;
 };
@@ -46,8 +48,8 @@ export type CountryData = {
 };
 
 export type ProfileUpdateApiData = {
-  setErrors: React.Dispatch<React.SetStateAction<any>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setErrors: Dispatch<SetStateAction<any>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
   router: any;
   first_name?: string;
   middle_name?: string;
@@ -78,7 +80,23 @@ export type CigarData = {
 };
 
 export type AdminApiProps = {
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+};
+
+export type AddingHumidorFormData = {
+  humidorName: string;
+  humidorType: string;
+  cigarHoldingCapacity?: number;
+  humidificationMethod: string;
+  customHumidificationMethod?: string;
+};
+
+export type CreateHumidorData = {
+  setError: Dispatch<SetStateAction<any>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  router: any;
+  humidorData: AddingHumidorFormData;
+  selectedHumidorImage?: File | null;
 };
 
 export type MembersData = {

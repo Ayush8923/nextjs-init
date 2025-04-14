@@ -3,6 +3,7 @@ import "@/app/global.css";
 import Script from "next/script";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
+import AppInitializer from "@/components/AppInitializer";
 
 const nunitoFont = Nunito({
   subsets: ["latin"],
@@ -13,7 +14,9 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en" className={nunitoFont.className}>
       <body className="antialiased">
-        <Theme>{children}</Theme>
+        <Theme>
+          <AppInitializer>{children}</AppInitializer>
+        </Theme>
       </body>
       <Script src="/sw-register.js" />
     </html>

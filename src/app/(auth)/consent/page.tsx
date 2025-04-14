@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 import Button from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { ConsentFormData } from "@/lib/types";
@@ -8,20 +8,17 @@ import { createCookie } from "@/lib/cookieService";
 import { AGE_LIMIT, calculateAge, getCookie } from "@/lib/common";
 import { InputError, LoadingOverlay } from "@/components";
 import { useAuth } from "@/hooks/auth";
-import { useSearchParams } from "next/navigation";
 
 const ConsentContent = ({
   setIsApiLoading,
 }: {
   setIsApiLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token") ?? null;
   const { register, handleSubmit, watch } = useForm<ConsentFormData>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setErrors] = useState<{ dob?: string[] }>({});
 
-  const { updateDob, user } = useAuth({
+  const { updateDob } = useAuth({
     middleware: "guest",
     redirectIfAuthenticated: "/dashboard",
   });
@@ -41,33 +38,6 @@ const ConsentContent = ({
     const destination = isOfEligibleAge ? "/sign-up" : "/no-access";
     redirectUser(isOfEligibleAge, destination);
   };
-
-  useEffect(() => {
-    const checkTokenAndRedirect = async () => {
-      if (!token) return;
-
-      setIsApiLoading(true);
-      await createCookie("authToken", token);
-
-      if (!user) return;
-
-      if (user.dob) {
-        window.location.href = "/dashboard";
-        return;
-      }
-
-      const dobFromCookie = getCookie("DOB");
-      if (dobFromCookie) {
-        const isOfEligibleAge = calculateAge(dobFromCookie) >= AGE_LIMIT;
-        const destination = isOfEligibleAge ? "/sign-up" : "/no-access";
-        redirectUser(isOfEligibleAge, destination);
-      } else {
-        setIsApiLoading(false);
-      }
-    };
-
-    checkTokenAndRedirect();
-  }, [token, user]);
 
   const redirectUser = async (
     isOfEligibleAge: boolean,

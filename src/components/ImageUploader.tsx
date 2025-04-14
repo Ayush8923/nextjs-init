@@ -64,7 +64,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
             height={imageHeight}
           />
         ) : (
-          <span className="text-2xl text-gray-500">+</span>
+          <span className="text-3xl text-gray-500">+</span>
         )}
       </label>
       <InputError

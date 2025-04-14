@@ -70,11 +70,11 @@ export const bottomTabBarRoutes = [
     disabled: true,
   },
   {
-    href: "/collection",
+    href: "/collection/add-humidor",
     label: "COLLECTION",
+    activePath: "/collection",
     icon: CollectionIcon,
     activeIcon: ActiveCollectionIcon,
-    disabled: true,
   },
   {
     href: "/journal",
@@ -104,4 +104,17 @@ export const profileOptions = [
     href: "/profile/cigar-preferences",
     disable: true,
   },
+];
+
+export const humidorTypes = [
+  { label: "Desktop Humidors", value: "desktop_humidors" },
+  { label: "Travel Humidors", value: "travel_humidors" },
+  { label: "Cabinet Humidors", value: "cabinet_humidors" },
+];
+
+export const humidificationMethods = [
+  { label: "Passive", value: "passive" },
+  { label: "Humidity Packs", value: "humidity_packs" },
+  { label: "Electronic", value: "electronic" },
+  { label: "Other", value: "other" },
 ];

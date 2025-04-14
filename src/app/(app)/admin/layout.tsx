@@ -1,6 +1,6 @@
 "use client";
 
-import { Sidebar, Loading } from "@/components";
+import { Loading, Sidebar } from "@/components";
 import { useAuth } from "@/hooks/auth";
 import { routes } from "@/lib/constant";
 
@@ -9,9 +9,9 @@ export default function AdminAuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, logout } = useAuth({ middleware: "admin" });
+  const { user, logout, isLoading } = useAuth({ middleware: "admin" });
 
-  if (!user) {
+  if (isLoading) {
     return <Loading />;
   }
 

@@ -17,7 +17,7 @@ const AppHeader = ({
   userProfileClick,
 }: AppHeaderProps) => {
   return (
-    <header className="fixed top-0 py-4 left-6 right-6 bg-white">
+    <header className="fixed top-0 py-4 left-6 right-6 bg-white z-40">
       <div className="flex justify-between max-w-lg mx-auto px-6">
         <div className="flex items-center">
           <Link href="/">
@@ -42,7 +42,7 @@ const AppHeader = ({
               alt="Profile"
               width={35}
               height={35}
-              className="rounded-full cursor-pointer"
+              className="rounded-full cursor-pointer h-[35px] w-[35px]"
               onClick={userProfileClick}
             />
           )}

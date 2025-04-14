@@ -22,3 +22,5 @@ export { default as ActiveJournalIcon } from "./ActiveJournalIcon";
 export { default as ActiveCommunityIcon } from "./ActiveCommunityIcon";
 export { default as ActiveMembershipIcon } from "./ActiveMembershipIcon";
 export { default as RightArrowIcon } from "./RightArrowIcon";
+export { default as HumidorIcon } from "./HumidorIcon";
+export { default as DropdownAppearanceIcon } from "./DropdownAppearanceIcon";

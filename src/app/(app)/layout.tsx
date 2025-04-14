@@ -8,9 +8,9 @@ import { usePathname } from "next/navigation";
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const authMiddleware = pathname.startsWith("/admin") ? "admin" : "auth";
-  const { user } = useAuth({ middleware: authMiddleware });
+  const { isLoading } = useAuth({ middleware: authMiddleware });
 
-  if (!user) {
+  if (isLoading) {
     return <Loading />;
   }
 

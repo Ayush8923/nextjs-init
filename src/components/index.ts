@@ -17,3 +17,5 @@ export { default as Container } from "./Container";
 export { default as WelcomeMessage } from "./WelcomeMessage";
 export { default as LoadingOverlay } from "./LoadingOverlay";
 export { default as Pagination } from "./Pagination";
+export { default as LandingSection } from "./LandingSection";
+export { default as Dropdown } from "./Dropdown";

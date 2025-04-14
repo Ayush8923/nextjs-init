@@ -1,7 +1,10 @@
+const allowedDomains = process.env.NEXT_PUBLIC_IMAGE_DOMAINS?.split(",") || [];
+
 module.exports = {
   images: {
-    domains: process.env.NEXT_PUBLIC_IMAGE_DOMAIN
-      ? [process.env.NEXT_PUBLIC_IMAGE_DOMAIN]
-      : [],
+    remotePatterns: allowedDomains.map((domain) => ({
+      protocol: "https",
+      hostname: domain.trim(),
+    })),
   },
 };

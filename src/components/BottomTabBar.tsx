@@ -9,6 +9,7 @@ type Route = {
   icon: React.ComponentType;
   activeIcon: React.ComponentType;
   disabled?: boolean;
+  activePath?: string;
 };
 
 type BottomTabBarProps = {
@@ -30,10 +31,13 @@ const BottomTabBar = ({ routes }: BottomTabBarProps) => {
               icon: Icon,
               activeIcon: ActiveIcon,
               disabled = false,
+              activePath,
             },
             index
           ) => {
-            const isActive = pathname.startsWith(href);
+            const isActive = activePath
+              ? pathname.startsWith(activePath)
+              : pathname.startsWith(href);
             return (
               <Link
                 key={index}

@@ -1,6 +1,9 @@
-import AuthCard from "@/app/(auth)/AuthCard";
+"use client";
 
-const Layout = ({ children }) => {
+import AuthCard from "@/app/(auth)/AuthCard";
+import { ReactNode } from "react";
+
+const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="text-gray-900 antialiased">
       <AuthCard>{children}</AuthCard>
