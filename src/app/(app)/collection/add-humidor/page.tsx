@@ -130,7 +130,7 @@ const AddingHumidor = () => {
         </div>
         <InputError messages={error.humidification_method} className="!mt-1" />
 
-        <div className="fixed bottom-[65px] left-0 right-0 p-6 md:px-0 max-w-md mx-auto">
+        <div className="mt-6">
           <Button
             type="submit"
             className="w-full"
