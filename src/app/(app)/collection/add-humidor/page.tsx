@@ -46,7 +46,7 @@ const AddingHumidor = () => {
   return (
     <Container>
       <h1 className="text-2xl font-medium">Add Humidor</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-6 pb-[48px]">
         <ImageUploader
           name="humidorImage"
           label="Humidor Image"
