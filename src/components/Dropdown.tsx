@@ -16,6 +16,7 @@ interface DropdownProps {
   items: DropdownItem[];
   placeholder?: string;
   error?: string;
+  searchable?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -23,20 +24,41 @@ const Dropdown: React.FC<DropdownProps> = ({
   items,
   placeholder = "Select...",
   error,
+  searchable = false,
 }) => {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
 
-  const selectedItem = items.find((item) => item.value === field.value);
+  const selectedItem =
+    field.value && items.find((item) => item.value === field.value)
+      ? items.find((item) => item.value === field.value)
+      : field.value
+        ? { label: field.value, value: field.value }
+        : undefined;
+
+  const filteredItems = searchable
+    ? items.filter((item) =>
+        item.label.toLowerCase().includes(search.toLowerCase())
+      )
+    : items;
+
+  const selectedDropdownItem = () => {
+    field.onChange(search);
+    setSearch("");
+    setOpen(false);
+  };
 
   return (
     <div className="relative w-full">
-      <DropdownMenu.Root open={open} onOpenChange={setOpen}>
-        <DropdownMenu.Trigger
-          className={
-            "inline-flex items-center justify-between px-4 py-2 w-full border border-gray-500 rounded-md shadow-sm bg-white transition"
-          }
-        >
-          <span className={selectedItem ? "text-black" : "text-gray-400"}>
+      <DropdownMenu.Root
+        open={open}
+        onOpenChange={(val) => {
+          setOpen(val);
+          !val && setSearch("");
+        }}
+      >
+        <DropdownMenu.Trigger className="inline-flex items-center justify-between p-2.5 w-full border border-gray-500 rounded-md shadow-sm bg-white transition">
+          <span className={field.value ? "text-black" : "text-gray-400"}>
             {selectedItem?.label || placeholder}
           </span>
           <DropdownAppearanceIcon />
@@ -48,22 +70,44 @@ const Dropdown: React.FC<DropdownProps> = ({
             sideOffset={5}
             style={{ width: "var(--radix-dropdown-menu-trigger-width)" }}
           >
-            {items.map((item) => (
+            {searchable && (
+              <input
+                type="text"
+                placeholder="Search..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full px-2 py-1 mb-2 border border-gray-300 rounded"
+                autoFocus
+              />
+            )}
+
+            {filteredItems.length > 0 ? (
+              filteredItems.map((item) => (
+                <DropdownMenu.Item
+                  key={item.value}
+                  className="dropdown-item px-3 py-2 rounded-md cursor-pointer hover:bg-gray-100 font-normal text-base"
+                  onSelect={() => {
+                    field.onChange(item.value);
+                    setOpen(false);
+                  }}
+                >
+                  {item.label}
+                </DropdownMenu.Item>
+              ))
+            ) : search.trim() !== "" ? (
               <DropdownMenu.Item
-                key={item.value}
-                className="px-3 py-2 rounded-md cursor-pointer"
-                onSelect={() => {
-                  field.onChange(item.value);
-                  setOpen(false);
-                }}
+                className="dropdown-item px-3 py-2 rounded-md cursor-pointer hover:bg-gray-100 font-normal text-base"
+                onSelect={() => selectedDropdownItem()}
               >
-                {item.label}
+                Add New &quot;{search}&quot;
               </DropdownMenu.Item>
-            ))}
+            ) : (
+              <div className="px-3 py-2 text-gray-500">No results found</div>
+            )}
           </DropdownMenu.Content>
         </DropdownMenu.Portal>
       </DropdownMenu.Root>
-      <InputError className="mb-4" messages={error ? [error] : []} />
+      <InputError className="mb-4 mt-1" messages={error ? [error] : []} />
     </div>
   );
 };

@@ -5,3 +5,14 @@
 .radix-themes {
   --default-font-family: var(--font-inter) !important;
 }
+
+.no-scrollbar {
+  -ms-overflow-size: none;
+  scrollbar-width: none;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  outline: none;
+  border: none;
+}

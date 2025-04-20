@@ -51,7 +51,7 @@ const Pagination = ({
               key={idx}
               className={`px-3 py-1 rounded ${
                 page === currentPage
-                  ? "bg-blue-600 text-white"
+                  ? "bg-primary-100 text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               } ${page === "..." ? "cursor-default" : ""}`}
               onClick={() => typeof page === "number" && onPageChange?.(page)}

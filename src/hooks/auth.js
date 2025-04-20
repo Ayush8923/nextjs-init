@@ -130,10 +130,16 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
   const logout = async (redirectUrl) => {
     if (!error) {
-      await axios.post("/logout").then(async () => {
+      try {
+        await axios.post("/logout");
         mutate(null, false);
+      } catch (error) {
+        if (error.response.status !== 409) throw error;
+
+        return null;
+      } finally {
         await removeCookie("authToken");
-      });
+      }
     }
 
     window.location.href = redirectUrl;

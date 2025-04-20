@@ -2,8 +2,10 @@
 
 import { Button } from "@/components";
 import { useAuth } from "@/hooks/auth";
+import { useRouter } from "next/navigation";
 
 const WelcomeMessage = () => {
+  const router = useRouter();
   const { user } = useAuth({
     middleware: "auth",
     redirectIfAuthenticated: "/dashboard",
@@ -17,13 +19,12 @@ const WelcomeMessage = () => {
         by adding your collection today.
       </div>
 
-      {/* TODO: Need to enable this button once the collection flow implemented */}
       <Button
         type="button"
         variant="secondary"
         className="w-full"
         title="Add to Collection"
-        disabled
+        onClick={() => router.push("/collection")}
       />
     </div>
   );

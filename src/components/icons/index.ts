@@ -24,3 +24,8 @@ export { default as ActiveMembershipIcon } from "./ActiveMembershipIcon";
 export { default as RightArrowIcon } from "./RightArrowIcon";
 export { default as HumidorIcon } from "./HumidorIcon";
 export { default as DropdownAppearanceIcon } from "./DropdownAppearanceIcon";
+export { default as TooltipIcon } from "./TooltipIcon";
+export { default as MagnifyingIcon } from "./MagnifyingIcon";
+export { default as RatingIcon } from "./RatingIcon";
+export { default as SingleCigarIcon } from "./SingleCigarIcon";
+export { default as CigarThumbnailIcon } from "./CigarThumbnailIcon";

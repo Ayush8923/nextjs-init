@@ -9,7 +9,7 @@ import { PAGINATION_SIZE } from "@/lib/common";
 const Cigars = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { data, error } = useSWR(
-    `/api/cigars?page=${currentPage}&limit=${PAGINATION_SIZE}`,
+    `/api/cigars?page=${currentPage}&limit=${PAGINATION_SIZE}&source=manual`,
     admin.getCigars
   );
 

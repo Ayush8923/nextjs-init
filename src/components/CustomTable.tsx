@@ -12,8 +12,7 @@ type CustomTableProps = {
   actionRenderer?: () => React.ReactNode;
   currentPage?: number;
   lastPage?: number;
-  // eslint-disable-next-line no-unused-vars
-  onPageChange?: (page: number) => void;
+  onPageChange?: (_page: number) => void;
 };
 
 const CustomTable = ({

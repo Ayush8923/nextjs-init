@@ -136,6 +136,7 @@ const AddingHumidor = () => {
             className="w-full"
             title="Save"
             loading={isLoading}
+            disabled={isLoading}
           />
           <Button
             type="button"

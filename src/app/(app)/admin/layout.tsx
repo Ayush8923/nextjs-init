@@ -25,7 +25,7 @@ export default function AdminAuthLayout({
           userProfile={user?.profile_image_url}
         />
       </div>
-      <div className="flex-1 overflow-y-auto h-screen mx-[60px] pt-12">
+      <div className="flex-1 overflow-y-auto no-scrollbar h-screen mx-[60px] pt-12">
         {children}
       </div>
     </div>

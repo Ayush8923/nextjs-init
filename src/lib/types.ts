@@ -66,6 +66,7 @@ export type ProfileUpdateApiData = {
 };
 
 export type CigarData = {
+  id: number;
   name: string;
   vitola: string;
   dimensions: string;
@@ -77,6 +78,7 @@ export type CigarData = {
   flavour: string;
   manufacturer: string;
   rating: string;
+  image_url: string;
 };
 
 export type AdminApiProps = {
@@ -109,4 +111,34 @@ export type MembersData = {
   dob: string;
   referred_by: string;
   user_cigars_count: string;
+};
+
+export type CigarDetailsFormData = {
+  id?: number;
+  humidorId?: number;
+  name?: string;
+  manufacturer?: string;
+  origin?: string;
+  quantity?: number;
+  price?: number;
+  addedAt?: string;
+  rating?: string;
+  image_url?: string;
+  brand?: string;
+  vitola?: string;
+  length?: string;
+  ringGauge?: string;
+  strength?: string;
+  wrapper?: string;
+  binder?: string;
+  filler?: string;
+  color?: string;
+  flavour?: string;
+};
+
+export type CigarDetailsApiData = {
+  cigarDetails: CigarDetailsFormData;
+  humidorId?: number;
+  cigarId?: number;
+  image?: File | null;
 };

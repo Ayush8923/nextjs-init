@@ -38,7 +38,7 @@ export const routes = [
     activeIcon: ActiveCigarTabIcon,
     subMenu: [
       { href: "/admin/cigars", label: "CIGAR DB" },
-      { href: "/admin/cigar-users", label: "Added by Users", disabled: true },
+      { href: "/admin/cigars/cigars-by-user", label: "Added by Users" },
     ],
   },
   {
@@ -70,7 +70,7 @@ export const bottomTabBarRoutes = [
     disabled: true,
   },
   {
-    href: "/collection/add-humidor",
+    href: "/collection",
     label: "COLLECTION",
     activePath: "/collection",
     icon: CollectionIcon,

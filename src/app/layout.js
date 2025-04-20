@@ -1,18 +1,18 @@
-import { Nunito } from "next/font/google";
+import { Public_Sans } from "next/font/google";
 import "@/app/global.css";
 import Script from "next/script";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import AppInitializer from "@/components/AppInitializer";
 
-const nunitoFont = Nunito({
+const publicSansFont = Public_Sans({
   subsets: ["latin"],
   display: "swap",
 });
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en" className={nunitoFont.className}>
+    <html lang="en" className={publicSansFont.className}>
       <body className="antialiased">
         <Theme>
           <AppInitializer>{children}</AppInitializer>

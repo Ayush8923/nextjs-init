@@ -42,3 +42,13 @@ export const getTotalPages = (pages: number) => {
   const totalPages = Math.ceil((pages || 0) / PAGINATION_SIZE);
   return totalPages;
 };
+
+export const todayAsDateInputValue = () =>
+  new Date().toISOString().slice(0, 10);
+
+export const formatArrayToLabelValueOptions = (array: []) => {
+  return array?.map((item: any) => ({
+    label: item,
+    value: item,
+  }));
+};
