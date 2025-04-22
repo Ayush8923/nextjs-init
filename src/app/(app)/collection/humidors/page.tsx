@@ -82,7 +82,7 @@ const HumidorsList = () => {
 
   const humidorsList = () => {
     return (
-      <div className="flex-1 overflow-y-auto pb-20">
+      <div className="flex-1 overflow-y-auto pb-20 relative">
         {humidors.map((humidor) => (
           <div
             className="flex mb-6 cursor-pointer hover:bg-gray-50 rounded-sm transition"
@@ -186,7 +186,7 @@ const HumidorsList = () => {
             : noHumidorsFound()}
 
         <div
-          className="absolute bottom-[35px] right-0 h-[48px] w-[48px] cursor-pointer"
+          className="absolute bottom-9 right-0 h-12 w-12 cursor-pointer rounded-full z-10"
           onClick={() => router.push("/collection/humidors/add")}
         >
           <AddPlusIcon />
