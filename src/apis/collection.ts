@@ -125,7 +125,7 @@ const create = async ({ cigarDetails, image }: CigarDetailsApiData) => {
 };
 
 const getUserCigars = async (params: RequestParams = {}, user: UserData) => {
-  const url = `/api/users/${user?.id}/cigars/?${getQueryString(params)}`;
+  const url = `/api/users/${user?.id}/cigars?${getQueryString(params)}`;
   try {
     const res = await axios.get(url);
     return res.data;
