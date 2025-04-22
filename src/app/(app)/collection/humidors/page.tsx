@@ -41,6 +41,7 @@ const HumidorsList = () => {
     cigars: cigarListData,
     setSize: setCigarSize,
     isValidating: isCigarValidating,
+    isLoading: isLoadingCigars,
   } = useCigarList({
     query: debouncedSearchQuery,
     user,
@@ -127,7 +128,7 @@ const HumidorsList = () => {
   );
 
   const renderContent = () => {
-    if (isLoadingHumidors) return renderSpinner(true);
+    if (isLoadingHumidors || isLoadingCigars) return renderSpinner(true);
     if (isCigarView && cigarListData?.length > 0) return renderCigarsList();
     if (humidors.length > 0) return renderHumidorsList();
     if (isCigarView && !(cigarListData?.length > 0)) return renderNoCigarView();
