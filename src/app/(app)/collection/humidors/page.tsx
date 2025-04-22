@@ -191,7 +191,7 @@ const HumidorsList = () => {
 
         {renderContent()}
 
-        <div className="sticky bottom-[100px] right-0 w-full flex justify-end pointer-events-none z-40">
+        <div className="sticky bottom-[80px] right-0 w-full flex justify-end pointer-events-none z-40">
           <div
             className="h-12 w-12 mr-4 cursor-pointer pointer-events-auto z-40"
             onClick={() => router.push("/collection/humidors/add")}
