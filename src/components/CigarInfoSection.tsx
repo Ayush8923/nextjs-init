@@ -20,7 +20,7 @@ const CigarInfoSection = ({
   rating,
 }: CigarInfoSectionProps) => {
   return (
-    <div className="bg-primary-100 px-6 py-3.5 flex -mx-12">
+    <div className="bg-primary-100 px-6 py-3.5 flex -mx-[24px]">
       {image ? (
         <Image
           src={image}
