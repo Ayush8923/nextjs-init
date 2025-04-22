@@ -10,7 +10,7 @@ type CigarListProps = {
 };
 
 const CigarList = ({ cigars }: CigarListProps) => {
-  if (!(cigars.length > 0)) {
+  if (!(cigars?.length > 0)) {
     return;
   }
   return cigars.map((cigar: CigarData) => (
