@@ -4,6 +4,7 @@ import {
   CigarDetailsApiData,
   CreateHumidorData,
   RequestParams,
+  UserData,
 } from "@/lib/types";
 
 const createHumidor = async ({
@@ -123,10 +124,23 @@ const create = async ({ cigarDetails, image }: CigarDetailsApiData) => {
   return data;
 };
 
+const getUserCigars = async (params: RequestParams = {}, user: UserData) => {
+  const url = `/api/users/${user?.id}/cigars/?${getQueryString(params)}`;
+  try {
+    const res = await axios.get(url);
+    return res.data;
+  } catch (error: any) {
+    if (error.response?.status !== 422) {
+      throw error;
+    }
+  }
+};
+
 export default {
   createHumidor,
   getHumidors,
   storeCigar,
   getCigarsMeta,
   create,
+  getUserCigars,
 };

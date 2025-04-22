@@ -79,6 +79,7 @@ export type CigarData = {
   manufacturer: string;
   rating: string;
   image_url: string;
+  quantity: string;
 };
 
 export type AdminApiProps = {
@@ -155,4 +156,12 @@ export type CigarDetailsApiData = {
 
 export type RequestParams = {
   [key: string]: string | number | boolean | undefined;
+};
+
+export type UserData = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  profile_handle: string;
+  profile_image_url: string;
 };

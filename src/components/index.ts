@@ -26,3 +26,5 @@ export { default as CigarInfoSection } from "./CigarInfoSection";
 export { default as DateInput } from "./DateInput";
 export { default as CigarTable } from "./admin/CigarTable";
 export { default as ToggleSwitch } from "./ToggleSwitch";
+export { default as HumidorList } from "./HumidorList";
+export { default as CigarList } from "./CigarList";

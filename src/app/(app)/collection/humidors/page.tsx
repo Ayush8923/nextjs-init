@@ -1,61 +1,58 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import collection from "@/apis/collection";
-import { Button, Container, SearchInput, ToggleSwitch } from "@/components";
-import { AddPlusIcon, ShareIcon } from "@/components/icons";
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import {
+  Button,
+  CigarList,
+  Container,
+  HumidorList,
+  SearchInput,
+  ToggleSwitch,
+} from "@/components";
+import { AddPlusIcon, FilterIcon } from "@/components/icons";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
-import { PAGINATION_SIZE } from "@/lib/common";
 import { HumidorsData } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import useSWRInfinite from "swr/infinite";
 import { useHumidorStore } from "@/store";
-import { humidorTypes } from "@/lib/constant";
+import { useAuth } from "@/hooks/auth";
+import { useCigarList, useHumidorList } from "./hooks";
 
 const HumidorsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isCigarView, setIsCigarView] = useState(false);
   const { setHumidorDetails } = useHumidorStore();
   const router = useRouter();
   const debouncedSearchQuery = useDebouncedValue(searchQuery);
+  const { user } = useAuth({ middleware: "auth" });
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  const getKey = (pageIndex: number, previousPageData: any) => {
-    if (previousPageData && !previousPageData.data.length) return null;
-    return {
-      page: pageIndex + 1,
-      limit: PAGINATION_SIZE,
-      name: debouncedSearchQuery,
-    };
-  };
+  const {
+    humidors,
+    isLoading: isLoadingHumidors,
+    isValidating,
+  } = useHumidorList({
+    query: debouncedSearchQuery,
+    enabled: !isCigarView,
+    onInitialLoad: () => setIsInitialLoad(false),
+  });
 
-  const { data, setSize, isValidating, error } = useSWRInfinite(
-    getKey,
-    collection.getHumidors,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  );
-
-  const isLoadingInitialData = !data && !error;
-  const humidors: HumidorsData[] = data
-    ? [].concat(...data.map((page) => page.data))
-    : [];
-
-  const isReachingEnd =
-    data && data[data.length - 1]?.data.length < PAGINATION_SIZE;
-
-  useInfiniteScroll({
-    isLoading: isValidating,
-    hasMore: !isReachingEnd,
-    onLoadMore: () => setSize((prev) => prev + 1),
+  const {
+    cigars: cigarListData,
+    setSize: setCigarSize,
+    isValidating: isCigarValidating,
+  } = useCigarList({
+    query: debouncedSearchQuery,
+    user,
+    enabled: isCigarView,
+    onInitialLoad: () => setIsInitialLoad(false),
   });
 
   useEffect(() => {
-    setSize(1);
-  }, [debouncedSearchQuery]);
+    if (isCigarView) {
+      setCigarSize(1);
+    }
+  }, [debouncedSearchQuery, isCigarView]);
 
   const onSelectHumidor = (humidor: HumidorsData) => {
     const extractedHumidorDetails = {
@@ -67,94 +64,93 @@ const HumidorsList = () => {
       capacity: humidor.capacity,
     };
     setHumidorDetails(extractedHumidorDetails);
+    setIsCigarView(false);
     router.push("/collection/cigars");
   };
 
   const renderSpinner = (loading: boolean) => {
+    if (!loading) {
+      return;
+    }
     return (
-      loading && (
-        <div className="flex justify-center items-center mb-[40px]">
-          <Spinner size="3" loading={loading} />
-        </div>
-      )
+      <div className="flex justify-center items-center mb-[40px]">
+        <Spinner size="3" loading={loading} />
+      </div>
     );
   };
 
-  const humidorsList = () => {
+  const renderCigarsList = () => (
+    <div className="flex-1 overflow-y-auto pb-10">
+      <CigarList cigars={cigarListData} />
+      {renderSpinner(isCigarValidating)}
+    </div>
+  );
+
+  const renderHumidorsList = () => (
+    <div className="flex-1 overflow-y-auto pb-10">
+      <HumidorList
+        humidors={humidors}
+        selectedHumidor={(humidor) => onSelectHumidor(humidor)}
+      />
+      {renderSpinner(isValidating)}
+    </div>
+  );
+
+  const renderNoHumidorView = () => (
+    <div className="h-full flex justify-center items-center flex-col">
+      <p className="font-extralight text-base">
+        Could not find your humidor? Add
+      </p>
+      <p className="font-extralight text-base">your own humidor.</p>
+      <Button
+        className="!mt-4 px-[35px]"
+        variant="secondary"
+        title="Add Humidor"
+        onClick={() => router.push("/collection/humidors/add")}
+      />
+    </div>
+  );
+
+  const renderNoCigarView = () => (
+    <div className="h-full flex justify-center items-center flex-col">
+      <p className="font-extralight text-base">
+        Could not find your Cigar? Add
+      </p>
+      <p className="font-extralight text-base">your own Humidor.</p>
+      <Button
+        className="!mt-4 px-[35px]"
+        variant="secondary"
+        title="Add Humidor"
+        onClick={() => router.push("/collection/humidors/add")}
+      />
+    </div>
+  );
+
+  const renderContent = () => {
+    if (isLoadingHumidors) return renderSpinner(true);
+    if (isCigarView && cigarListData.length > 0) return renderCigarsList();
+    if (humidors.length > 0) return renderHumidorsList();
+    if (isCigarView && !(cigarListData.length > 0)) return renderNoCigarView();
+    return renderNoHumidorView();
+  };
+
+  if (isInitialLoad) {
     return (
-      <div className="flex-1 overflow-y-auto pb-20 relative">
-        {humidors.map((humidor) => (
-          <div
-            className="flex mb-6 cursor-pointer hover:bg-gray-50 rounded-sm transition"
-            onClick={() => onSelectHumidor(humidor)}
-            key={humidor.id}
-          >
-            {humidor?.image_url ? (
-              <Image
-                src={humidor.image_url}
-                alt={humidor.name}
-                width={74}
-                height={74}
-                className="rounded-sm mr-3 h-[74px] w-[74px] "
-              />
-            ) : (
-              <div className="h-[132px] w-[132px] rounded-sm mr-4 bg-gray-100"></div>
-            )}
-            <div className="flex-1 mt-5">
-              <div className="space-y-1">
-                <div className="text-base font-medium leading-none">
-                  {humidor.name}
-                </div>
-                <div className="text-xs font-light leading-none">
-                  {
-                    humidorTypes.find((item) => item.value === humidor.type)
-                      ?.label
-                  }
-                </div>
-                <div className="text-xs font-light leading-none">
-                  {humidor?.cigars_count} Cigars{" "}
-                  {humidor?.capacity &&
-                    (humidor?.percentage_filled > 100
-                      ? "(Overfilled)"
-                      : `(${humidor?.percentage_filled}% filled)`)}
-                </div>
-              </div>
-              {/* TODO: This need to this share collection functionality in the later phase. */}
-              <div className="flex items-center mt-4 space-x-2 opacity-50">
-                <ShareIcon />
-                <div className="font-semibold text-sm leading-none">
-                  Share Collection
-                </div>
-              </div>
-            </div>
+      <Container>
+        <div className="flex flex-col h-full">
+          <h1 className="text-2xl font-medium mb-6">Your Collection</h1>
+          <div className="flex-1 flex justify-center items-center">
+            <Spinner size="3" />
           </div>
-        ))}
-        {renderSpinner(isValidating)}
-      </div>
+        </div>
+      </Container>
     );
-  };
-
-  const noHumidorsFound = () => {
-    return (
-      <div className="h-full flex justify-center items-center flex-col">
-        <p className="font-extralight text-base">
-          Could not find your humidor? Add
-        </p>
-        <p className="font-extralight text-base">your own humidor.</p>
-        <Button
-          className="!mt-4 px-[35px]"
-          variant="secondary"
-          title="Add Humidor"
-          onClick={() => router.push("/collection/humidors/add")}
-        />
-      </div>
-    );
-  };
+  }
 
   return (
     <Container>
       <div className="flex flex-col h-full relative leading-none">
-        <div className="sticky top-[68px] bg-white z-40">
+        <div className="bg-white">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-medium">Your Collection</h1>
             <div className="flex items-center font-extralight text-base leading-none">
@@ -164,32 +160,44 @@ const HumidorsList = () => {
               </div>
               <ToggleSwitch
                 id="toggle"
-                onCheckedChange={(_checked) => {}}
+                onCheckedChange={(checked) => setIsCigarView(checked)}
+                checked={isCigarView}
                 className="ml-1"
-                disabled
               />
             </div>
           </div>
 
-          <div className="mb-[30px]">
-            <SearchInput
-              placeholder="Search Humidor"
-              onSearch={(val: string) => setSearchQuery(val)}
-            />
+          <div className="flex space-x-2 mb-[30px]">
+            <div className="flex-1">
+              <SearchInput
+                placeholder={`Search ${isCigarView ? "Cigar" : "Humidor"}`}
+                onSearch={(val: string) => setSearchQuery(val)}
+              />
+            </div>
+
+            {/* TODO: Need to enable this button when we have the list of the brands & Pricing etc. */}
+            {isCigarView && (
+              <button
+                className="flex items-center space-x-1.5 !ml-3 h-[48px] border-primary-100 border rounded-md px-3.5 py-2.5 opacity-50"
+                disabled
+                onClick={() => {}}
+              >
+                <FilterIcon />
+                <div className="text-sm font-semibold">Filter</div>
+              </button>
+            )}
           </div>
         </div>
 
-        {isLoadingInitialData
-          ? renderSpinner(isLoadingInitialData)
-          : humidors.length > 0
-            ? humidorsList()
-            : noHumidorsFound()}
+        {renderContent()}
 
-        <div
-          className="absolute bottom-9 right-0 h-12 w-12 cursor-pointer rounded-full z-10"
-          onClick={() => router.push("/collection/humidors/add")}
-        >
-          <AddPlusIcon />
+        <div className="sticky bottom-[100px] right-0 w-full flex justify-end pointer-events-none z-40">
+          <div
+            className="h-12 w-12 mr-4 cursor-pointer pointer-events-auto z-40"
+            onClick={() => router.push("/collection/humidors/add")}
+          >
+            <AddPlusIcon />
+          </div>
         </div>
       </div>
     </Container>

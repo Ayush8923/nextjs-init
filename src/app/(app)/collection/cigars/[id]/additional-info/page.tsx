@@ -37,7 +37,6 @@ const AdditionalInfo = () => {
     clearCigarDetails,
     clearCigarFlowType,
   } = useCigarStore();
-  const { clearHumidorDetails } = useHumidorStore();
   const { humidorDetails } = useHumidorStore();
   const totalSteps = flowType === "custom" ? 4 : 3;
 
@@ -63,7 +62,6 @@ const AdditionalInfo = () => {
       setIsLoading(false);
     } finally {
       clearCigarFlowType();
-      clearHumidorDetails();
       clearCigarDetails();
     }
   };

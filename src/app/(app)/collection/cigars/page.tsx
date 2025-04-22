@@ -19,6 +19,7 @@ const CigarsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { setCigarDetails, setFlowType } = useCigarStore();
   const debouncedSearchQuery = useDebouncedValue(searchQuery);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.data.length) return null;
@@ -35,6 +36,7 @@ const CigarsList = () => {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
+      onSuccess: () => setIsInitialLoad(false),
     }
   );
 
@@ -133,6 +135,31 @@ const CigarsList = () => {
     </div>
   );
 
+  const renderContent = () => {
+    if (isLoadingInitialData) {
+      return renderSpinner(isLoadingInitialData);
+    }
+
+    if (cigars.length > 0) {
+      return cigarsList();
+    }
+
+    return addNewCigar();
+  };
+
+  if (isInitialLoad) {
+    return (
+      <Container>
+        <div className="flex flex-col h-full">
+          <h1 className="text-2xl font-medium mb-6">Add Cigar</h1>
+          <div className="flex-1 flex justify-center items-center">
+            <Spinner size="3" />
+          </div>
+        </div>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <div className="flex flex-col h-full relative">
@@ -155,11 +182,7 @@ const CigarsList = () => {
           </div>
         </div>
 
-        {isLoadingInitialData
-          ? renderSpinner(isLoadingInitialData)
-          : cigars.length > 0
-            ? cigarsList()
-            : addNewCigar()}
+        {renderContent()}
       </div>
     </Container>
   );

@@ -31,3 +31,4 @@ export { default as SingleCigarIcon } from "./SingleCigarIcon";
 export { default as CigarThumbnailIcon } from "./CigarThumbnailIcon";
 export { default as AddPlusIcon } from "./AddPlusIcon";
 export { default as ShareIcon } from "./ShareIcon";
+export { default as FilterIcon } from "./FilterIcon";
