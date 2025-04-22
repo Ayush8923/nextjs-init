@@ -128,9 +128,9 @@ const HumidorsList = () => {
 
   const renderContent = () => {
     if (isLoadingHumidors) return renderSpinner(true);
-    if (isCigarView && cigarListData.length > 0) return renderCigarsList();
+    if (isCigarView && cigarListData?.length > 0) return renderCigarsList();
     if (humidors.length > 0) return renderHumidorsList();
-    if (isCigarView && !(cigarListData.length > 0)) return renderNoCigarView();
+    if (isCigarView && !(cigarListData?.length > 0)) return renderNoCigarView();
     return renderNoHumidorView();
   };
 
