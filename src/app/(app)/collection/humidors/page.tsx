@@ -150,7 +150,7 @@ const HumidorsList = () => {
 
   return (
     <Container>
-      <div className="flex flex-col h-full relative leading-none">
+      <div className="flex flex-col justify-between h-full relative leading-none">
         <div className="bg-white">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-medium">Your Collection</h1>
