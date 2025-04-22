@@ -17,6 +17,7 @@ interface DropdownProps {
   placeholder?: string;
   error?: string;
   searchable?: boolean;
+  autoFocus?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -25,6 +26,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   placeholder = "Select...",
   error,
   searchable = false,
+  autoFocus = false,
 }) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -77,7 +79,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full px-2 py-1 mb-2 border border-gray-300 rounded"
-                autoFocus
+                autoFocus={autoFocus}
               />
             )}
 
