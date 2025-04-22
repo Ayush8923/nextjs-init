@@ -1,5 +1,10 @@
 import axios from "@/lib/axios";
-import { CigarDetailsApiData, CreateHumidorData } from "@/lib/types";
+import { getQueryString } from "@/lib/common";
+import {
+  CigarDetailsApiData,
+  CreateHumidorData,
+  RequestParams,
+} from "@/lib/types";
 
 const createHumidor = async ({
   setError,
@@ -29,7 +34,7 @@ const createHumidor = async ({
 
   try {
     await axios.post("/api/humidors", humidorFormData);
-    router.replace("/collection/add-humidor/saved");
+    router.replace("/collection/humidors/add/saved");
   } catch (error: any) {
     if (error.response?.status !== 422) throw error;
     setError(error.response.data.errors);
@@ -37,9 +42,10 @@ const createHumidor = async ({
   }
 };
 
-const getHumidors = async () => {
+const getHumidors = async (params: RequestParams = {}) => {
+  const url = `/api/humidors?${getQueryString(params)}`;
   try {
-    const res = await axios.get("/api/humidors");
+    const res = await axios.get(url);
     return res.data;
   } catch (error: any) {
     if (error.response?.status !== 422) {

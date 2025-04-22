@@ -12,7 +12,7 @@ import {
 import { RatingIcon } from "@/components/icons";
 import { todayAsDateInputValue } from "@/lib/common";
 import { CigarDetailsFormData } from "@/lib/types";
-import { useCigarStore } from "@/store";
+import { useCigarStore, useHumidorStore } from "@/store";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -37,6 +37,8 @@ const AdditionalInfo = () => {
     clearCigarDetails,
     clearCigarFlowType,
   } = useCigarStore();
+  const { clearHumidorDetails } = useHumidorStore();
+  const { humidorDetails } = useHumidorStore();
   const totalSteps = flowType === "custom" ? 4 : 3;
 
   const onSubmit = async (data: CigarDetailsFormData) => {
@@ -51,7 +53,7 @@ const AdditionalInfo = () => {
     try {
       await collection.storeCigar({
         cigarDetails: payloadData,
-        humidorId: cigar?.humidorId,
+        humidorId: humidorDetails?.id,
         cigarId: cigar?.id,
       });
       router.replace(`/collection/cigars/${cigar?.id}/saved`);
@@ -60,15 +62,16 @@ const AdditionalInfo = () => {
       setError(error.response.data.errors);
       setIsLoading(false);
     } finally {
-      clearCigarDetails();
       clearCigarFlowType();
+      clearHumidorDetails();
+      clearCigarDetails();
     }
   };
 
   return (
     <Container>
       <div className="flex flex-col h-full relative">
-        <div className="sticky top-[68px] bg-white z-40">
+        <div>
           <h1 className="text-2xl font-medium mb-6">Add Cigar</h1>
 
           <CigarInfoSection

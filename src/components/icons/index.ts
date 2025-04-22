@@ -29,3 +29,5 @@ export { default as MagnifyingIcon } from "./MagnifyingIcon";
 export { default as RatingIcon } from "./RatingIcon";
 export { default as SingleCigarIcon } from "./SingleCigarIcon";
 export { default as CigarThumbnailIcon } from "./CigarThumbnailIcon";
+export { default as AddPlusIcon } from "./AddPlusIcon";
+export { default as ShareIcon } from "./ShareIcon";

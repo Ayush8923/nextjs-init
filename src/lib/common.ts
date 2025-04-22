@@ -1,3 +1,5 @@
+import { RequestParams } from "./types";
+
 export const AGE_LIMIT = 21;
 export const PAGINATION_SIZE = 10;
 
@@ -51,4 +53,16 @@ export const formatArrayToLabelValueOptions = (array: []) => {
     label: item,
     value: item,
   }));
+};
+
+export const getQueryString = (params: RequestParams = {}) => {
+  const query = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      query.append(key, String(value));
+    }
+  });
+
+  return query.toString();
 };

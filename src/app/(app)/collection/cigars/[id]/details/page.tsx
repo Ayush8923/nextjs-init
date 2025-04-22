@@ -36,7 +36,7 @@ const CigarDetails = () => {
   return (
     <Container>
       <div className="flex flex-col h-full relative">
-        <div className="sticky top-[68px] bg-white z-40">
+        <div>
           <h1 className="text-2xl font-medium mb-6">Add Cigar</h1>
 
           <CigarInfoSection

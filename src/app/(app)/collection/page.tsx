@@ -2,26 +2,28 @@
 
 import collection from "@/apis/collection";
 import { Container } from "@/components";
+import { PAGINATION_SIZE } from "@/lib/common";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import useSWR from "swr";
 
 const Collection = () => {
   const router = useRouter();
-  const { data: humidors } = useSWR("/api/humidors", collection.getHumidors);
+  const { data: humidors, error } = useSWR(
+    { page: 1, limit: PAGINATION_SIZE },
+    (params) => collection.getHumidors(params)
+  );
+  const isLoading = !humidors && !error;
 
   useEffect(() => {
-    let isActive = true;
-    if (humidors?.data?.length > 0) {
-      if (isActive) router.replace("/collection/cigars");
-    } else {
-      if (isActive) router.replace("/collection/add-humidor");
+    if (!isLoading) {
+      if (humidors?.data?.length > 0) {
+        router.replace("/collection/humidors");
+      } else {
+        router.replace("/collection/humidors/add");
+      }
     }
-
-    return () => {
-      isActive = false;
-    };
-  }, [humidors]);
+  }, [isLoading, humidors, router]);
 
   return (
     <Container>

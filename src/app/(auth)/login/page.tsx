@@ -124,7 +124,7 @@ const LoginFormPage = ({ setIsApiLoading }: Props) => {
         <span className="text-primary-100 font-normal text-xs">
           Don’t have an account?
           <Link
-            href="/sign-up"
+            href="/consent"
             className="text-primary-100 font-bold ml-1 hover:underline"
           >
             Sign up

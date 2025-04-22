@@ -110,12 +110,22 @@ export type MembersData = {
   phone: string;
   dob: string;
   referred_by: string;
-  user_cigars_count: string;
+  cigars_count: string;
+};
+
+export type HumidorsData = {
+  id: number;
+  image_url: string;
+  name: string;
+  type: string;
+  humidification_method: string;
+  capacity: number;
+  cigars_count: number;
+  percentage_filled: number;
 };
 
 export type CigarDetailsFormData = {
   id?: number;
-  humidorId?: number;
   name?: string;
   manufacturer?: string;
   origin?: string;
@@ -141,4 +151,8 @@ export type CigarDetailsApiData = {
   humidorId?: number;
   cigarId?: number;
   image?: File | null;
+};
+
+export type RequestParams = {
+  [key: string]: string | number | boolean | undefined;
 };

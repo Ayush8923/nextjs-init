@@ -9,28 +9,33 @@ import { CigarData } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useRouter } from "next/navigation";
-import useSWR from "swr";
-import collection from "@/apis/collection";
 import { useCigarStore } from "@/store";
 import { CigarThumbnailIcon } from "@/components/icons";
 import Image from "next/image";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 
 const CigarsList = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const { data: humidors } = useSWR("/api/humidors", collection.getHumidors);
   const { setCigarDetails, setFlowType } = useCigarStore();
+  const debouncedSearchQuery = useDebouncedValue(searchQuery);
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.data.length) return null;
-    return `/api/cigars?page=${pageIndex + 1}&limit=${PAGINATION_SIZE}&name=${encodeURIComponent(
-      searchQuery
-    )}`;
+    return {
+      page: pageIndex + 1,
+      limit: PAGINATION_SIZE,
+      name: debouncedSearchQuery,
+    };
   };
 
   const { data, setSize, isValidating, error } = useSWRInfinite(
     getKey,
-    admin.getCigars
+    admin.getCigars,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
   );
 
   const isLoadingInitialData = !data && !error;
@@ -49,7 +54,7 @@ const CigarsList = () => {
 
   useEffect(() => {
     setSize(1);
-  }, [searchQuery]);
+  }, [debouncedSearchQuery]);
 
   const renderSpinner = (loading: boolean) => {
     return (
@@ -68,7 +73,6 @@ const CigarsList = () => {
       manufacturer: cigar.manufacturer,
       origin: cigar.origin,
       rating: cigar.rating,
-      humidorId: humidors?.data[0]?.id,
     };
     setCigarDetails(cigarDetails);
     setFlowType("existing");
@@ -76,16 +80,12 @@ const CigarsList = () => {
   };
 
   const handleAddNewCigar = () => {
-    const cigarDetails = {
-      humidorId: humidors?.data[0]?.id,
-    };
-    setCigarDetails(cigarDetails);
     setFlowType("custom");
     router.push("/collection/cigars/add");
   };
 
   const cigarsList = () => (
-    <div className="flex-1 overflow-y-auto pb-20">
+    <div className="flex-1 overflow-y-auto pb-10">
       {cigars.map((cigar) => (
         <div
           className="flex items-center mb-6 cursor-pointer hover:bg-gray-50 rounded-md transition"
@@ -136,7 +136,7 @@ const CigarsList = () => {
   return (
     <Container>
       <div className="flex flex-col h-full relative">
-        <div className="sticky top-[68px] bg-white z-40">
+        <div>
           <h1 className="text-2xl font-medium mb-6">Add Cigar</h1>
 
           <div className="flex justify-between items-center mb-6">

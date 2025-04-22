@@ -27,7 +27,7 @@ const Container = ({
           userProfileClick={() => router.push("/profile")}
         />
       )}
-      <main className="flex flex-col flex-grow justify-start max-w-lg mx-auto mt-[60px] mb-[71px] w-full py-8 bg-white">
+      <main className="flex flex-col flex-grow justify-start max-w-lg mx-auto w-full mt-10 pb-[71px] bg-white">
         {children}
       </main>
       <BottomTabBar routes={bottomTabBarRoutes} />

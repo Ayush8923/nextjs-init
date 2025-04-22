@@ -1,6 +1,9 @@
 import axios from "@/lib/axios";
+import { getQueryString } from "@/lib/common";
+import { RequestParams } from "@/lib/types";
 
-const getCigars = async (url: string) => {
+const getCigars = async (params: RequestParams = {}) => {
+  const url = `/api/cigars?${getQueryString(params)}`;
   try {
     const res = await axios.get(url);
     return res.data;
@@ -11,7 +14,8 @@ const getCigars = async (url: string) => {
   }
 };
 
-const getMembers = async (url: string) => {
+const getMembers = async (params: RequestParams = {}) => {
+  const url = `/api/members?${getQueryString(params)}`;
   try {
     const res = await axios.get(url);
     return res.data;

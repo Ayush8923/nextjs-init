@@ -24,8 +24,8 @@ const headers = [
 const Members = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { data: members, error } = useSWR(
-    `/api/members?page=${currentPage}&limit=${PAGINATION_SIZE}`,
-    admin.getMembers
+    { page: currentPage, limit: PAGINATION_SIZE },
+    (params) => admin.getMembers(params)
   );
   const isLoading = !members && !error;
 
@@ -38,7 +38,7 @@ const Members = () => {
       member?.phone || "-",
       member?.dob || "-",
       member?.referred_by || "-",
-      member?.user_cigars_count?.toString() || "0",
+      member?.cigars_count?.toString() || "0",
       // "-"
     ]) || [];
 

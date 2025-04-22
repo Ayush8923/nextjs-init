@@ -25,3 +25,4 @@ export { default as SearchInput } from "./SearchInput";
 export { default as CigarInfoSection } from "./CigarInfoSection";
 export { default as DateInput } from "./DateInput";
 export { default as CigarTable } from "./admin/CigarTable";
+export { default as ToggleSwitch } from "./ToggleSwitch";

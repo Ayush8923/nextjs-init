@@ -124,7 +124,7 @@ const CigarsAdd = () => {
                 setSelectedFile={setSelectedCigarImage}
               />
               {error.image && (
-                <InputError messages={error.image} className="!mt-1" />
+                <InputError messages={error.image} className="-mt-4" />
               )}
             </div>
           </div>
