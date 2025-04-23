@@ -34,8 +34,8 @@ const AdditionalInfo = () => {
   const {
     cigarDetails: cigar,
     flowType,
-    clearCigarDetails,
-    clearCigarFlowType,
+    // clearCigarDetails,
+    // clearCigarFlowType,
   } = useCigarStore();
   const { humidorDetails } = useHumidorStore();
   const totalSteps = flowType === "custom" ? 4 : 3;
@@ -60,10 +60,11 @@ const AdditionalInfo = () => {
       if (error.response?.status !== 422) throw error;
       setError(error.response.data.errors);
       setIsLoading(false);
-    } finally {
-      clearCigarFlowType();
-      clearCigarDetails();
-    }
+    } 
+    // finally {
+    //   clearCigarFlowType();
+    //   clearCigarDetails();
+    // }
   };
 
   return (
