@@ -60,7 +60,7 @@ const AdditionalInfo = () => {
       if (error.response?.status !== 422) throw error;
       setError(error.response.data.errors);
       setIsLoading(false);
-    } 
+    }
     // finally {
     //   clearCigarFlowType();
     //   clearCigarDetails();
