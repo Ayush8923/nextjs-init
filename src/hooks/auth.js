@@ -149,12 +149,12 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/${provider}`;
   };
 
-  const updateDob = async ({ setErrors, setIsLoading, ...props }) => {
+  const updateDob = async ({ setErrors, setIsLoading, router, ...props }) => {
     axios
       .post("/api/profile/dob", props)
       .then((res) => {
         res.data;
-        window.location.href = "/dashboard";
+        router.replace("/dashboard");
       })
       .catch((error) => {
         if (error.response.status !== 422) throw error;
