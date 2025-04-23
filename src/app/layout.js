@@ -13,6 +13,13 @@ const publicSansFont = Public_Sans({
 const RootLayout = ({ children }) => {
   return (
     <html lang="en" className={publicSansFont.className}>
+      <head>
+        <meta name="theme-color" content="#ffffff" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+      </head>
       <body className="antialiased">
         <Theme>
           <AppInitializer>{children}</AppInitializer>
