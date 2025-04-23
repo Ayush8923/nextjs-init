@@ -13,6 +13,7 @@ import { createCookie } from "@/lib/cookieService";
 import { useSearchParams } from "next/navigation";
 import { getCookie } from "@/lib/common";
 import LoginForm from "@/components/LoginForm";
+import { useRouter } from "next/navigation";
 
 type Props = {
   setIsApiLoading: Dispatch<SetStateAction<boolean>>;
@@ -32,6 +33,7 @@ const LoginFormPage = ({ setIsApiLoading }: Props) => {
     password?: string[];
   }>({});
   const [status, setStatus] = useState(null);
+  const router = useRouter();
 
   const { login, socialLogin, updateDob, user } = useAuth({
     middleware: "guest",
@@ -63,6 +65,7 @@ const LoginFormPage = ({ setIsApiLoading }: Props) => {
         dob: hasDOBInCookie,
         setErrors: () => {},
         setIsLoading: () => {},
+        router,
       }).then(() => {
         setIsApiLoading(false);
       });
