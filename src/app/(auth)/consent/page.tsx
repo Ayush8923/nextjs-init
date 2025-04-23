@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { ConsentFormData } from "@/lib/types";
 import { createCookie } from "@/lib/cookieService";
 import { AGE_LIMIT, calculateAge, getCookie } from "@/lib/common";
-import { InputError, LoadingOverlay } from "@/components";
+import { DateInput, InputError, LoadingOverlay } from "@/components";
 import { useAuth } from "@/hooks/auth";
 
 const ConsentContent = ({
@@ -14,7 +14,12 @@ const ConsentContent = ({
 }: {
   setIsApiLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { register, handleSubmit, watch } = useForm<ConsentFormData>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<ConsentFormData>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setErrors] = useState<{ dob?: string[] }>({});
 
@@ -68,11 +73,13 @@ const ConsentContent = ({
           </p>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <input
-              type="date"
+            <DateInput
+              name="dob"
               placeholder="Date of Birth"
-              className="w-full py-3 px-4 border border-gray-300 rounded text-gray-600 appearance-none"
-              {...register("dob", { required: true })}
+              register={register}
+              errors={errors}
+              required
+              requiredMessage={"Date of Birth on is required"}
             />
             <InputError messages={error?.dob} className="!mt-2" />
 

@@ -20,11 +20,13 @@ const DateInput = ({
   errors,
   requiredMessage = "This Field is required.",
 }: DateInputProps) => {
+  const today = new Date().toISOString().split("T")[0];
   return (
     <div>
       <input
         type="date"
         placeholder={placeholder}
+        max={today}
         className="w-full p-2.5 border border-gray-300 rounded text-gray-600 appearance-none"
         {...register(name, required ? { required: requiredMessage } : {})}
       />

@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/auth";
 import Loading from "@/components/Loading";
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
@@ -17,6 +18,7 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="min-h-screen">
       <main>{children}</main>
+      <SpeedInsights />
     </div>
   );
 };

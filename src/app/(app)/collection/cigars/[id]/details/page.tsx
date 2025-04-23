@@ -51,7 +51,7 @@ const CigarDetails = () => {
         <div className="flex justify-between items-center mt-6">
           <div className="flex items-center">
             <div className="text-base font-extralight">
-              Add Pricing & Qualtity
+              Add Pricing & Quantity
             </div>
             <CustomTooltip content="Enter the number of cigars and their price. Quantity is required, price is optional." />
           </div>
@@ -78,6 +78,7 @@ const CigarDetails = () => {
               errors={errors}
               isRequired={false}
               validationRules={collectionValidationRules.cigarPrice}
+              step="any"
             />
           </div>
 

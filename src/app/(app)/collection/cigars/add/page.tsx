@@ -12,6 +12,7 @@ import {
 } from "@/components";
 import { formatArrayToLabelValueOptions } from "@/lib/common";
 import { CigarDetailsFormData } from "@/lib/types";
+import { addCigarValidationRules } from "@/lib/validations/collectionValidation";
 import { useCigarStore } from "@/store";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -25,6 +26,7 @@ const addCigarFields = [
     type: "text",
     required: true,
     key: "name",
+    validationRules: addCigarValidationRules.cigarName,
   },
   {
     name: "brand",
@@ -32,6 +34,7 @@ const addCigarFields = [
     type: "text",
     required: true,
     key: "brand",
+    validationRules: addCigarValidationRules.brand,
   },
   {
     name: "manufacturer",
@@ -39,6 +42,7 @@ const addCigarFields = [
     type: "text",
     required: true,
     key: "manufacturer",
+    validationRules: addCigarValidationRules.manufacturer,
   },
   {
     name: "origin",
@@ -46,6 +50,7 @@ const addCigarFields = [
     type: "text",
     required: true,
     key: "origin",
+    validationRules: addCigarValidationRules.origin,
   },
   {
     name: "vitola",
@@ -53,6 +58,7 @@ const addCigarFields = [
     type: "text",
     required: true,
     key: "vitola",
+    validationRules: addCigarValidationRules.vitola,
   },
 ];
 
@@ -139,6 +145,7 @@ const CigarsAdd = () => {
                   name={field.name}
                   register={register}
                   errors={errors}
+                  validationRules={field.validationRules}
                 />
                 <InputError messages={error[field.name]} className="!mt-1" />
               </div>
@@ -153,6 +160,8 @@ const CigarsAdd = () => {
                   name="length"
                   register={register}
                   errors={errors}
+                  step=".01"
+                  validationRules={addCigarValidationRules.length}
                 />
                 <InputField
                   type="number"
@@ -160,6 +169,7 @@ const CigarsAdd = () => {
                   name="ringGauge"
                   register={register}
                   errors={errors}
+                  validationRules={addCigarValidationRules.ringGauge}
                 />
                 <InputError messages={error.dimensions} className="!mt-1" />
               </div>
