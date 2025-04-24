@@ -37,9 +37,9 @@ const CigarList = ({ cigars }: CigarListProps) => {
           <p className="text-xs font-light leading-none">{cigar.rating}</p>
         )}
       </div>
-      {cigar?.quantity && (
+      {cigar?.active_cigars_count && (
         <div className="text-base font-light leading-none">
-          X{cigar.quantity}
+          X{cigar.active_cigars_count}
         </div>
       )}
     </div>
