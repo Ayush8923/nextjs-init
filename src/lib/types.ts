@@ -80,6 +80,7 @@ export type CigarData = {
   rating: string;
   image_url: string;
   quantity: string;
+  active_cigars_count?: string;
 };
 
 export type AdminApiProps = {
