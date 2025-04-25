@@ -23,16 +23,19 @@ const CigarsList = () => {
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.data.length) return null;
-    return {
+    return JSON.stringify({
       page: pageIndex + 1,
       limit: PAGINATION_SIZE,
       name: debouncedSearchQuery,
-    };
+    });
   };
 
   const { data, setSize, isValidating, error } = useSWRInfinite(
     getKey,
-    admin.getCigars,
+    (key) => {
+      const keyParams = JSON.parse(key);
+      return admin.getCigars(keyParams);
+    },
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
