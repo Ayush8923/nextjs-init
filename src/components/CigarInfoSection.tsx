@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import { CigarThumbnailIcon } from "./icons";
+import { Skeleton } from "@radix-ui/themes";
 
 type CigarInfoSectionProps = {
   name: string;
@@ -10,6 +11,44 @@ type CigarInfoSectionProps = {
   manufacturer: string;
   origin: string;
   rating: string;
+  isLoading: boolean;
+};
+
+type CigarInfoSkeletonViewProps = {
+  isLoading: boolean;
+};
+
+const CigarInfoSkeletonView = ({ isLoading }: CigarInfoSkeletonViewProps) => {
+  if (!isLoading) {
+    return null;
+  }
+
+  return (
+    <div className="bg-primary-100 px-6 py-3.5 flex -mx-[24px]">
+      <div className="w-[74px] h-[74px] rounded-lg mr-4 bg-gray-500 animate-pulse">
+        <Skeleton width="74px" height="74px" />
+      </div>
+      <div className="text-white">
+        <div>
+          <Skeleton
+            width="150px"
+            height="20px"
+            className="!bg-gray-500 animate-pulse"
+          />
+          <Skeleton
+            width="100px"
+            height="15px"
+            className="mt-1.5 !bg-gray-500 animate-pulse"
+          />
+          <Skeleton
+            width="60px"
+            height="15px"
+            className="mt-1.5 !bg-gray-500 animate-pulse"
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const CigarInfoSection = ({
@@ -18,7 +57,12 @@ const CigarInfoSection = ({
   manufacturer,
   origin,
   rating,
+  isLoading,
 }: CigarInfoSectionProps) => {
+  if (isLoading) {
+    return <CigarInfoSkeletonView isLoading={isLoading} />;
+  }
+
   return (
     <div className="bg-primary-100 px-6 py-3.5 flex -mx-[24px]">
       {image ? (

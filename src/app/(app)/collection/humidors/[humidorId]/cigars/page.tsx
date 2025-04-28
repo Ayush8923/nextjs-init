@@ -5,7 +5,7 @@ import { Button, Container, CustomTooltip, SearchInput } from "@/components";
 import useSWRInfinite from "swr/infinite";
 import admin from "@/apis/admin";
 import { PAGINATION_SIZE } from "@/lib/common";
-import { CigarData } from "@/lib/types";
+import { CigarData, CollectionPagesParams } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useRouter } from "next/navigation";
@@ -14,10 +14,11 @@ import { CigarThumbnailIcon } from "@/components/icons";
 import Image from "next/image";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 
-const CigarsList = () => {
+const CigarsList = ({ params }: { params: CollectionPagesParams }) => {
+  const { humidorId } = params;
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const { setCigarDetails, setFlowType } = useCigarStore();
+  const { setFlowType } = useCigarStore();
   const debouncedSearchQuery = useDebouncedValue(searchQuery);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
@@ -72,21 +73,15 @@ const CigarsList = () => {
   };
 
   const handleCigarSelect = (cigar: CigarData) => {
-    const cigarDetails = {
-      id: cigar.id,
-      name: cigar.name,
-      manufacturer: cigar.manufacturer,
-      origin: cigar.origin,
-      rating: cigar.rating,
-    };
-    setCigarDetails(cigarDetails);
     setFlowType("existing");
-    router.push(`/collection/cigars/${cigar.id}/details`);
+    const redirectionUrl = `/collection/humidors/${humidorId}/cigars/${cigar?.id}/details`;
+    router.push(redirectionUrl);
   };
 
   const handleAddNewCigar = () => {
     setFlowType("custom");
-    router.push("/collection/cigars/add");
+    const redirectionUrl = `/collection/humidors/${humidorId}/cigars/add`;
+    router.push(redirectionUrl);
   };
 
   const cigarsList = () => (

@@ -10,14 +10,18 @@ import {
   InputError,
 } from "@/components";
 import { RatingIcon } from "@/components/icons";
+import { useAuth } from "@/hooks/auth";
 import { todayAsDateInputValue } from "@/lib/common";
-import { CigarDetailsFormData } from "@/lib/types";
-import { useCigarStore, useHumidorStore } from "@/store";
+import { CigarDetailsFormData, CollectionPagesParams } from "@/lib/types";
+import { useCigarStore } from "@/store";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import useSWR from "swr";
 
-const AdditionalInfo = () => {
+const AdditionalInfo = ({ params }: { params: CollectionPagesParams }) => {
+  const { humidorId, cigarId } = params;
+  const { user } = useAuth({ middleware: "auth" });
   const {
     register,
     handleSubmit,
@@ -28,16 +32,15 @@ const AdditionalInfo = () => {
       addedAt: todayAsDateInputValue(),
     },
   });
+  const { data: cigar, error: cigarError } = useSWR(
+    `/api/users/${user?.id}/cigars/${cigarId}`,
+    () => collection.getCigarById(user, cigarId)
+  );
+  const hasApiLoading = !cigar && !cigarError;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>([]);
   const router = useRouter();
-  const {
-    cigarDetails: cigar,
-    flowType,
-    // clearCigarDetails,
-    // clearCigarFlowType,
-  } = useCigarStore();
-  const { humidorDetails } = useHumidorStore();
+  const { flowType, cigarDetails } = useCigarStore();
   const totalSteps = flowType === "custom" ? 4 : 3;
 
   const onSubmit = async (data: CigarDetailsFormData) => {
@@ -46,25 +49,22 @@ const AdditionalInfo = () => {
     const payloadData = {
       added_at: data.addedAt,
       rating: data.rating,
-      quantity: cigar?.quantity,
-      price: cigar?.price,
+      quantity: cigarDetails?.quantity,
+      price: cigarDetails?.price,
     };
     try {
       await collection.storeCigar({
         cigarDetails: payloadData,
-        humidorId: humidorDetails?.id,
-        cigarId: cigar?.id,
+        humidorId: humidorId,
+        cigarId: cigarId,
       });
-      router.replace(`/collection/cigars/${cigar?.id}/saved`);
+      const redirectionUrl = `/collection/humidors/${humidorId}/cigars/${cigarId}/saved`;
+      router.replace(redirectionUrl);
     } catch (error: any) {
       if (error.response?.status !== 422) throw error;
       setError(error.response.data.errors);
       setIsLoading(false);
     }
-    // finally {
-    //   clearCigarFlowType();
-    //   clearCigarDetails();
-    // }
   };
 
   return (
@@ -79,6 +79,7 @@ const AdditionalInfo = () => {
             manufacturer={cigar?.manufacturer || ""}
             origin={cigar?.origin || ""}
             rating={cigar?.rating || ""}
+            isLoading={hasApiLoading}
           />
         </div>
 
@@ -126,7 +127,7 @@ const AdditionalInfo = () => {
               className="w-full"
               type="submit"
               title="Next"
-              loading={isLoading}
+              loading={isLoading || hasApiLoading}
               disabled={isLoading}
             />
           </div>

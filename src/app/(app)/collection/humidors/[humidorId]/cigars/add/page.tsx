@@ -11,9 +11,8 @@ import {
   InputField,
 } from "@/components";
 import { formatArrayToLabelValueOptions } from "@/lib/common";
-import { CigarDetailsFormData } from "@/lib/types";
+import { CigarDetailsFormData, CollectionPagesParams } from "@/lib/types";
 import { addCigarValidationRules } from "@/lib/validations/collectionValidation";
-import { useCigarStore } from "@/store";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -62,7 +61,8 @@ const addCigarFields = [
   },
 ];
 
-const CigarsAdd = () => {
+const CigarsAdd = ({ params }: { params: CollectionPagesParams }) => {
+  const { humidorId } = params;
   const router = useRouter();
   const { data: cigarsMetaData } = useSWR(
     "/api/cigars/meta",
@@ -80,7 +80,6 @@ const CigarsAdd = () => {
   const [selectedCigarImage, setSelectedCigarImage] = useState<File | null>(
     null
   );
-  const { setCigarDetails } = useCigarStore();
 
   const onSubmit = async (cigarDetails: CigarDetailsFormData) => {
     setIsLoading(true);
@@ -89,15 +88,8 @@ const CigarsAdd = () => {
         cigarDetails,
         image: selectedCigarImage,
       });
-      const cigarInfo = {
-        id: response?.id,
-        name: response?.name,
-        manufacturer: response?.manufacturer,
-        origin: response?.origin,
-        rating: response?.rating,
-      };
-      setCigarDetails(cigarInfo);
-      router.push(`/collection/cigars/${response.id}/details`);
+      const redirectionUrl = `/collection/humidors/${humidorId}/cigars/${response?.id}/details`;
+      router.push(redirectionUrl);
     } catch (error: any) {
       if (error.response?.status !== 422) throw error;
       setError(error.response.data.errors);

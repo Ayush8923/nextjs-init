@@ -8,14 +8,9 @@ import {
 } from "@/lib/types";
 
 const createHumidor = async ({
-  setError,
-  setIsLoading,
-  router,
   humidorData,
   selectedHumidorImage,
 }: CreateHumidorData) => {
-  setIsLoading(true);
-  setError([]);
   const humidorFormData = new FormData();
   humidorFormData.append("name", humidorData.humidorName);
   humidorFormData.append("type", humidorData.humidorType);
@@ -32,15 +27,8 @@ const createHumidor = async ({
   if (selectedHumidorImage) {
     humidorFormData.append("image", selectedHumidorImage);
   }
-
-  try {
-    await axios.post("/api/humidors", humidorFormData);
-    router.replace("/collection/humidors/add/saved");
-  } catch (error: any) {
-    if (error.response?.status !== 422) throw error;
-    setError(error.response.data.errors);
-    setIsLoading(false);
-  }
+  const response = await axios.post("/api/humidors", humidorFormData);
+  return response?.data;
 };
 
 const getHumidors = async (params: RequestParams = {}) => {
@@ -136,6 +124,18 @@ const getUserCigars = async (params: RequestParams = {}, user: UserData) => {
   }
 };
 
+const getCigarById = async (user: UserData, cigarId: number) => {
+  try {
+    const url = `/api/users/${user?.id}/cigars/${cigarId}`;
+    const res = await axios.get(url);
+    return res.data;
+  } catch (error: any) {
+    if (error.response?.status !== 422) {
+      throw error;
+    }
+  }
+};
+
 export default {
   createHumidor,
   getHumidors,
@@ -143,4 +143,5 @@ export default {
   getCigarsMeta,
   create,
   getUserCigars,
+  getCigarById,
 };

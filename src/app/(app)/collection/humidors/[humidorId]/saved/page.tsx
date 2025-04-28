@@ -4,9 +4,17 @@ import { Button, Container } from "@/components";
 import { HumidorIcon } from "@/components/icons";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { CollectionPagesParams } from "@/lib/types";
 
-const HumidorSaved = () => {
+const HumidorSaved = ({ params }: { params: CollectionPagesParams }) => {
+  const { humidorId } = params;
   const router = useRouter();
+
+  const redirectToCigarsList = () => {
+    const redirectionUrl = `/collection/humidors/${humidorId}/cigars`;
+    router.replace(redirectionUrl);
+  };
+
   return (
     <Container hasHeaderVisible={false}>
       <div className="flex-grow flex flex-col items-center justify-center px-4">
@@ -23,7 +31,7 @@ const HumidorSaved = () => {
         <Button
           className="w-full"
           title="Add Cigar to Humidor"
-          onClick={() => router.replace("/collection/cigars")}
+          onClick={() => redirectToCigarsList()}
         />
       </div>
     </Container>

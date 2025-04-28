@@ -96,9 +96,6 @@ export type AddingHumidorFormData = {
 };
 
 export type CreateHumidorData = {
-  setError: Dispatch<SetStateAction<any>>;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  router: any;
   humidorData: AddingHumidorFormData;
   selectedHumidorImage?: File | null;
 };
@@ -165,4 +162,9 @@ export type UserData = {
   last_name: string;
   profile_handle: string;
   profile_image_url: string;
+};
+
+export type CollectionPagesParams = {
+  humidorId: number;
+  cigarId: number;
 };

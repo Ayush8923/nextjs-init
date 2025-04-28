@@ -8,7 +8,6 @@ import { createCookie } from "@/lib/cookieService";
 import { AGE_LIMIT, calculateAge, getCookie } from "@/lib/common";
 import { DateInput, InputError, LoadingOverlay } from "@/components";
 import { useAuth } from "@/hooks/auth";
-import { useRouter } from "next/navigation";
 
 const ConsentContent = ({
   setIsApiLoading,
@@ -23,7 +22,6 @@ const ConsentContent = ({
   } = useForm<ConsentFormData>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setErrors] = useState<{ dob?: string[] }>({});
-  const router = useRouter();
 
   const { updateDob } = useAuth({
     middleware: "guest",
@@ -54,9 +52,9 @@ const ConsentContent = ({
     const hasDOBInCookie = getCookie("DOB");
 
     if (hasTokenInCookie && isOfEligibleAge && hasDOBInCookie) {
-      await updateDob({ dob: hasDOBInCookie, setErrors, setIsLoading, router });
+      await updateDob({ dob: hasDOBInCookie, setErrors, setIsLoading });
     } else {
-      router.replace(destination);
+      window.location.href = destination;
     }
     setIsApiLoading(false);
   };

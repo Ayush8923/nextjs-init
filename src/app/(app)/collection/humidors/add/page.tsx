@@ -34,13 +34,24 @@ const AddingHumidor = () => {
   );
 
   const onSubmit = async (humidorData: AddingHumidorFormData) => {
-    collection.createHumidor({
-      setError,
-      setIsLoading,
-      router,
-      humidorData,
-      selectedHumidorImage,
-    });
+    setError([]);
+    setIsLoading(true);
+    try {
+      const humidor = await collection.createHumidor({
+        humidorData,
+        selectedHumidorImage,
+      });
+      const redirectionUrl = `/collection/humidors/${humidor?.data.id}/saved`;
+      router.replace(redirectionUrl);
+    } catch (error: any) {
+      if (error.response?.status === 422) {
+        setError(error.response.data.errors);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        throw error;
+      }
+    }
   };
 
   return (

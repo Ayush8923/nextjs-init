@@ -14,14 +14,12 @@ import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { HumidorsData } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
-import { useHumidorStore } from "@/store";
 import { useAuth } from "@/hooks/auth";
-import { useCigarList, useHumidorList } from "./hooks";
+import { useCigarList, useHumidorList } from "@/app/(app)/collection/hooks";
 
 const HumidorsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isCigarView, setIsCigarView] = useState(false);
-  const { setHumidorDetails } = useHumidorStore();
   const router = useRouter();
   const debouncedSearchQuery = useDebouncedValue(searchQuery);
   const { user } = useAuth({ middleware: "auth" });
@@ -56,17 +54,8 @@ const HumidorsList = () => {
   }, [debouncedSearchQuery, isCigarView]);
 
   const onSelectHumidor = (humidor: HumidorsData) => {
-    const extractedHumidorDetails = {
-      id: humidor.id,
-      name: humidor.name,
-      image_url: humidor.image_url,
-      type: humidor.type,
-      humidification_method: humidor.humidification_method,
-      capacity: humidor.capacity,
-    };
-    setHumidorDetails(extractedHumidorDetails);
-    setIsCigarView(false);
-    router.push("/collection/cigars");
+    const redirectionUrl = `/collection/humidors/${humidor.id}/cigars`;
+    router.push(redirectionUrl);
   };
 
   const renderSpinner = (loading: boolean) => {

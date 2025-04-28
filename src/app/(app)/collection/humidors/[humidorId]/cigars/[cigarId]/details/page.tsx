@@ -8,29 +8,40 @@ import {
   CustomTooltip,
   InputField,
 } from "@/components";
-import { CigarDetailsFormData } from "@/lib/types";
+import { CigarDetailsFormData, CollectionPagesParams } from "@/lib/types";
 import { collectionValidationRules } from "@/lib/validations/collectionValidation";
 import { useCigarStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import collection from "@/apis/collection";
+import useSWR from "swr";
+import { useAuth } from "@/hooks/auth";
 
-const CigarDetails = () => {
+const CigarDetails = ({ params }: { params: CollectionPagesParams }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CigarDetailsFormData>();
-  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth({ middleware: "auth" });
+  const { humidorId, cigarId } = params;
+  const { data: cigar, error } = useSWR(
+    `/api/users/${user?.id}/cigars/${cigarId}`,
+    () => collection.getCigarById(user, cigarId)
+  );
+  const isLoading = !cigar && !error;
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { setCigarDetails, cigarDetails, flowType } = useCigarStore();
+  const { setCigarDetails, flowType } = useCigarStore();
   const currentStep = flowType === "custom" ? 3 : 2;
   const totalSteps = flowType === "custom" ? 4 : 3;
 
   const onSubmit = async (details: CigarDetailsFormData) => {
-    setIsLoading(true);
+    setLoading(true);
     setCigarDetails(details);
-    router.push(`/collection/cigars/${cigarDetails?.id}/additional-info`);
-    setIsLoading(false);
+    const redirectionUrl = `/collection/humidors/${humidorId}/cigars/${cigarId}/additional-info`;
+    router.push(redirectionUrl);
+    setLoading(false);
   };
 
   return (
@@ -40,11 +51,12 @@ const CigarDetails = () => {
           <h1 className="text-2xl font-medium mb-6">Add Cigar</h1>
 
           <CigarInfoSection
-            name={cigarDetails?.name || ""}
-            image={cigarDetails?.image_url || ""}
-            manufacturer={cigarDetails?.manufacturer || ""}
-            origin={cigarDetails?.origin || ""}
-            rating={cigarDetails?.rating || ""}
+            name={cigar?.name || ""}
+            image={cigar?.image_url || ""}
+            manufacturer={cigar?.manufacturer || ""}
+            origin={cigar?.origin || ""}
+            rating={cigar?.rating || ""}
+            isLoading={isLoading}
           />
         </div>
 
@@ -87,8 +99,8 @@ const CigarDetails = () => {
               className="w-full"
               type="submit"
               title="Next"
-              loading={isLoading}
-              disabled={isLoading}
+              loading={loading}
+              disabled={loading || isLoading}
             />
           </div>
         </form>
