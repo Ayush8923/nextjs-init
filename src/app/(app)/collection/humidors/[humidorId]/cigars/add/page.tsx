@@ -185,6 +185,7 @@ const CigarsAdd = ({ params }: { params: CollectionPagesParams }) => {
                   name="flavour"
                   register={register}
                   errors={errors}
+                  isRequired={false}
                 />
                 <InputError messages={error.flavour} className="!mt-1" />
 

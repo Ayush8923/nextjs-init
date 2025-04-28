@@ -10,7 +10,7 @@ const Cigars = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, error } = useSWR(
-    { page: currentPage, limit: PAGINATION_SIZE, source: "manual" },
+    { page: currentPage, limit: PAGINATION_SIZE, status: "pending" },
     (params) => admin.getCigars(params)
   );
 

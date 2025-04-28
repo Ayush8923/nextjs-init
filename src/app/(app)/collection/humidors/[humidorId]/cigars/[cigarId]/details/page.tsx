@@ -84,13 +84,13 @@ const CigarDetails = ({ params }: { params: CollectionPagesParams }) => {
             <InputField
               key="price"
               type="number"
-              label="Price per cigar"
+              label="0.00"
               name="price"
               register={register}
               errors={errors}
               isRequired={false}
               validationRules={collectionValidationRules.cigarPrice}
-              step="any"
+              step=".01"
             />
           </div>
 

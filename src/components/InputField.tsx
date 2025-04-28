@@ -28,14 +28,21 @@ const InputField = ({
     ...validationRules,
   };
 
+  const isPriceField = name === "price";
+
   return (
     <div className="relative">
+      {isPriceField && (
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black font-medium">
+          $
+        </span>
+      )}
       <input
         type={type}
         id={name}
         placeholder={label}
         {...(register && name ? register(name, validation) : {})}
-        className={`w-full p-[10px] border rounded-md ${className}`}
+        className={`w-full ${isPriceField ? "pl-8" : "p-[10px]"} border rounded-md ${className}`}
         {...props}
       />
       <InputError messages={name ? [errors?.[name]?.message as string] : []} />
