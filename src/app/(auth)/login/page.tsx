@@ -118,6 +118,7 @@ const LoginFormPage = ({ setIsApiLoading }: Props) => {
         title="Continue with Apple"
         variant="secondary"
         icon={<AppleIcon />}
+        onClick={() => handleSocialLogin("apple")}
       />
 
       <div className="text-center mt-9">

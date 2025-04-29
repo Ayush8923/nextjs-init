@@ -111,6 +111,7 @@ const Page = () => {
             title="Sign up with Apple"
             variant="secondary"
             icon={<AppleIcon />}
+            onClick={() => handleSocialLogin("apple")}
           />
         </form>
 
