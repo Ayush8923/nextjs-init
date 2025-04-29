@@ -89,7 +89,7 @@ const LoginFormPage = ({ setIsApiLoading }: Props) => {
     } finally {
       setTimeout(() => {
         setIsApiLoading(false);
-      }, 1000)
+      }, 1000);
     }
   };
 
