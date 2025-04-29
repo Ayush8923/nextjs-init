@@ -28,6 +28,7 @@ const CigarsList = ({ params }: { params: CollectionPagesParams }) => {
       page: pageIndex + 1,
       limit: PAGINATION_SIZE,
       name: debouncedSearchQuery,
+      key: "cigars",
     });
   };
 

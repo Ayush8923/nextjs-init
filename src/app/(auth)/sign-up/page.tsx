@@ -47,8 +47,16 @@ const Page = () => {
   };
 
   const handleSocialLogin = async (provider: string) => {
-    setIsApiLoading(true);
-    socialLogin(provider);
+    try {
+      setIsApiLoading(true);
+      socialLogin(provider);
+    } catch (error) {
+      setErrors({});
+    } finally {
+      setTimeout(() => {
+        setIsApiLoading(false);
+      }, 1000);
+    }
   };
 
   return (

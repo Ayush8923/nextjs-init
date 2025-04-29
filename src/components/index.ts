@@ -28,3 +28,4 @@ export { default as CigarTable } from "./admin/CigarTable";
 export { default as ToggleSwitch } from "./ToggleSwitch";
 export { default as HumidorList } from "./HumidorList";
 export { default as CigarList } from "./CigarList";
+export { default as DeleteModal } from "./DeleteModal";

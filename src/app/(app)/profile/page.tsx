@@ -3,7 +3,7 @@
 import { Button, Container } from "@/components";
 import Image from "next/image";
 import { useAuth } from "@/hooks/auth";
-import { formatMemberSince } from "@/lib/common";
+import { formatDate } from "@/lib/common";
 import { profileOptions } from "@/lib/constant";
 import { useState } from "react";
 import Link from "next/link";
@@ -37,7 +37,7 @@ const Profile = () => {
         <div className="ml-4">
           <h2 className="text-base font-medium">{user?.profile_handle}</h2>
           <p className="font-light text-xs">
-            Member since {formatMemberSince(user?.created_at)}
+            Member since {formatDate(user?.created_at)}
           </p>
         </div>
       </div>

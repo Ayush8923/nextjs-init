@@ -54,7 +54,7 @@ const HumidorsList = () => {
   }, [debouncedSearchQuery, isCigarView]);
 
   const onSelectHumidor = (humidor: HumidorsData) => {
-    const redirectionUrl = `/collection/humidors/${humidor.id}/cigars`;
+    const redirectionUrl = `/collection/humidors/${humidor.id}/details`;
     router.push(redirectionUrl);
   };
 

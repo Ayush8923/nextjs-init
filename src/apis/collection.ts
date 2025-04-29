@@ -136,6 +136,38 @@ const getCigarById = async (user: UserData, cigarId: number) => {
   }
 };
 
+const getHumidorById = async (humidorId: number) => {
+  try {
+    const url = `/api/humidors/${humidorId}`;
+    const res = await axios.get(url);
+    return res.data;
+  } catch (error: any) {
+    if (error.response?.status !== 422) {
+      throw error;
+    }
+  }
+};
+
+const getHumidorCigars = async (
+  humidorId: number,
+  keyParams: RequestParams = {}
+) => {
+  try {
+    const url = `/api/humidors/${humidorId}/cigars?${getQueryString(keyParams)}`;
+    const res = await axios.get(url);
+    return res.data;
+  } catch (error: any) {
+    if (error.response?.status !== 422) {
+      throw error;
+    }
+  }
+};
+
+const deleteHumidor = async (humidorId: number) => {
+  const response = await axios.delete(`/api/humidors/${humidorId}`);
+  return response?.data;
+};
+
 export default {
   createHumidor,
   getHumidors,
@@ -144,4 +176,7 @@ export default {
   create,
   getUserCigars,
   getCigarById,
+  getHumidorById,
+  getHumidorCigars,
+  deleteHumidor,
 };

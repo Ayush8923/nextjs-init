@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import InputError from "@/components/InputError";
 import Image from "next/image";
+import { MAX_FILE_SIZE } from "@/lib/common";
 
 interface ImageUploaderProps {
   name: string;
@@ -13,6 +14,7 @@ interface ImageUploaderProps {
   imageWidth?: number;
   imageHeight?: number;
   setSelectedFile?: React.Dispatch<React.SetStateAction<File | null>>;
+  maxFileSize?: number;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({
@@ -25,20 +27,37 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   imageWidth = 120,
   imageHeight = 120,
   setSelectedFile,
+  maxFileSize = MAX_FILE_SIZE,
 }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImagePreview(imageUrl);
-      if (setSelectedFile) {
-        setSelectedFile(file);
+      if (file.size > maxFileSize) {
+        setFileError("File size exceeds the 10MB limit.");
+        setImagePreview(null);
+        if (setSelectedFile) {
+          setSelectedFile(null);
+        }
+      } else {
+        setFileError(null);
+        const imageUrl = URL.createObjectURL(file);
+        setImagePreview(imageUrl);
+        if (setSelectedFile) {
+          setSelectedFile(file);
+        }
       }
     }
   };
+
+  const errorMessage: string[] = [fileError, errors?.[name]?.message]
+    .filter(Boolean)
+    .map((error) =>
+      typeof error === "string" ? error : String(error?.message || "")
+    );
 
   return (
     <div className="flex flex-col items-center">
@@ -67,10 +86,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           <span className="text-3xl text-gray-500">+</span>
         )}
       </label>
-      <InputError
-        className="mb-4"
-        messages={name ? [errors?.[name]?.message as string] : []}
-      />
+
+      <InputError className="mb-4" messages={errorMessage} />
     </div>
   );
 };

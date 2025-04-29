@@ -17,7 +17,7 @@ import { useCigarStore } from "@/store";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 const AdditionalInfo = ({ params }: { params: CollectionPagesParams }) => {
   const { humidorId, cigarId } = params;
@@ -58,6 +58,7 @@ const AdditionalInfo = ({ params }: { params: CollectionPagesParams }) => {
         humidorId: humidorId,
         cigarId: cigarId,
       });
+      mutate(() => true, undefined, { revalidate: true });
       const redirectionUrl = `/collection/humidors/${humidorId}/cigars/${cigarId}/saved`;
       router.replace(redirectionUrl);
     } catch (error: any) {
