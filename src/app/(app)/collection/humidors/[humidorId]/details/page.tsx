@@ -70,12 +70,18 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
     );
   };
 
-  const renderCigarsList = () => (
-    <div className="flex-1 overflow-y-auto pb-5">
-      <CigarList cigars={humidorCigars} />
-      {renderSpinner(isCigarValidating)}
-    </div>
-  );
+  const renderCigarsList = () => {
+    return (
+      <>
+        {humidorCigars?.length > 0 && (
+          <div className="flex-1 overflow-y-auto pb-5">
+            <CigarList cigars={humidorCigars} />
+          </div>
+        )}
+        {renderSpinner(isCigarValidating)}
+      </>
+    );
+  };
 
   const renderCigarListView = () => {
     return (
@@ -104,7 +110,7 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
         {!isCigarValidating &&
           debouncedSearchQuery &&
           humidorCigars.length === 0 && (
-            <div className="h-full flex justify-center items-center flex-col text-center py-6">
+            <div className="h-full flex justify-center items-center flex-col text-center">
               <p className="text-base font-light">No cigars found.</p>
             </div>
           )}
