@@ -17,7 +17,7 @@ const AppHeader = ({
   userProfileClick,
 }: AppHeaderProps) => {
   return (
-    <header className="py-4 left-6 right-6 bg-white z-40">
+    <header className="pt-4 left-6 right-6 bg-white z-40">
       <div className="flex justify-between max-w-lg mx-auto">
         <div className="flex items-center">
           <Link href="/">

@@ -4,7 +4,12 @@ import React, { useEffect, useState } from "react";
 import collection from "@/apis/collection";
 import { CigarList, Container, DeleteModal, SearchInput } from "@/components";
 import HumidorCard from "@/components/HumidorCard";
-import { AddPlusIcon, FilterIcon } from "@/components/icons";
+import {
+  AddPlusIcon,
+  FilterIcon,
+  LeftArrowIcon,
+  RightArrowIcon,
+} from "@/components/icons";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { CollectionPagesParams } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
@@ -156,6 +161,20 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
   return (
     <Container>
       <div className="flex flex-col h-full relative">
+        <div className="flex justify-between mb-3">
+          <button
+            className="flex items-center font-bold text-xs text-gray-500"
+            onClick={() => router.back()}
+          >
+            <LeftArrowIcon /> <span className="ml-1.5">Back</span>
+          </button>
+          <button
+            className="flex items-center font-bold text-xs text-primary-100 disabled:opacity-50"
+            disabled
+          >
+            <span className="mr-1.5">Activity</span> <RightArrowIcon />
+          </button>
+        </div>
         <HumidorCard
           humidor={humidor}
           loading={isLoading}
