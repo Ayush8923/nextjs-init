@@ -39,7 +39,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
     <Container>
       <div className="flex flex-col h-full justify-between">
         <CigarInfo cigar={cigar} />
-        <div className="mt-9">
+        <div className="mt-9 -mx-6">
           <HumidorLocationInfo humidors={cigar?.humidors || []} />
         </div>
       </div>
