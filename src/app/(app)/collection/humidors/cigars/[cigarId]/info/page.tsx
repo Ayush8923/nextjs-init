@@ -1,11 +1,16 @@
 "use client";
 
+import React from "react";
 import collection from "@/apis/collection";
-import { BackButton, CigarInfo, Container } from "@/components";
+import {
+  BackButton,
+  CigarInfo,
+  Container,
+  HumidorLocationInfo,
+} from "@/components";
 import { useAuth } from "@/hooks/auth";
 import { CollectionPagesParams } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
-import React from "react";
 import useSWR from "swr";
 
 const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
@@ -32,7 +37,12 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
 
   return (
     <Container>
-      <CigarInfo cigar={cigar} />
+      <div className="flex flex-col h-full justify-between">
+        <CigarInfo cigar={cigar} />
+        <div className="mt-9">
+          <HumidorLocationInfo humidors={cigar?.humidors || []} />
+        </div>
+      </div>
     </Container>
   );
 };

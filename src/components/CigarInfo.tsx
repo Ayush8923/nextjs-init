@@ -10,7 +10,7 @@ type CigarInfoProps = {
 
 const CigarInfo = ({ cigar }: CigarInfoProps) => {
   return (
-    <>
+    <div>
       <BackButton />
       <div className="mt-6 mb-5 flex">
         <div className="flex-1 pr-4">
@@ -41,7 +41,7 @@ const CigarInfo = ({ cigar }: CigarInfoProps) => {
       </div>
 
       <hr className="border-gray-200" />
-      <Accordion title="Cigar Details">
+      <Accordion title="Cigar Details" defaultOpen>
         <div className="grid grid-cols-2 gap-6 pb-2">
           {/* Wrapper */}
           <div>
@@ -127,7 +127,7 @@ const CigarInfo = ({ cigar }: CigarInfoProps) => {
           disabled
         />
       </div>
-    </>
+    </div>
   );
 };
 

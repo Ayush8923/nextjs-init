@@ -30,7 +30,7 @@ export const getImagePreviewUrl = (
 export const formatDate = (dateString: string, isFullDate: boolean = false) => {
   const date = new Date(dateString);
 
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     return "Invalid Date";
   }
 
@@ -67,4 +67,15 @@ export const getQueryString = (params: RequestParams = {}) => {
   });
 
   return query.toString();
+};
+
+export const formatDisplayDate = (dateString: string) => {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "Invalid Date";
+
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = date.toLocaleString("en", { month: "short" });
+  const year = date.getFullYear();
+
+  return `${day} ${month}, ${year}`;
 };

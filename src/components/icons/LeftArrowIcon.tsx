@@ -1,21 +1,31 @@
 import React from "react";
 
-const LeftArrowIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="5"
-      height="8"
-      viewBox="0 0 5 8"
-      fill="none"
-    >
-      <path
-        d="M4.00049 7L1.09096 4.25121C0.97033 4.13729 0.97033 3.86302 1.09096 3.74879L4.00049 1"
-        stroke="#959595"
-        stroke-width="1.5"
-      />
-    </svg>
-  );
+type LeftArrowIconProps = {
+  width?: string;
+  height?: string;
+  color?: string;
+  className?: string;
 };
+
+const LeftArrowIcon = ({
+  width = "12",
+  height = "20",
+  color = "white",
+  className = "",
+}: LeftArrowIconProps) => (
+  <svg
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    viewBox="0 0 12 20"
+    fill="none"
+  >
+    <path
+      d="M1.84113 11.8123L10.1458 20L12 18.1748L3.68226 10L12 1.82519L10.1458 0L1.84113 8.18766L-9.53674e-07 10L1.84113 11.8123Z"
+      fill={color}
+    />
+  </svg>
+);
 
 export default LeftArrowIcon;
