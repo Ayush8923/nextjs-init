@@ -45,7 +45,7 @@ const HumidorLocationInfo = ({ humidors }: HumidorLocationInfoProps) => {
   }
 
   return (
-    <div className="bg-primary-100 text-white rounded p-6 w-full">
+    <div className="bg-primary-100 text-white p-6 w-full">
       <div className="text-xs font-light text-gray-500 mb-1">Humidor</div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-base font-medium leading-none">
