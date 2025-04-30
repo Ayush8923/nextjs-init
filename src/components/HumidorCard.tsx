@@ -26,7 +26,7 @@ interface HumidorCardProps {
 const HumidorSkeletonView = () => {
   return (
     <div className="-mx-[24px]">
-      <Skeleton className="h-[143px]" />
+      <Skeleton className="h-[143px] w-full" />
 
       <div className="px-6 pt-3 pb-6 bg-primary-100 text-white">
         <div className="flex justify-between items-center mb-4">
@@ -81,10 +81,10 @@ const HumidorCard = ({
           alt={humidor.name}
           width={143}
           height={143}
-          className="rounded-md mr-3 h-[143px]"
+          className="rounded-md mr-3 h-[143px] w-full"
         />
       ) : (
-        <div className="bg-primary-200 h-[143px]"></div>
+        <div className="bg-primary-200 h-[143px] w-full"></div>
       )}
       <div className="px-6 pt-3 pb-6 bg-primary-100 text-white">
         <div className="flex justify-between items-center">
