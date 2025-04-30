@@ -42,7 +42,7 @@ const CigarInfo = ({ cigar }: CigarInfoProps) => {
 
       <hr className="border-gray-200" />
       <Accordion title="Cigar Details">
-        <div className="grid grid-cols-2 gap-y-6 pb-2">
+        <div className="grid grid-cols-2 gap-6 pb-2">
           {/* Wrapper */}
           <div>
             <p className="text-xs font-light text-gray-500">Wrapper</p>
