@@ -33,3 +33,5 @@ export { default as AddPlusIcon } from "./AddPlusIcon";
 export { default as ShareIcon } from "./ShareIcon";
 export { default as FilterIcon } from "./FilterIcon";
 export { default as LeftArrowIcon } from "./LeftArrowIcon";
+export { default as SmokeIcon } from "./SmokeIcon";
+export { default as AccordionIcon } from "./AccordionIcon";

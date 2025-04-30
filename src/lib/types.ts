@@ -81,6 +81,7 @@ export type CigarData = {
   image_url: string;
   quantity: string;
   active_cigars_count?: string;
+  binder?: string;
 };
 
 export type AdminApiProps = {

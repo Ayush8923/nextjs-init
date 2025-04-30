@@ -9,6 +9,7 @@ interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   icon?: ReactNode;
+  trailingIcon?: ReactNode;
   [key: string]: any;
 }
 
@@ -20,7 +21,8 @@ const Button = ({
   onClick,
   disabled,
   loading = false,
-  icon,
+  icon: leadingIcon,
+  trailingIcon,
   ...props
 }: ButtonProps) => {
   const baseStyles =
@@ -45,10 +47,15 @@ const Button = ({
         <span className="loader border-2 border-t-transparent w-6 h-6 rounded-full animate-spin"></span>
       ) : (
         <>
-          {icon && (
-            <span className={`absolute left-6 ${iconClassName}`}>{icon}</span>
+          {leadingIcon && (
+            <span className={`absolute left-6 ${iconClassName}`}>
+              {leadingIcon}
+            </span>
           )}
-          <span className="mx-auto">{title}</span>
+          <span className="mx-auto flex items-center gap-2">
+            {trailingIcon && <span>{trailingIcon}</span>}
+            <span>{title}</span>
+          </span>
         </>
       )}
     </button>

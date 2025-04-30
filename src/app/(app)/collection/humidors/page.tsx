@@ -71,7 +71,12 @@ const HumidorsList = () => {
 
   const renderCigarsList = () => (
     <div className="flex-1 overflow-y-auto pb-10">
-      <CigarList cigars={cigarListData} />
+      <CigarList
+        cigars={cigarListData}
+        onCigarSelected={(id: number) =>
+          router.push(`/collection/humidors/cigars/${id}/info`)
+        }
+      />
       {renderSpinner(isCigarValidating)}
     </div>
   );

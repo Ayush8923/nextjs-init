@@ -2,14 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import collection from "@/apis/collection";
-import { CigarList, Container, DeleteModal, SearchInput } from "@/components";
-import HumidorCard from "@/components/HumidorCard";
 import {
-  AddPlusIcon,
-  FilterIcon,
-  LeftArrowIcon,
-  RightArrowIcon,
-} from "@/components/icons";
+  BackButton,
+  CigarList,
+  Container,
+  DeleteModal,
+  SearchInput,
+} from "@/components";
+import HumidorCard from "@/components/HumidorCard";
+import { AddPlusIcon, FilterIcon, RightArrowIcon } from "@/components/icons";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { CollectionPagesParams } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
@@ -80,7 +81,12 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
       <>
         {humidorCigars?.length > 0 && (
           <div className="flex-1 overflow-y-auto pb-5">
-            <CigarList cigars={humidorCigars} />
+            <CigarList
+              cigars={humidorCigars}
+              onCigarSelected={(id: number) =>
+                router.push(`/collection/humidors/cigars/${id}/info`)
+              }
+            />
           </div>
         )}
         {renderSpinner(isCigarValidating)}
@@ -162,12 +168,7 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
     <Container>
       <div className="flex flex-col h-full relative">
         <div className="flex justify-between mb-3">
-          <button
-            className="flex items-center font-bold text-xs text-gray-500"
-            onClick={() => router.back()}
-          >
-            <LeftArrowIcon /> <span className="ml-1.5">Back</span>
-          </button>
+          <BackButton />
           <button
             className="flex items-center font-bold text-xs text-primary-100 disabled:opacity-50"
             disabled

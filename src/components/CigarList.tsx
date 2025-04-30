@@ -7,14 +7,19 @@ import { CigarThumbnailIcon } from "./icons";
 
 type CigarListProps = {
   cigars: CigarData[];
+  onCigarSelected: (_id: number) => void;
 };
 
-const CigarList = ({ cigars }: CigarListProps) => {
+const CigarList = ({ cigars, onCigarSelected }: CigarListProps) => {
   if (!(cigars.length > 0)) {
     return;
   }
   return cigars.map((cigar: CigarData) => (
-    <div key={cigar.id} className="flex items-center space-x-4 mb-4">
+    <div
+      key={cigar.id}
+      className="flex items-center space-x-4 mb-4 cursor-pointer hover:bg-gray-50 rounded-sm transition"
+      onClick={() => onCigarSelected(cigar?.id)}
+    >
       {cigar?.image_url ? (
         <Image
           src={cigar.image_url}
