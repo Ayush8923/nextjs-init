@@ -1,30 +1,38 @@
 "use client";
 
-import collection from "@/apis/collection";
+import React from "react";
 import { Container } from "@/components";
 import { PAGINATION_SIZE } from "@/lib/common";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
 import useSWR from "swr";
+import collection from "@/apis/collection";
+
+interface HumidorResponse {
+  data: any[];
+}
 
 const Collection = () => {
   const router = useRouter();
-  const { data: humidors, error } = useSWR(
+
+  useSWR(
     { page: 1, limit: PAGINATION_SIZE },
     (params) => collection.getHumidors(params),
-    { revalidateOnMount: true }
-  );
-  const isLoading = !humidors && !error;
-
-  useEffect(() => {
-    if (!isLoading && humidors && Array.isArray(humidors.data)) {
-      if (humidors?.data?.length > 0) {
-        router.replace("/collection/humidors");
-      } else {
+    {
+      dedupingInterval: 0,
+      onSuccess: (data) => redirectToHumidor(data),
+      onError: () => {
         router.replace("/collection/humidors/add");
-      }
+      },
     }
-  }, [isLoading, humidors, router]);
+  );
+
+  const redirectToHumidor = (humidors: HumidorResponse) => {
+    if (humidors?.data?.length > 0) {
+      router.replace("/collection/humidors");
+    } else {
+      router.replace("/collection/humidors/add");
+    }
+  };
 
   return (
     <Container>
