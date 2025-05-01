@@ -81,7 +81,7 @@ const HumidorCard = ({
           alt={humidor.name}
           width={143}
           height={143}
-          className="rounded-md mr-3 h-[143px] w-full"
+          className="mr-3 h-[143px] w-full"
         />
       ) : (
         <div className="bg-primary-200 h-[143px] w-full"></div>
