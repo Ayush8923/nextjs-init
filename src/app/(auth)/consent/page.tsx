@@ -35,6 +35,8 @@ const ConsentContent = ({
     const age = calculateAge(dob);
 
     // Save the user date of birth in a cookie
+    // eslint-disable-next-line no-console
+    console.log(dob, "==>consent");
     createCookie("DOB", dob);
     const isOfEligibleAge = age >= AGE_LIMIT;
 
