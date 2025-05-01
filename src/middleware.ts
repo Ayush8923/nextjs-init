@@ -6,6 +6,8 @@ const GUEST_ROUTES = ["/no-access", "/sign-up"];
 
 export function middleware(request: NextRequest) {
   const dob = request.cookies.get("DOB")?.value;
+  // eslint-disable-next-line no-console
+  console.log(dob, "==>dob")
   const age = dob ? calculateAge(dob) : null;
   const { pathname } = request.nextUrl;
 
@@ -14,7 +16,7 @@ export function middleware(request: NextRequest) {
   }
 
   // eslint-disable-next-line no-console
-  console.log(!dob, pathname, "==> from middleware");
+  console.log(!dob, pathname, GUEST_ROUTES, "==> from middleware");
   if (!dob && GUEST_ROUTES.includes(pathname)) {
     return NextResponse.redirect(new URL("/consent", request.url));
   }
