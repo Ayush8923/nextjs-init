@@ -11,12 +11,13 @@ const Collection = () => {
   const router = useRouter();
   const { data: humidors, error } = useSWR(
     { page: 1, limit: PAGINATION_SIZE },
-    (params) => collection.getHumidors(params)
+    (params) => collection.getHumidors(params),
+    { revalidateOnMount: true }
   );
   const isLoading = !humidors && !error;
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && humidors && Array.isArray(humidors.data)) {
       if (humidors?.data?.length > 0) {
         router.replace("/collection/humidors");
       } else {
