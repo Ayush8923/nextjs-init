@@ -5,7 +5,7 @@ import {
   Button,
   CigarInfoSection,
   Container,
-  CustomTooltip,
+  CustomPopover,
   DateInput,
   InputError,
 } from "@/components";
@@ -87,7 +87,7 @@ const AdditionalInfo = ({ params }: { params: CollectionPagesParams }) => {
         <div className="flex justify-between items-center mt-6">
           <div className="flex items-center">
             <div className="text-base font-extralight">Other Information</div>
-            <CustomTooltip content="Rate your cigar experience from 1 to 5 stars based on your satisfaction level." />
+            <CustomPopover content="Rate your cigar experience from 1 to 5 stars based on your satisfaction level." />
           </div>
           <div className="font-extralight text-base">{`${totalSteps}/${totalSteps}`}</div>
         </div>
@@ -99,6 +99,7 @@ const AdditionalInfo = ({ params }: { params: CollectionPagesParams }) => {
               placeholder="Added to humidor on"
               register={register}
               errors={errors}
+              control={control}
               required
               requiredMessage={"Added to humidor on is required"}
             />

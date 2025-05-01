@@ -5,7 +5,7 @@ import {
   Button,
   CigarInfoSection,
   Container,
-  CustomTooltip,
+  CustomPopover,
   InputField,
 } from "@/components";
 import { CigarDetailsFormData, CollectionPagesParams } from "@/lib/types";
@@ -65,7 +65,7 @@ const CigarDetails = ({ params }: { params: CollectionPagesParams }) => {
             <div className="text-base font-extralight">
               Add Pricing & Quantity
             </div>
-            <CustomTooltip content="Enter the number of cigars and their price. Quantity is required, price is optional." />
+            <CustomPopover content="Enter the number of cigars and their price. Quantity is required, price is optional." />
           </div>
           <div className="font-extralight text-base">{`${currentStep}/${totalSteps}`}</div>
         </div>

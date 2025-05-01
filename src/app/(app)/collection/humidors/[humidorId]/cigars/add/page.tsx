@@ -4,7 +4,7 @@ import collection from "@/apis/collection";
 import {
   Button,
   Container,
-  CustomTooltip,
+  CustomPopover,
   Dropdown,
   ImageUploader,
   InputError,
@@ -105,7 +105,7 @@ const CigarsAdd = ({ params }: { params: CollectionPagesParams }) => {
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
             <div className="text-base font-extralight">Add Cigar Details</div>
-            <CustomTooltip content="Provide specific details about the cigar you are adding, such as the brand, size, wrapper type, origin, and any other distinguishing characteristics." />
+            <CustomPopover content="Provide specific details about the cigar you are adding, such as the brand, size, wrapper type, origin, and any other distinguishing characteristics." />
           </div>
           <div className="font-extralight text-base">2/4</div>
         </div>

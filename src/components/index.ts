@@ -19,7 +19,7 @@ export { default as LoadingOverlay } from "./LoadingOverlay";
 export { default as Pagination } from "./Pagination";
 export { default as LandingSection } from "./LandingSection";
 export { default as Dropdown } from "./Dropdown";
-export { default as CustomTooltip } from "./Tooltip";
+export { default as CustomPopover } from "./CustomPopover";
 export { default as LoadingSkeleton } from "./LoadingSkeleton";
 export { default as SearchInput } from "./SearchInput";
 export { default as CigarInfoSection } from "./CigarInfoSection";

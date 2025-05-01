@@ -1,6 +1,10 @@
 import React from "react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import { format } from "date-fns";
+import "react-datepicker/dist/react-datepicker.css";
+import { FieldErrors, UseFormRegister, Controller } from "react-hook-form";
 import InputError from "./InputError";
+import { CalendarIcon } from "./icons";
 
 interface DateInputProps {
   name: string;
@@ -10,26 +14,50 @@ interface DateInputProps {
   defaultValue?: string;
   errors?: FieldErrors;
   requiredMessage?: string;
+  control: any;
+  dateFormat?: string;
 }
 
 const DateInput = ({
   name,
   placeholder,
-  register,
   required = false,
   errors,
   requiredMessage = "This Field is required.",
+  control,
+  dateFormat = "MM-dd-yyyy",
 }: DateInputProps) => {
-  const today = new Date().toISOString().split("T")[0];
+  const maxDate = new Date();
+
   return (
-    <div>
-      <input
-        type="date"
-        placeholder={placeholder}
-        max={today}
-        className="w-full p-2.5 border border-gray-300 rounded text-gray-600 appearance-none"
-        {...register(name, required ? { required: requiredMessage } : {})}
+    <div className="relative w-full">
+      <Controller
+        name={name}
+        control={control}
+        rules={required ? { required: requiredMessage } : {}}
+        render={({ field }) => (
+          <DatePicker
+            placeholderText={placeholder || dateFormat}
+            selected={field.value ? new Date(field.value) : null}
+            onChange={(date) => {
+              const formatted = date ? format(date, dateFormat) : "";
+              field.onChange(formatted);
+            }}
+            maxDate={maxDate}
+            dateFormat={dateFormat}
+            className="w-full p-2.5 pr-10 border border-gray-300 rounded text-gray-600"
+            wrapperClassName="w-full"
+            showYearDropdown
+            scrollableYearDropdown
+            showMonthDropdown
+            scrollableMonthYearDropdown
+            yearDropdownItemNumber={100}
+          />
+        )}
       />
+      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+        <CalendarIcon />
+      </div>
       <InputError messages={name ? [errors?.[name]?.message as string] : []} />
     </div>
   );

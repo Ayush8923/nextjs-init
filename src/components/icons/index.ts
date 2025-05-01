@@ -37,3 +37,4 @@ export { default as SmokeIcon } from "./SmokeIcon";
 export { default as AccordionIcon } from "./AccordionIcon";
 export { default as LeftArrowIcon } from "./LeftArrowIcon";
 export { default as DeleteIcon } from "./DeleteIcon";
+export { default as CalendarIcon } from "./CalendarIcon";

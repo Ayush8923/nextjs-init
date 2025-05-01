@@ -17,6 +17,7 @@ const ConsentContent = ({
   const {
     register,
     handleSubmit,
+    control,
     watch,
     formState: { errors },
   } = useForm<ConsentFormData>();
@@ -78,6 +79,7 @@ const ConsentContent = ({
               placeholder="Date of Birth"
               register={register}
               errors={errors}
+              control={control}
               required
               requiredMessage={"Date of Birth on is required"}
             />

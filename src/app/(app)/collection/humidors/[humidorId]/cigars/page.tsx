@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button, Container, CustomTooltip, SearchInput } from "@/components";
+import { Button, Container, CustomPopover, SearchInput } from "@/components";
 import useSWRInfinite from "swr/infinite";
 import admin from "@/apis/admin";
 import { PAGINATION_SIZE } from "@/lib/common";
@@ -168,7 +168,7 @@ const CigarsList = ({ params }: { params: CollectionPagesParams }) => {
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center">
               <div className="text-base font-extralight">Select a Cigar</div>
-              <CustomTooltip content="Use the search bar to quickly find a cigars, or scroll through the list to select one." />
+              <CustomPopover content="Use the search bar to quickly find a cigars, or scroll through the list to select one." />
             </div>
             <div className="font-extralight text-base">{`1/${cigars.length > 0 ? 3 : 4}`}</div>
           </div>
