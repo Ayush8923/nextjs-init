@@ -38,7 +38,7 @@ const CustomPopover = ({ content, loading = false }: CustomPopoverProps) => {
           side="top"
           sideOffset={5}
           align="center"
-          className="z-50 max-w-[90vw] sm:max-w-xs break-words rounded-md bg-primary-100 text-white px-3 py-2 text-sm shadow-md"
+          className="z-50 max-w-[90vw] sm:max-w-xs break-words rounded-md bg-primary-100 text-white px-3 py-2 text-sm shadow-md outline-none focus:outline-none focus:ring-0"
         >
           {content}
           <Popover.Arrow className="fill-primary-100" />
