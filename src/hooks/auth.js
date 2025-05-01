@@ -139,6 +139,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         return null;
       } finally {
         await removeCookie("authToken");
+        await removeCookie("DOB");
       }
     }
 

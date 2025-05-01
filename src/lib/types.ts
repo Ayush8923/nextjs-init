@@ -163,6 +163,7 @@ export type UserData = {
   last_name: string;
   profile_handle: string;
   profile_image_url: string;
+  dob: string;
 };
 
 export type CollectionPagesParams = {

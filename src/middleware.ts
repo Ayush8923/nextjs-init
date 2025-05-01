@@ -6,8 +6,6 @@ const GUEST_ROUTES = ["/no-access", "/sign-up"];
 
 export function middleware(request: NextRequest) {
   const dob = request.cookies.get("DOB")?.value;
-  // eslint-disable-next-line no-console
-  console.log(request.cookies, dob, "==>dob");
   const age = dob ? calculateAge(dob) : null;
   const { pathname } = request.nextUrl;
 
@@ -15,8 +13,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
-  // eslint-disable-next-line no-console
-  console.log(!dob, pathname, GUEST_ROUTES, "==> from middleware");
   if (!dob && GUEST_ROUTES.includes(pathname)) {
     return NextResponse.redirect(new URL("/consent", request.url));
   }

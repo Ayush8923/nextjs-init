@@ -117,7 +117,11 @@ const HumidorCard = ({
           <div className="border border-gray-500 rounded-xl w-full p-2">
             <p className="text-gray-500 text-xs font-light">Status</p>
             <p className="text-white font-normal text-xl mt-1">
-              {humidor?.percentage_filled || 0}%
+              {(humidor?.capacity &&
+                (humidor?.percentage_filled > 100
+                  ? "Overfilled"
+                  : `(${humidor?.percentage_filled}% filled)`)) ||
+                0 + "%"}
             </p>
           </div>
           <div className="border border-gray-500 rounded-xl w-full p-2">

@@ -2,14 +2,25 @@
 
 import { Button } from "@/components";
 import { useAuth } from "@/hooks/auth";
+import { getCookie } from "@/lib/common";
+import { createCookie } from "@/lib/cookieService";
+import { UserData } from "@/lib/types";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const WelcomeMessage = () => {
   const router = useRouter();
   const { user } = useAuth({
     middleware: "auth",
     redirectIfAuthenticated: "/dashboard",
-  });
+  }) as unknown as { user: UserData };
+
+  useEffect(() => {
+    const hasDOBInCookie = getCookie("DOB");
+    if (user?.dob && !hasDOBInCookie) {
+      createCookie("DOB", user.dob);
+    }
+  }, [user]);
 
   return (
     <div className="flex flex-col justify-center items-center h-full">

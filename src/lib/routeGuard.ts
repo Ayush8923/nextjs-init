@@ -52,15 +52,6 @@ export function handleAuthRedirect({
 
   if (pathname === "/consent") return;
 
-  // eslint-disable-next-line no-console
-  console.log(
-    isGuestOrAuthMiddleware(middleware),
-    user,
-    !user?.dob,
-    !hasDOBInCookie(),
-    !isLegalAge,
-    "==>From routeGuard Method"
-  );
   if (
     isGuestOrAuthMiddleware(middleware) &&
     user &&
