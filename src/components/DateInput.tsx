@@ -1,6 +1,5 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import { FieldErrors, UseFormRegister, Controller } from "react-hook-form";
 import InputError from "./InputError";
@@ -38,10 +37,14 @@ const DateInput = ({
         render={({ field }) => (
           <DatePicker
             placeholderText={placeholder || dateFormat}
-            selected={field.value ? new Date(field.value) : null}
+            selected={
+              field.value && !isNaN(Date.parse(field.value))
+                ? new Date(field.value)
+                : null
+            }
             onChange={(date) => {
-              const formatted = date ? format(date, dateFormat) : "";
-              field.onChange(formatted);
+              const formattedDate = date?.toISOString().split("T")[0] ?? "";
+              field.onChange(formattedDate);
             }}
             maxDate={maxDate}
             dateFormat={dateFormat}

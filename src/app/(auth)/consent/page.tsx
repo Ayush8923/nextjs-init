@@ -4,8 +4,7 @@ import React, { Suspense, useState } from "react";
 import Button from "@/components/Button";
 import { useForm } from "react-hook-form";
 import { ConsentFormData } from "@/lib/types";
-import { createCookie } from "@/lib/cookieService";
-import { AGE_LIMIT, calculateAge, getCookie } from "@/lib/common";
+import { AGE_LIMIT, calculateAge, createCookie, getCookie } from "@/lib/common";
 import { DateInput, InputError, LoadingOverlay } from "@/components";
 import { useAuth } from "@/hooks/auth";
 
@@ -36,7 +35,7 @@ const ConsentContent = ({
     const age = calculateAge(dob);
 
     // Save the user date of birth in a cookie
-    await createCookie("DOB", dob);
+    createCookie("DOB", dob);
     const isOfEligibleAge = age >= AGE_LIMIT;
 
     // If the user is 21 or older, redirect to the sign-up page

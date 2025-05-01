@@ -14,6 +14,12 @@ export const calculateAge = (dob: string): number => {
   return age;
 };
 
+export function createCookie(key: string, value: string, days = 7) {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${key}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+}
+
 export const getCookie = (name: string) => {
   const cookies = document.cookie.split("; ");
   const cookie = cookies.find((c) => c.startsWith(`${name}=`));
