@@ -7,7 +7,7 @@ const GUEST_ROUTES = ["/no-access", "/sign-up"];
 export function middleware(request: NextRequest) {
   const dob = request.cookies.get("DOB")?.value;
   // eslint-disable-next-line no-console
-  console.log(dob, "==>dob")
+  console.log(request.cookies, dob, "==>dob")
   const age = dob ? calculateAge(dob) : null;
   const { pathname } = request.nextUrl;
 
