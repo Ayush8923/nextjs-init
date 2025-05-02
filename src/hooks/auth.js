@@ -143,7 +143,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       }
     }
 
-    window.location.href = redirectUrl;
+    window.location.replace(redirectUrl);
   };
 
   const socialLogin = (provider) => {
