@@ -74,6 +74,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         id={`${name}-gallery`}
         accept="image/*"
         className="hidden"
+        capture="user"
         {...register(
           name,
           isRequired ? { required: `${label} is required` } : {}
