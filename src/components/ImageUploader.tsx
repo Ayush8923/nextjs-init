@@ -66,6 +66,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         id={name}
         className="hidden"
         accept="image/*"
+        capture="environment"
         {...register(
           name,
           isRequired ? { required: `${label} is required` } : {}
