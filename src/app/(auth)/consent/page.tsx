@@ -50,7 +50,7 @@ const ConsentContent = () => {
     if (hasTokenInCookie && isOfEligibleAge && hasDOBInCookie) {
       try {
         await updateDob({ dob: hasDOBInCookie });
-        window.location.href = "/dashboard";
+        window.location.replace("/dashboard");
       } catch (error: any) {
         if (error.response.status !== 422) throw error;
         setErrors(error.response.data.errors);

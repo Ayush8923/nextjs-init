@@ -42,7 +42,7 @@ const profileImageUpdate = async ({
     .post("/api/profile/image", profileDetailsFormData)
     .then((res) => {
       res.data;
-      window.location.href = "/dashboard";
+      window.location.replace("/dashboard");
     })
     .catch((error) => {
       if (error.response.status !== 422) throw error;
