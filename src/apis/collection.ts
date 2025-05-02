@@ -168,6 +168,11 @@ const deleteHumidor = async (humidorId: number) => {
   return response?.data;
 };
 
+const deleteCigarFromHumidor = async (cigarId: number) => {
+  const response = await axios.delete(`/api/humidor-cigar/${cigarId}`);
+  return response?.data;
+};
+
 export default {
   createHumidor,
   getHumidors,
@@ -179,4 +184,5 @@ export default {
   getHumidorById,
   getHumidorCigars,
   deleteHumidor,
+  deleteCigarFromHumidor,
 };

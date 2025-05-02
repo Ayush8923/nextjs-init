@@ -132,7 +132,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     if (!error) {
       try {
         await axios.post("/logout");
-        mutate(null, false);
+        mutate();
       } catch (error) {
         if (error.response.status !== 409) throw error;
 
@@ -150,21 +150,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/${provider}`;
   };
 
-  const updateDob = async ({ setErrors, setIsLoading, ...props }) => {
-    axios
-      .post("/api/profile/dob", props)
-      .then((res) => {
-        res.data;
-        window.location.href = "/dashboard";
-      })
-      .catch((error) => {
-        if (error.response.status !== 422) throw error;
-
-        setErrors(error.response.data.errors);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+  const updateDob = async ({ ...props }) => {
+    const response = await axios.post("/api/profile/dob", props);
+    return response?.data;
   };
 
   const isLoading = user === undefined && !error;

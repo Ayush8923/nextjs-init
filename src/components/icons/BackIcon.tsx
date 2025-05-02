@@ -22,7 +22,7 @@ const BackIcon = ({
       <path
         d="M4.00049 7L1.09096 4.25121C0.97033 4.13729 0.97033 3.86302 1.09096 3.74879L4.00049 1"
         stroke={color}
-        stroke-width="1.5"
+        strokeWidth="1.5"
       />
     </svg>
   );

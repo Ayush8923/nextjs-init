@@ -16,7 +16,7 @@ import { CollectionPagesParams } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
-import { useHumidorCigars } from "@/app/(app)/collection/hooks/useHumidorCigars";
+import { useHumidorCigars } from "@/app/(app)/collection/hooks";
 
 const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
   const { humidorId } = params;
@@ -25,11 +25,13 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
   const [hasDeleteModal, setHasDeleteModal] = useState(false);
   const [isApiLoading, setIsApiLoading] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [isHumidorDataLoading, setIsHumidorDataLoading] = useState(true);
   const debouncedSearchQuery = useDebouncedValue(searchQuery);
-  const { data: humidor, error } = useSWR(`/api/humidors/${humidorId}`, () =>
-    collection.getHumidorById(humidorId)
+  const { data: humidor } = useSWR(
+    `/api/humidors/${humidorId}`,
+    () => collection.getHumidorById(humidorId),
+    { onSuccess: () => setIsHumidorDataLoading(false) }
   );
-  const isLoading = !humidor && !error;
 
   const {
     cigars: humidorCigars,
@@ -178,7 +180,7 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
         </div>
         <HumidorCard
           humidor={humidor}
-          loading={isLoading}
+          loading={isHumidorDataLoading}
           handleShareCollection={handleShareCollection}
         />
 

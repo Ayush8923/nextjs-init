@@ -27,11 +27,11 @@ const Collection = () => {
   );
 
   const redirectToHumidor = (humidors: HumidorResponse) => {
-    if (humidors?.data?.length > 0) {
-      router.replace("/collection/humidors");
-    } else {
-      router.replace("/collection/humidors/add");
-    }
+    router.replace(
+      humidors?.data?.length > 0
+        ? "/collection/humidors"
+        : "/collection/humidors/add"
+    );
   };
 
   return (

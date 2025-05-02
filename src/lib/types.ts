@@ -82,6 +82,8 @@ export type CigarData = {
   quantity: string;
   active_cigars_count?: string;
   binder?: string;
+  added_at?: string;
+  price?: string;
 };
 
 export type AdminApiProps = {
@@ -122,6 +124,7 @@ export type HumidorsData = {
   capacity: number;
   cigars_count: number;
   percentage_filled: number;
+  humidor_cigars: CigarData[];
 };
 
 export type CigarDetailsFormData = {

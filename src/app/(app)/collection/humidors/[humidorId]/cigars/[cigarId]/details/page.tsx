@@ -13,9 +13,8 @@ import { collectionValidationRules } from "@/lib/validations/collectionValidatio
 import { useCigarStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import collection from "@/apis/collection";
-import useSWR from "swr";
 import { useAuth } from "@/hooks/auth";
+import { useCigar } from "@/app/(app)/collection/hooks";
 
 const CigarDetails = ({ params }: { params: CollectionPagesParams }) => {
   const {
@@ -25,11 +24,7 @@ const CigarDetails = ({ params }: { params: CollectionPagesParams }) => {
   } = useForm<CigarDetailsFormData>();
   const { user } = useAuth({ middleware: "auth" });
   const { humidorId, cigarId } = params;
-  const { data: cigar, error } = useSWR(
-    `/api/users/${user?.id}/cigars/${cigarId}`,
-    () => collection.getCigarById(user, cigarId)
-  );
-  const isLoading = !cigar && !error;
+  const { cigar, isLoading } = useCigar({ user, cigarId });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { setCigarDetails, flowType } = useCigarStore();

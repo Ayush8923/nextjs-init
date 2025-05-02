@@ -1,6 +1,7 @@
 "use client";
 
 import collection from "@/apis/collection";
+import { useCigar } from "@/app/(app)/collection/hooks";
 import {
   Button,
   CigarInfoSection,
@@ -17,7 +18,7 @@ import { useCigarStore } from "@/store";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import useSWR, { mutate } from "swr";
+import { mutate } from "swr";
 
 const AdditionalInfo = ({ params }: { params: CollectionPagesParams }) => {
   const { humidorId, cigarId } = params;
@@ -32,11 +33,7 @@ const AdditionalInfo = ({ params }: { params: CollectionPagesParams }) => {
       addedAt: todayAsDateInputValue(),
     },
   });
-  const { data: cigar, error: cigarError } = useSWR(
-    `/api/users/${user?.id}/cigars/${cigarId}`,
-    () => collection.getCigarById(user, cigarId)
-  );
-  const hasApiLoading = !cigar && !cigarError;
+  const { cigar, isLoading: hasApiLoading } = useCigar({ user, cigarId });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>([]);
   const router = useRouter();

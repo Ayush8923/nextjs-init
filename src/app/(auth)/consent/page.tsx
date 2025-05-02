@@ -8,11 +8,7 @@ import { AGE_LIMIT, calculateAge, createCookie, getCookie } from "@/lib/common";
 import { DateInput, InputError, LoadingOverlay } from "@/components";
 import { useAuth } from "@/hooks/auth";
 
-const ConsentContent = ({
-  setIsApiLoading,
-}: {
-  setIsApiLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const ConsentContent = () => {
   const {
     register,
     handleSubmit,
@@ -52,11 +48,21 @@ const ConsentContent = ({
     const hasDOBInCookie = getCookie("DOB");
 
     if (hasTokenInCookie && isOfEligibleAge && hasDOBInCookie) {
-      await updateDob({ dob: hasDOBInCookie, setErrors, setIsLoading });
+      try {
+        await updateDob({ dob: hasDOBInCookie });
+        window.location.href = "/dashboard";
+      } catch (error: any) {
+        if (error.response.status !== 422) throw error;
+        setErrors(error.response.data.errors);
+      } finally {
+        setIsLoading(false);
+      }
     } else {
-      window.location.href = destination;
+      setTimeout(() => {
+        setIsLoading(false);
+        window.location.href = destination;
+      }, 1000);
     }
-    setIsApiLoading(false);
   };
 
   return (
@@ -99,12 +105,10 @@ const ConsentContent = ({
 };
 
 const Page = () => {
-  const [isApiLoading, setIsApiLoading] = useState(false);
   return (
     <>
-      <LoadingOverlay isLoading={isApiLoading} />
       <Suspense fallback={<LoadingOverlay isLoading={true} />}>
-        <ConsentContent setIsApiLoading={setIsApiLoading} />
+        <ConsentContent />
       </Suspense>
     </>
   );

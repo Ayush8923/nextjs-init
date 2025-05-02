@@ -3,25 +3,17 @@
 import React, { useState } from "react";
 import { DeleteIcon, LeftArrowIcon, RightArrowIcon } from "./icons";
 import { formatDisplayDate } from "@/lib/common";
-
-interface HumidorCigar {
-  id: number;
-  added_at: string;
-  price: number | null;
-}
-
-interface Humidor {
-  id: number;
-  name: string;
-  humidor_cigars: HumidorCigar[];
-  cigars_count: number;
-}
+import { CigarData, HumidorsData } from "@/lib/types";
 
 interface HumidorLocationInfoProps {
-  humidors: Humidor[];
+  humidors: HumidorsData[];
+  onCigarDelete: (_cigar: CigarData, _humidor: HumidorsData) => void;
 }
 
-const HumidorLocationInfo = ({ humidors }: HumidorLocationInfoProps) => {
+const HumidorLocationInfo = ({
+  humidors,
+  onCigarDelete,
+}: HumidorLocationInfoProps) => {
   const [currentHumidorIndex, setCurrentHumidorIndex] = useState(0);
 
   const currentHumidor = humidors[currentHumidorIndex];
@@ -85,14 +77,17 @@ const HumidorLocationInfo = ({ humidors }: HumidorLocationInfoProps) => {
                 {index + 1}.
               </span>
               <span className="font-light text-xs leading-none">
-                {formatDisplayDate(cigar.added_at)}
+                {cigar.added_at ? formatDisplayDate(cigar.added_at) : "-"}
               </span>
             </div>
             <div className="flex items-center">
               <span className="font-light text-xs mr-[26px]">
                 {cigar?.price ? "$" + cigar.price : "N/A"}
               </span>
-              <button className="cursor-not-allowed opacity-50">
+              <button
+                className="cursor-pointer"
+                onClick={() => onCigarDelete(cigar, currentHumidor)}
+              >
                 <DeleteIcon />
               </button>
             </div>
