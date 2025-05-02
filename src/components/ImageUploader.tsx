@@ -34,20 +34,21 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
 
-    if (file.size > maxFileSize) {
-      setFileError("File size exceeds the 10MB limit.");
-      setImagePreview(null);
-      if (setSelectedFile) {
-        setSelectedFile(null);
-      }
-    } else {
-      setFileError(null);
-      const imageUrl = URL.createObjectURL(file);
-      setImagePreview(imageUrl);
-      if (setSelectedFile) {
-        setSelectedFile(file);
+    if (file) {
+      if (file.size > maxFileSize) {
+        setFileError("File size exceeds the 10MB limit.");
+        setImagePreview(null);
+        if (setSelectedFile) {
+          setSelectedFile(null);
+        }
+      } else {
+        setFileError(null);
+        const imageUrl = URL.createObjectURL(file);
+        setImagePreview(imageUrl);
+        if (setSelectedFile) {
+          setSelectedFile(file);
+        }
       }
     }
   };
@@ -59,22 +60,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     );
 
   return (
-    <div className="flex flex-col items-center space-y-2">
+    <div className="flex flex-col items-center">
       <input
         type="file"
-        id={`${name}-camera`}
-        accept="image/*"
-        capture="environment"
+        id={name}
         className="hidden"
-        onChange={handleFileChange}
-      />
-
-      <input
-        type="file"
-        id={`${name}-gallery`}
         accept="image/*"
-        className="hidden"
-        capture="user"
         {...register(
           name,
           isRequired ? { required: `${label} is required` } : {}
@@ -82,26 +73,19 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         onChange={handleFileChange}
       />
 
-      <div className="flex gap-2">
-        <label htmlFor={`${name}-camera`} className="btn">
-          Take Photo
-        </label>
-        <label htmlFor={`${name}-gallery`} className="btn">
-          Choose from Gallery
-        </label>
-      </div>
-
-      {imagePreview ? (
-        <Image
-          src={imagePreview}
-          alt="Profile"
-          className="w-full h-full object-cover"
-          width={imageWidth}
-          height={imageHeight}
-        />
-      ) : (
-        <span className="text-3xl text-gray-500">+</span>
-      )}
+      <label htmlFor={name} className={labelClassName}>
+        {imagePreview ? (
+          <Image
+            src={imagePreview}
+            alt="Profile"
+            className="w-full h-full object-cover"
+            width={imageWidth}
+            height={imageHeight}
+          />
+        ) : (
+          <span className="text-3xl text-gray-500">+</span>
+        )}
+      </label>
 
       <InputError className="mb-4" messages={errorMessage} />
     </div>
