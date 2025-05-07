@@ -73,7 +73,7 @@ const AdditionalInfo = ({ params }: { params: CollectionPagesParams }) => {
 
           <CigarInfoSection
             name={cigar?.name || ""}
-            image=""
+            image={cigar?.image_url || ""}
             manufacturer={cigar?.manufacturer || ""}
             origin={cigar?.origin || ""}
             rating={cigar?.rating || ""}
