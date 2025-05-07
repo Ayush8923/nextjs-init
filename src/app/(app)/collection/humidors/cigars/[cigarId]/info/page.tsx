@@ -59,7 +59,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
     setIsMutating(true);
     try {
       await collection.deleteCigarFromHumidor(selectedCigar.cigar.id);
-      mutate();
+      await mutate();
     } catch (error: any) {
       if (error.response?.status !== 422) throw error;
     } finally {
@@ -79,7 +79,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
     setIsMutating(true);
     try {
       await collection.finishCigar(selectedCigar.cigar.id);
-      mutate();
+      await mutate();
     } catch (error: any) {
       if (error.response?.status !== 422) throw error;
     } finally {
