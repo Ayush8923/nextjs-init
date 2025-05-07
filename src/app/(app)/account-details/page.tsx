@@ -11,7 +11,6 @@ import {
 import account from "@/apis/account";
 import { useAuth } from "@/hooks/auth";
 import { AccountDetailsFormData, CountryData } from "@/lib/types";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { profileValidationRules } from "@/lib/validations/profileValidation";
@@ -76,7 +75,6 @@ const Page = () => {
   });
   const [error, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -94,19 +92,29 @@ const Page = () => {
   const selectedCountry = watch("country") as unknown as CountryData;
 
   const onSubmit = async (data: AccountDetailsFormData) => {
-    account.profileUpdate({
-      setErrors,
-      setIsLoading,
-      router,
-      first_name: data.firstName,
-      middle_name: data.middleName,
-      last_name: data.lastName,
-      country: data.country?.name,
-      state: data.state?.name,
-      phone: data.phoneNumber,
-      suffix: data.suffix,
-      referred_by: data.referredBy,
-    });
+    setIsLoading(true);
+    setErrors({});
+    try {
+      await account.profileUpdate({
+        first_name: data.firstName,
+        middle_name: data.middleName,
+        last_name: data.lastName,
+        country: data.country?.name,
+        state: data.state?.name,
+        phone: data.phoneNumber,
+        suffix: data.suffix,
+        referred_by: data.referredBy,
+      });
+      window.location.href = "/profile-details";
+    } catch (error: any) {
+      if (error.response.status !== 422) throw error;
+
+      setErrors(error.response.data.errors);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
   };
 
   return (

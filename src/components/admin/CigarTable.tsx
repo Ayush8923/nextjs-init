@@ -1,8 +1,9 @@
 "use client";
 
-import { CustomTable } from "@/components";
+import { CustomTable, SearchInput } from "@/components";
 import { CigarData } from "@/lib/types";
 import { getTotalPages } from "@/lib/common";
+import { useRouter } from "next/navigation";
 
 const headers = [
   "Name",
@@ -22,6 +23,7 @@ interface CigarTableProps {
   onPageChange: (_page: number) => void;
   currentPage: number;
   loading: boolean;
+  setSearchQuery: (_val: string) => void;
 }
 
 const CigarTable = ({
@@ -31,7 +33,9 @@ const CigarTable = ({
   onPageChange,
   currentPage,
   loading,
+  setSearchQuery,
 }: CigarTableProps) => {
+  const router = useRouter();
   const extractCigarDB =
     initialData?.map((cigar: CigarData) => [
       [
@@ -52,6 +56,12 @@ const CigarTable = ({
   return (
     <div>
       <h1 className="font-medium text-2xl mb-9">{title}</h1>
+      <div className="space-y-4 max-w-sm mb-10">
+        <SearchInput
+          placeholder="Search Cigars"
+          onSearch={(val: string) => setSearchQuery(val)}
+        />
+      </div>
       <CustomTable
         headers={headers}
         rows={extractCigarDB}
@@ -60,6 +70,11 @@ const CigarTable = ({
         currentPage={currentPage}
         lastPage={getTotalPages(total)}
         onPageChange={onPageChange}
+        isRowClickable={true}
+        onRowClick={(index) => {
+          const selectedCigar = initialData[index];
+          router.push(`/admin/cigars/${selectedCigar.id}/edit`);
+        }}
       />
     </div>
   );

@@ -4,7 +4,6 @@ import { ProfileDetailsFormData } from "@/lib/types";
 import { useForm } from "react-hook-form";
 import account from "@/apis/account";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   InputError,
   ImageUploader,
@@ -16,7 +15,6 @@ import { useAuth } from "@/hooks/auth";
 import { profileValidationRules } from "@/lib/validations/profileValidation";
 
 const Page = () => {
-  const router = useRouter();
   useAuth({ middleware: "auth", redirectIfAuthenticated: "/dashboard" });
 
   const {
@@ -35,13 +33,22 @@ const Page = () => {
   );
 
   const onSubmit = async (profileDetailsFormData: any) => {
-    account.profileImageUpdate({
-      setErrors,
-      setIsLoading,
-      router,
-      profileDetailsFormData,
-      selectedProfileImage,
-    });
+    setIsLoading(true);
+    try {
+      await account.profileImageUpdate({
+        profileDetailsFormData,
+        selectedProfileImage,
+      });
+      window.location.replace("/dashboard");
+    } catch (error: any) {
+      if (error.response.status !== 422) throw error;
+
+      setErrors(error.response.data.errors);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
   };
 
   return (

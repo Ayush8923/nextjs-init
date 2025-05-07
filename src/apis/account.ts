@@ -1,35 +1,12 @@
 import axios from "@/lib/axios";
 import { ProfileUpdateApiData } from "@/lib/types";
 
-const profileUpdate = async ({
-  setErrors,
-  setIsLoading,
-  ...props
-}: ProfileUpdateApiData) => {
-  setIsLoading(true);
-  setErrors([]);
-  axios
-    .post("/api/profile/details", props)
-    .then((res) => {
-      res.data;
-      window.location.href = "/profile-details";
-    })
-    .catch((error) => {
-      if (error.response.status !== 422) throw error;
-
-      setErrors(error.response.data.errors);
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
+const profileUpdate = async ({ ...props }: ProfileUpdateApiData) => {
+  const response = await axios.post("/api/profile/details", props);
+  return response?.data;
 };
 
-const profileImageUpdate = async ({
-  setErrors,
-  setIsLoading,
-  ...props
-}: ProfileUpdateApiData) => {
-  setIsLoading(true);
+const profileImageUpdate = async ({ ...props }: ProfileUpdateApiData) => {
   const profileDetailsFormData = new FormData();
   profileDetailsFormData.append(
     "profile_handle",
@@ -38,20 +15,11 @@ const profileImageUpdate = async ({
   if (props?.selectedProfileImage) {
     profileDetailsFormData.append("profile_image", props?.selectedProfileImage);
   }
-  axios
-    .post("/api/profile/image", profileDetailsFormData)
-    .then((res) => {
-      res.data;
-      window.location.replace("/dashboard");
-    })
-    .catch((error) => {
-      if (error.response.status !== 422) throw error;
-
-      setErrors(error.response.data.errors);
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
+  const response = await axios.post(
+    "/api/profile/image",
+    profileDetailsFormData
+  );
+  return response?.data;
 };
 
 export default {

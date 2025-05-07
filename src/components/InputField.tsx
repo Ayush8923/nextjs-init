@@ -29,6 +29,13 @@ const InputField = ({
   };
 
   const isPriceField = name === "price";
+  const disabledClass =
+    props.disabled &&
+    "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-300";
+
+  const shouldRegister = register && name && !props.disabled;
+  const fieldError =
+    !props.disabled && name ? (errors?.[name]?.message as string) : "";
 
   return (
     <div className="relative">
@@ -41,11 +48,11 @@ const InputField = ({
         type={type}
         id={name}
         placeholder={label}
-        {...(register && name ? register(name, validation) : {})}
-        className={`w-full ${isPriceField ? "pl-8" : "p-[10px]"} border rounded-md ${className}`}
+        {...(shouldRegister ? register(name, validation) : {})}
+        className={`w-full ${isPriceField ? "pl-8" : "p-[10px]"} border rounded-md ${className} ${disabledClass}`}
         {...props}
       />
-      <InputError messages={name ? [errors?.[name]?.message as string] : []} />
+      <InputError messages={fieldError ? [fieldError] : []} />
     </div>
   );
 };

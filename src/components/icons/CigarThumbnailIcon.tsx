@@ -1,11 +1,19 @@
 import React from "react";
 
-const CigarThumbnailIcon = () => {
+type CigarThumbnailIconProps = {
+  width?: string;
+  height?: string;
+};
+
+const CigarThumbnailIcon = ({
+  width = "74",
+  height = "74",
+}: CigarThumbnailIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="74"
-      height="74"
+      width={width}
+      height={height}
       viewBox="0 0 74 74"
       fill="none"
     >

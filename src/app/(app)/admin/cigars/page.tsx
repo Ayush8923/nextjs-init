@@ -8,9 +8,13 @@ import { PAGINATION_SIZE } from "@/lib/common";
 
 const Cigars = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const { data, error } = useSWR(
-    { page: currentPage, limit: PAGINATION_SIZE },
-    (params) => admin.getCigars(params)
+    { page: currentPage, limit: PAGINATION_SIZE, name: searchQuery },
+    (params) => admin.getCigars(params),
+    {
+      revalidateOnFocus: true,
+    }
   );
 
   const cigars = data?.data || [];
@@ -25,6 +29,7 @@ const Cigars = () => {
       onPageChange={setCurrentPage}
       currentPage={currentPage}
       loading={isLoading}
+      setSearchQuery={setSearchQuery}
     />
   );
 };

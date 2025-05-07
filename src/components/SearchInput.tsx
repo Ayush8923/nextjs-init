@@ -27,7 +27,7 @@ const SearchInput = ({
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
-        className="w-full p-[10px] border rounded-md"
+        className="w-full p-[10px] rounded-md border border-gray-300 focus:outline-none focus:ring-0"
       />
       <div className="absolute right-2">
         <MagnifyingIcon />

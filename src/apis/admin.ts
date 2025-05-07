@@ -26,7 +26,13 @@ const getMembers = async (params: RequestParams = {}) => {
   }
 };
 
+const updateCigarStatus = async (cigarId: number, payload = {}) => {
+  const response = await axios.post(`/api/cigars/${cigarId}/status`, payload);
+  return response?.data;
+};
+
 export default {
   getCigars,
   getMembers,
+  updateCigarStatus,
 };

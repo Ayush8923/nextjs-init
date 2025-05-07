@@ -48,9 +48,6 @@ export type CountryData = {
 };
 
 export type ProfileUpdateApiData = {
-  setErrors: Dispatch<SetStateAction<any>>;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  router: any;
   first_name?: string;
   middle_name?: string;
   last_name?: string;
