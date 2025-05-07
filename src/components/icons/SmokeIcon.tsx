@@ -4,8 +4,8 @@ const SmokeIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="22"
+      width="16"
+      height="18"
       viewBox="0 0 24 22"
       fill="none"
     >

@@ -33,3 +33,4 @@ export { default as Accordion } from "./Accordion";
 export { default as BackButton } from "./BackButton";
 export { default as CigarInfo } from "./CigarInfo";
 export { default as HumidorLocationInfo } from "./HumidorLocationInfo";
+export { default as BottomSheet } from "./BottomSheet";

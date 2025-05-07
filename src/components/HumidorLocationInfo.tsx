@@ -1,18 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import { DeleteIcon, LeftArrowIcon, RightArrowIcon } from "./icons";
+import { DeleteIcon, LeftArrowIcon, RightArrowIcon, SmokeIcon } from "./icons";
 import { formatDisplayDate } from "@/lib/common";
 import { CigarData, HumidorsData } from "@/lib/types";
 
 interface HumidorLocationInfoProps {
   humidors: HumidorsData[];
   onCigarDelete: (_cigar: CigarData, _humidor: HumidorsData) => void;
+  onCigarSmoke: (_cigar: CigarData, _humidor: HumidorsData) => void;
 }
 
 const HumidorLocationInfo = ({
   humidors,
   onCigarDelete,
+  onCigarSmoke,
 }: HumidorLocationInfoProps) => {
   const [currentHumidorIndex, setCurrentHumidorIndex] = useState(0);
 
@@ -32,7 +34,11 @@ const HumidorLocationInfo = ({
     }
   };
 
-  if (!humidors || humidors.length <= 0) {
+  const validHumidors = humidors.filter(
+    (humidor) => humidor.humidor_cigars && humidor.humidor_cigars.length > 0
+  );
+
+  if (validHumidors.length === 0) {
     return null;
   }
 
@@ -84,6 +90,12 @@ const HumidorLocationInfo = ({
               <span className="font-light text-xs mr-[26px]">
                 {cigar?.price ? "$" + cigar.price : "N/A"}
               </span>
+              <button
+                className="cursor-pointer mr-4"
+                onClick={() => onCigarSmoke(cigar, currentHumidor)}
+              >
+                <SmokeIcon />
+              </button>
               <button
                 className="cursor-pointer"
                 onClick={() => onCigarDelete(cigar, currentHumidor)}

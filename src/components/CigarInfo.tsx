@@ -2,7 +2,6 @@ import React from "react";
 import { Button, BackButton, Accordion } from "@/components";
 import Image from "next/image";
 import { CigarData } from "@/lib/types";
-import { SmokeIcon } from "./icons";
 
 type CigarInfoProps = {
   cigar: CigarData;
@@ -117,13 +116,6 @@ const CigarInfo = ({ cigar }: CigarInfoProps) => {
           type="button"
           title="Edit Details"
           variant="secondary"
-          disabled
-        />
-        <Button
-          className="w-full"
-          type="button"
-          title="Smoke"
-          trailingIcon={<SmokeIcon />}
           disabled
         />
       </div>

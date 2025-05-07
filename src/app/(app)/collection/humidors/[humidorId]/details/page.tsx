@@ -166,6 +166,10 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
     }
   };
 
+  const renderDeleteCigarView = () => {
+    return `Are you sure you want to delete ${humidor.name} Humidor`;
+  };
+
   return (
     <Container>
       <div className="flex flex-col h-full relative">
@@ -199,7 +203,7 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
       <DeleteModal
         hasDeleteModal={hasDeleteModal}
         title={"Delete Humidor"}
-        content={`Are you sure you want to delete ${humidor?.name} Humidor`}
+        content={renderDeleteCigarView}
         onHandleDelete={() => onHandleDelete()}
         isApiLoading={isApiLoading}
         onHandleCancel={() => setHasDeleteModal(false)}

@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import collection from "@/apis/collection";
 import {
   BackButton,
+  BottomSheet,
+  Button,
   CigarInfo,
   Container,
   DeleteModal,
@@ -20,8 +22,9 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
   const { user } = useAuth({ middleware: "auth" });
   const [isApiLoading, setIsApiLoading] = useState(false);
   const [hasDeleteModal, setHasDeleteModal] = useState(false);
+  const [hasSmokeCigarModalOpen, setHasSmokeCigarModalOpen] = useState(false);
 
-  const [cigarToDelete, setCigarToDelete] = useState<{
+  const [selectedCigar, setSelectedCigar] = useState<{
     cigar: CigarData;
     humidor: HumidorsData;
   } | null>(null);
@@ -46,14 +49,14 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
   }
 
   const onCigarDelete = async () => {
-    if (!cigarToDelete?.cigar) {
+    if (!selectedCigar?.cigar) {
       setHasDeleteModal(false);
       return;
     }
 
     setIsApiLoading(true);
     try {
-      await collection.deleteCigarFromHumidor(cigarToDelete.cigar.id);
+      await collection.deleteCigarFromHumidor(selectedCigar.cigar.id);
       mutate();
     } catch (error: any) {
       if (error.response?.status !== 422) throw error;
@@ -63,22 +66,71 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
     }
   };
 
+  const handleSmokeCigar = async () => {
+    if (!selectedCigar?.cigar) {
+      setHasDeleteModal(false);
+      return;
+    }
+
+    setIsApiLoading(true);
+    try {
+      await collection.finishCigar(selectedCigar.cigar.id);
+      mutate();
+    } catch (error: any) {
+      if (error.response?.status !== 422) throw error;
+    } finally {
+      setHasSmokeCigarModalOpen(false);
+      setIsApiLoading(false);
+    }
+  };
+
   const onHandleDelete = (cigar: CigarData, humidor: HumidorsData) => {
-    setCigarToDelete({ cigar, humidor });
+    setSelectedCigar({ cigar, humidor });
     setHasDeleteModal(true);
   };
 
-  const renderDeleteCigarModalContent = () => {
-    if (!cigarToDelete) return "";
+  const onCigarSmoke = (cigar: CigarData, humidor: HumidorsData) => {
+    setSelectedCigar({ cigar, humidor });
+    setHasSmokeCigarModalOpen(true);
+  };
 
-    const cigarAddedAt = cigarToDelete.cigar.added_at
-      ? formatDisplayDate(cigarToDelete.cigar.added_at)
+  const getCigarModalMessage = (action: string) => {
+    if (!selectedCigar) return "";
+
+    const { cigar, humidor } = selectedCigar;
+    const cigarAddedAt = cigar.added_at
+      ? formatDisplayDate(cigar.added_at)
       : "";
 
-    return `Are you sure you want to delete ${cigar.name} from ${
-      cigarToDelete.humidor.name
-    } added on ${cigarAddedAt}?`;
+    return `Are you sure you want to ${action} ${cigar.name} from ${humidor.name} added on ${cigarAddedAt}?`;
   };
+
+  const renderActionItems = () => {
+    return (
+      <>
+        <Button
+          type="button"
+          className="w-full"
+          title="Smoke"
+          onClick={handleSmokeCigar}
+          disabled={isApiLoading}
+          loading={isApiLoading}
+        />
+
+        <Button
+          type="button"
+          className="w-full"
+          title="Cancel"
+          variant="secondary"
+          onClick={() => setHasSmokeCigarModalOpen(false)}
+        />
+      </>
+    );
+  };
+
+  const renderDeleteCigarModalContent = () => getCigarModalMessage("delete");
+
+  const renderSmokeCigarModalContent = () => getCigarModalMessage("smoke");
 
   return (
     <Container>
@@ -88,14 +140,22 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
           <HumidorLocationInfo
             humidors={cigar?.humidors || []}
             onCigarDelete={(cigar, humidor) => onHandleDelete(cigar, humidor)}
+            onCigarSmoke={(cigar, humidor) => onCigarSmoke(cigar, humidor)}
           />
         </div>
       </div>
 
+      <BottomSheet
+        hasModalOpen={hasSmokeCigarModalOpen}
+        title="Smoke a Cigar"
+        content={renderSmokeCigarModalContent}
+        renderActionItem={renderActionItems}
+      />
+
       <DeleteModal
         hasDeleteModal={hasDeleteModal}
         title="Delete Cigar"
-        content={renderDeleteCigarModalContent()}
+        content={renderDeleteCigarModalContent}
         onHandleDelete={onCigarDelete}
         isApiLoading={isApiLoading}
         onHandleCancel={() => setHasDeleteModal(false)}
