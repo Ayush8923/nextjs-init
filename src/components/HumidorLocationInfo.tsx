@@ -4,17 +4,20 @@ import React, { useState } from "react";
 import { DeleteIcon, LeftArrowIcon, RightArrowIcon, SmokeIcon } from "./icons";
 import { formatDisplayDate } from "@/lib/common";
 import { CigarData, HumidorsData } from "@/lib/types";
+import { Skeleton } from "@radix-ui/themes";
 
 interface HumidorLocationInfoProps {
   humidors: HumidorsData[];
   onCigarDelete: (_cigar: CigarData, _humidor: HumidorsData) => void;
   onCigarSmoke: (_cigar: CigarData, _humidor: HumidorsData) => void;
+  isLoading: boolean;
 }
 
 const HumidorLocationInfo = ({
   humidors,
   onCigarDelete,
   onCigarSmoke,
+  isLoading,
 }: HumidorLocationInfoProps) => {
   const [currentHumidorIndex, setCurrentHumidorIndex] = useState(0);
 
@@ -40,6 +43,20 @@ const HumidorLocationInfo = ({
 
   if (validHumidors.length === 0) {
     return null;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="bg-primary-100 text-white p-6 w-full">
+        <Skeleton className="h-6 !bg-gray-500 w-1/3 mb-4 rounded" />
+        {Array.from({ length: 5 }).map((_, index) => (
+          <Skeleton
+            key={index}
+            className="h-4 !bg-gray-500 w-full mb-2 rounded"
+          />
+        ))}
+      </div>
+    );
   }
 
   return (

@@ -23,6 +23,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
   const [isApiLoading, setIsApiLoading] = useState(false);
   const [hasDeleteModal, setHasDeleteModal] = useState(false);
   const [hasSmokeCigarModalOpen, setHasSmokeCigarModalOpen] = useState(false);
+  const [isMutating, setIsMutating] = useState(false);
 
   const [selectedCigar, setSelectedCigar] = useState<{
     cigar: CigarData;
@@ -55,6 +56,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
     }
 
     setIsApiLoading(true);
+    setIsMutating(true);
     try {
       await collection.deleteCigarFromHumidor(selectedCigar.cigar.id);
       mutate();
@@ -63,6 +65,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
     } finally {
       setHasDeleteModal(false);
       setIsApiLoading(false);
+      setIsMutating(false);
     }
   };
 
@@ -73,6 +76,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
     }
 
     setIsApiLoading(true);
+    setIsMutating(true);
     try {
       await collection.finishCigar(selectedCigar.cigar.id);
       mutate();
@@ -81,6 +85,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
     } finally {
       setHasSmokeCigarModalOpen(false);
       setIsApiLoading(false);
+      setIsMutating(false);
     }
   };
 
@@ -141,6 +146,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
             humidors={cigar?.humidors || []}
             onCigarDelete={(cigar, humidor) => onHandleDelete(cigar, humidor)}
             onCigarSmoke={(cigar, humidor) => onCigarSmoke(cigar, humidor)}
+            isLoading={isMutating}
           />
         </div>
       </div>
