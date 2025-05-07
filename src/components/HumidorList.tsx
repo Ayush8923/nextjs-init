@@ -52,7 +52,7 @@ const HumidorList = ({ humidors, selectedHumidor }: HumidorListProps) => {
             {humidor?.capacity &&
               (humidor?.percentage_filled > 100
                 ? "(Overfilled)"
-                : `(${humidor?.percentage_filled}% filled)`)}
+                : `${humidor?.percentage_filled}%`)}
           </div>
         </div>
 
