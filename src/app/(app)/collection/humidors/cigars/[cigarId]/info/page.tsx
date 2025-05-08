@@ -31,7 +31,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
   } | null>(null);
 
   const {
-    cigar,
+    cigar: cigarData,
     isLoading: isInitialLoad,
     mutate,
   } = useCigar({
@@ -107,7 +107,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
       ? formatDisplayDate(cigar.added_at)
       : "";
 
-    return `Are you sure you want to ${action} ${cigar.name} from ${humidor.name} added on ${cigarAddedAt}?`;
+    return `Are you sure you want to ${action} ${cigarData.name} from ${humidor.name} added on ${cigarAddedAt}?`;
   };
 
   const renderActionItems = () => {
@@ -140,10 +140,10 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
   return (
     <Container>
       <div className="flex flex-col h-full justify-between">
-        <CigarInfo cigar={cigar} />
+        <CigarInfo cigar={cigarData} />
         <div className="mt-9 -mx-6">
           <HumidorLocationInfo
-            humidors={cigar?.humidors || []}
+            humidors={cigarData?.humidors || []}
             onCigarDelete={(cigar, humidor) => onHandleDelete(cigar, humidor)}
             onCigarSmoke={(cigar, humidor) => onCigarSmoke(cigar, humidor)}
           />
