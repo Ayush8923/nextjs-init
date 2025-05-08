@@ -18,7 +18,7 @@ const BottomSheet = ({
   }
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+      <div className="fixed inset-0 bg-gray-300 bg-opacity-50 z-50"></div>
 
       <div className="fixed bottom-0 left-0 right-0 flex justify-center z-50">
         <div className="bg-white rounded-t-xl w-full max-w-lg">

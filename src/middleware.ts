@@ -13,16 +13,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
-  // eslint-disable-next-line no-console
-  console.log(
-    dob,
-    !dob,
-    GUEST_ROUTES.includes(pathname),
-    pathname,
-    "==>consent issue"
-  );
-  // eslint-disable-next-line no-console
-  console.log(!dob && GUEST_ROUTES.includes(pathname), "==>whole condition");
   if (!dob && GUEST_ROUTES.includes(pathname)) {
     return NextResponse.redirect(new URL("/consent", request.url));
   }

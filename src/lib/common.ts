@@ -33,6 +33,20 @@ export const getImagePreviewUrl = (
   return file ? URL.createObjectURL(file) : "";
 };
 
+const getOrdinalSuffix = (day: number): string => {
+  if (day >= 11 && day <= 13) return "th";
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+};
+
 export const formatDate = (dateString: string, isFullDate: boolean = false) => {
   const date = new Date(dateString);
 
@@ -40,12 +54,13 @@ export const formatDate = (dateString: string, isFullDate: boolean = false) => {
     return "Invalid Date";
   }
 
-  const day = date.getDate();
+  const dayNumber = date.getDate();
+  const dayWithSuffix = `${dayNumber}${getOrdinalSuffix(dayNumber)}`;
   const options: Intl.DateTimeFormatOptions = { month: "short" };
   const month = new Intl.DateTimeFormat("en-US", options).format(date);
-  const year = `’ ${String(date.getFullYear()).slice(2)}`;
+  const year = `’ ${String(date.getFullYear())}`;
 
-  return isFullDate ? `${day} ${month}${year}` : `${month} ${year}`;
+  return isFullDate ? `${month} ${dayWithSuffix} ${year}` : `${month} ${year}`;
 };
 
 export const getTotalPages = (pages: number) => {
@@ -79,9 +94,10 @@ export const formatDisplayDate = (dateString: string) => {
   const date = new Date(dateString);
   if (Number.isNaN(date.getTime())) return "Invalid Date";
 
-  const day = date.getDate().toString().padStart(2, "0");
+  const dayNumber = date.getDate();
+  const dayWithSuffix = `${dayNumber}${getOrdinalSuffix(dayNumber)}`;
   const month = date.toLocaleString("en", { month: "short" });
   const year = date.getFullYear();
 
-  return `${day} ${month}, ${year}`;
+  return `${month} ${dayWithSuffix}, ${year}`;
 };

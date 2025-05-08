@@ -1,6 +1,6 @@
 "use client";
 
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import * as Popover from "@radix-ui/react-popover";
 import { ControllerRenderProps } from "react-hook-form";
 import { useState } from "react";
 import InputError from "./InputError";
@@ -21,7 +21,7 @@ interface DropdownProps {
   disabled?: boolean;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({
+const DropdownPopover: React.FC<DropdownProps> = ({
   field,
   items,
   placeholder = "Select...",
@@ -57,8 +57,8 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div className="relative w-full">
-      <DropdownMenu.Root
-        open={disabled ? false : open}
+      <Popover.Root
+        open={open}
         onOpenChange={(val) => {
           if (!disabled) {
             setOpen(val);
@@ -66,66 +66,70 @@ const Dropdown: React.FC<DropdownProps> = ({
           }
         }}
       >
-        <DropdownMenu.Trigger
-          className={`inline-flex items-center justify-between p-2.5 w-full border rounded-md shadow-sm transition ${
-            disabled ? disabledClass : "bg-white border-gray-500"
-          }`}
-          disabled={disabled}
-        >
-          <span className={field.value ? "text-black" : "text-gray-400"}>
-            {selectedItem?.label || placeholder}
-          </span>
-          <DropdownAppearanceIcon />
-        </DropdownMenu.Trigger>
+        <Popover.Trigger asChild>
+          <button
+            type="button"
+            className={`inline-flex items-center justify-between p-2.5 w-full border rounded-md shadow-sm transition ${
+              disabled ? disabledClass : "bg-white border-gray-500"
+            }`}
+            disabled={disabled}
+          >
+            <span className={field.value ? "text-black" : "text-gray-400"}>
+              {selectedItem?.label || placeholder}
+            </span>
+            <DropdownAppearanceIcon />
+          </button>
+        </Popover.Trigger>
 
-        {!disabled && (
-          <DropdownMenu.Portal>
-            <DropdownMenu.Content
-              className="bg-white border rounded-md shadow-lg p-1 z-50"
-              sideOffset={5}
-              style={{ width: "var(--radix-dropdown-menu-trigger-width)" }}
-            >
-              {searchable && (
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full px-2 py-1 mb-2 border border-gray-300 rounded"
-                  autoFocus={autoFocus}
-                />
-              )}
+        <Popover.Portal>
+          <Popover.Content
+            className="bg-white border rounded-md shadow-lg p-2 z-50"
+            align="start"
+            sideOffset={5}
+            style={{ width: "100%" }}
+          >
+            {searchable && (
+              <input
+                type="text"
+                placeholder="Search..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full px-2 py-1 mb-2 border border-gray-300 rounded"
+                autoFocus={autoFocus}
+              />
+            )}
 
-              {filteredItems.length > 0 ? (
-                filteredItems.map((item) => (
-                  <DropdownMenu.Item
-                    key={item.value}
-                    className="dropdown-item px-3 py-2 rounded-md cursor-pointer hover:bg-gray-100 font-normal text-base"
-                    onSelect={() => {
-                      field.onChange(item.value);
-                      setOpen(false);
-                    }}
-                  >
-                    {item.label}
-                  </DropdownMenu.Item>
-                ))
-              ) : search.trim() !== "" ? (
-                <DropdownMenu.Item
-                  className="dropdown-item px-3 py-2 rounded-md cursor-pointer hover:bg-gray-100 font-normal text-base"
-                  onSelect={() => selectedDropdownItem()}
+            {filteredItems.length > 0 ? (
+              filteredItems.map((item) => (
+                <div
+                  key={item.value}
+                  className="px-3 py-2 rounded-md cursor-pointer hover:bg-gray-100 font-normal text-base"
+                  onClick={() => {
+                    field.onChange(item.value);
+                    setSearch("");
+                    setOpen(false);
+                  }}
                 >
-                  Add New &quot;{search}&quot;
-                </DropdownMenu.Item>
-              ) : (
-                <div className="px-3 py-2 text-gray-500">No results found</div>
-              )}
-            </DropdownMenu.Content>
-          </DropdownMenu.Portal>
-        )}
-      </DropdownMenu.Root>
+                  {item.label}
+                </div>
+              ))
+            ) : search.trim() !== "" ? (
+              <div
+                className="px-3 py-2 rounded-md cursor-pointer hover:bg-gray-100 font-normal text-base"
+                onClick={() => selectedDropdownItem()}
+              >
+                Add New &quot;{search}&quot;
+              </div>
+            ) : (
+              <div className="px-3 py-2 text-gray-500">No results found</div>
+            )}
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
+
       <InputError className="mb-4 mt-1" messages={error ? [error] : []} />
     </div>
   );
 };
 
-export default Dropdown;
+export default DropdownPopover;

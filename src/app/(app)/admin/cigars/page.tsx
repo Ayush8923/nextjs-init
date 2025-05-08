@@ -10,7 +10,12 @@ const Cigars = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const { data, error } = useSWR(
-    { page: currentPage, limit: PAGINATION_SIZE, name: searchQuery },
+    {
+      page: currentPage,
+      limit: PAGINATION_SIZE,
+      name: searchQuery,
+      status: "active",
+    },
     (params) => admin.getCigars(params),
     {
       revalidateOnFocus: true,

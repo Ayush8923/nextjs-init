@@ -162,6 +162,7 @@ const EditCigarDetail = ({
                     validationRules={
                       !field.disabled ? field.validationRules : {}
                     }
+                    // TODO: Need to Remove this disable props when we implement EditCigar Functionality in Admin Page
                     disabled={field.disabled}
                   />
                   <InputError messages={error[field?.name]} className="!mt-1" />
@@ -181,6 +182,7 @@ const EditCigarDetail = ({
                   register={register}
                   errors={errors}
                   step=".01"
+                  // TODO: Need to enable these validation when we implement EditCigar Functionality in the Admin Page Currently All field are disable with values.
                   // validationRules={addCigarValidationRules.length}
                   disabled
                 />
@@ -192,6 +194,7 @@ const EditCigarDetail = ({
                   name="ringGauge"
                   register={register}
                   errors={errors}
+                  // TODO: Need to enable these validation when we implement EditCigar Functionality in the Admin Page currently all field are disable with values.
                   // validationRules={addCigarValidationRules.ringGauge}
                   disabled
                 />

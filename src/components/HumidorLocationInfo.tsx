@@ -19,7 +19,8 @@ const HumidorLocationInfo = ({
   const [currentHumidorIndex, setCurrentHumidorIndex] = useState(0);
 
   const validHumidors = humidors.filter(
-    (h) => Array.isArray(h.humidor_cigars) && h.humidor_cigars.length > 0
+    (humidor) =>
+      Array.isArray(humidor.humidor_cigars) && humidor.humidor_cigars.length > 0
   );
 
   useEffect(() => {
