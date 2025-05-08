@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DeleteIcon, LeftArrowIcon, RightArrowIcon, SmokeIcon } from "./icons";
 import { formatDisplayDate } from "@/lib/common";
 import { CigarData, HumidorsData } from "@/lib/types";
@@ -16,35 +16,36 @@ const HumidorLocationInfo = ({
   onCigarDelete,
   onCigarSmoke,
 }: HumidorLocationInfoProps) => {
-  const validHumidors = humidors.filter(
-    (humidor) => humidor.humidor_cigars && humidor.humidor_cigars.length > 0
-  );
-
   const [currentHumidorIndex, setCurrentHumidorIndex] = useState(0);
 
-  if (validHumidors.length === 0) {
-    return null;
-  }
+  const validHumidors = humidors.filter(
+    (h) => Array.isArray(h.humidor_cigars) && h.humidor_cigars.length > 0
+  );
+
+  useEffect(() => {
+    if (currentHumidorIndex >= validHumidors.length) {
+      setCurrentHumidorIndex(Math.max(validHumidors.length - 1, 0));
+    }
+  }, [validHumidors.length, currentHumidorIndex]);
+
+  if (validHumidors.length === 0) return null;
 
   const currentHumidor = validHumidors[currentHumidorIndex];
-  const hasPrevious = currentHumidorIndex > 0;
-  const hasNext = currentHumidorIndex < validHumidors.length - 1;
-
-  const handlePrevious = () => {
-    if (hasPrevious) {
-      setCurrentHumidorIndex((prev) => prev - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (hasNext) {
-      setCurrentHumidorIndex((prev) => prev + 1);
-    }
-  };
 
   if (!currentHumidor) {
     return null;
   }
+
+  const hasPrevious = currentHumidorIndex > 0;
+  const hasNext = currentHumidorIndex < validHumidors.length - 1;
+
+  const handlePrevious = () => {
+    if (hasPrevious) setCurrentHumidorIndex((prev) => prev - 1);
+  };
+
+  const handleNext = () => {
+    if (hasNext) setCurrentHumidorIndex((prev) => prev + 1);
+  };
 
   return (
     <div className="bg-primary-100 text-white p-6 w-full">
