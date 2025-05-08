@@ -159,7 +159,9 @@ const EditCigarDetail = ({
                     name={field.name}
                     register={register}
                     errors={errors}
-                    validationRules={!field.disabled ? field.validationRules: {}}
+                    validationRules={
+                      !field.disabled ? field.validationRules : {}
+                    }
                     disabled={field.disabled}
                   />
                   <InputError messages={error[field?.name]} className="!mt-1" />
