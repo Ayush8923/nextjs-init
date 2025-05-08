@@ -41,6 +41,7 @@ const EditCigar = ({ params }: { params: PageParams }) => {
       );
       const length = dimensionMatch ? parseFloat(dimensionMatch[1]) : "";
       const ringGauge = dimensionMatch ? parseFloat(dimensionMatch[2]) : "";
+      const parsedFlavours = JSON.parse(cigar?.flavour);
       reset({
         name: cigar.name,
         brand: cigar.brand,
@@ -50,7 +51,7 @@ const EditCigar = ({ params }: { params: PageParams }) => {
         length: length?.toString(),
         ringGauge: ringGauge?.toString(),
         color: cigar.color,
-        flavour: cigar?.flavour,
+        flavour: parsedFlavours?.join(', '),
         strength: cigar.strength,
         wrapper: cigar.wrapper,
         binder: cigar.binder,
