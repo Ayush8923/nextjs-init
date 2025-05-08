@@ -120,7 +120,7 @@ const HumidorCard = ({
               {(humidor?.capacity &&
                 (humidor?.percentage_filled > 100
                   ? "Overfilled"
-                  : `(${humidor?.percentage_filled}% filled)`)) ||
+                  : `${humidor?.percentage_filled}%`)) ||
                 0 + "%"}
             </p>
           </div>
