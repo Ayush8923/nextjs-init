@@ -23,6 +23,7 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
   const [isApiLoading, setIsApiLoading] = useState(false);
   const [hasDeleteModal, setHasDeleteModal] = useState(false);
   const [hasSmokeCigarModalOpen, setHasSmokeCigarModalOpen] = useState(false);
+  const [hasInitialLoading, setHasInitialLoading] = useState(true);
 
   const [selectedCigar, setSelectedCigar] = useState<{
     cigar: CigarData;
@@ -33,9 +34,13 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
     cigar,
     isLoading: isInitialLoad,
     mutate,
-  } = useCigar({ user, cigarId });
+  } = useCigar({
+    user,
+    cigarId,
+    onInitialLoad: () => setHasInitialLoading(false),
+  });
 
-  if (isInitialLoad) {
+  if (isInitialLoad || hasInitialLoading) {
     return (
       <Container>
         <BackButton />
