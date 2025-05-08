@@ -51,7 +51,7 @@ const EditCigar = ({ params }: { params: PageParams }) => {
         length: length?.toString(),
         ringGauge: ringGauge?.toString(),
         color: cigar.color,
-        flavour: parsedFlavours?.join(', '),
+        flavour: parsedFlavours?.join(", "),
         strength: cigar.strength,
         wrapper: cigar.wrapper,
         binder: cigar.binder,
