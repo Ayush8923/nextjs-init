@@ -16,11 +16,19 @@ const HumidorLocationInfo = ({
   onCigarDelete,
   onCigarSmoke,
 }: HumidorLocationInfoProps) => {
+  const validHumidors = humidors.filter(
+    (humidor) => humidor.humidor_cigars && humidor.humidor_cigars.length > 0
+  );
+
   const [currentHumidorIndex, setCurrentHumidorIndex] = useState(0);
 
-  const currentHumidor = humidors[currentHumidorIndex];
+  if (validHumidors.length === 0) {
+    return null;
+  }
+
+  const currentHumidor = validHumidors[currentHumidorIndex];
   const hasPrevious = currentHumidorIndex > 0;
-  const hasNext = currentHumidorIndex < humidors.length - 1;
+  const hasNext = currentHumidorIndex < validHumidors.length - 1;
 
   const handlePrevious = () => {
     if (hasPrevious) {
@@ -34,11 +42,7 @@ const HumidorLocationInfo = ({
     }
   };
 
-  const validHumidors = humidors.filter(
-    (humidor) => humidor.humidor_cigars && humidor.humidor_cigars.length > 0
-  );
-
-  if (validHumidors.length === 0) {
+  if (!currentHumidor) {
     return null;
   }
 
