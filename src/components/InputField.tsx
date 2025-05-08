@@ -33,7 +33,7 @@ const InputField = ({
     props.disabled &&
     "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-300";
 
-  const shouldRegister = register && name && !props.disabled;
+  const shouldRegister = register && name;
   const fieldError =
     !props.disabled && name ? (errors?.[name]?.message as string) : "";
 

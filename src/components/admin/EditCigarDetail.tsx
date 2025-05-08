@@ -159,7 +159,7 @@ const EditCigarDetail = ({
                     name={field.name}
                     register={register}
                     errors={errors}
-                    validationRules={field.validationRules}
+                    validationRules={!field.disabled ? field.validationRules: {}}
                     disabled={field.disabled}
                   />
                   <InputError messages={error[field?.name]} className="!mt-1" />
@@ -179,7 +179,7 @@ const EditCigarDetail = ({
                   register={register}
                   errors={errors}
                   step=".01"
-                  validationRules={addCigarValidationRules.length}
+                  // validationRules={addCigarValidationRules.length}
                   disabled
                 />
                 <InputError messages={error.length} className="!mt-1" />
@@ -190,7 +190,7 @@ const EditCigarDetail = ({
                   name="ringGauge"
                   register={register}
                   errors={errors}
-                  validationRules={addCigarValidationRules.ringGauge}
+                  // validationRules={addCigarValidationRules.ringGauge}
                   disabled
                 />
                 <InputError messages={error.ringGauge} className="!mt-1" />
