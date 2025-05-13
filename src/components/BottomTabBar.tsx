@@ -46,7 +46,7 @@ const BottomTabBar = ({ routes }: BottomTabBarProps) => {
               >
                 {isActive ? <ActiveIcon /> : <Icon />}
                 <span
-                  className={`text-[10px] font-normal mt-2.5 ${isActive ? "text-gray-800" : "text-gray-400"}`}
+                  className={`text-[10px] font-normal mt-2.5 ${isActive ? "text-primary-100" : "text-gray-200"}`}
                 >
                   {label}
                 </span>

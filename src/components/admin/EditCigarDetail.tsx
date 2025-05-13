@@ -1,19 +1,13 @@
 "use client";
 
-import {
-  BackButton,
-  Button,
-  Dropdown,
-  InputError,
-  InputField,
-} from "@/components";
+import { BackButton, Dropdown, InputError, InputField } from "@/components";
 import { formatArrayToLabelValueOptions } from "@/lib/common";
 import { addCigarValidationRules } from "@/lib/validations/collectionValidation";
 import Image from "next/image";
 import { Controller } from "react-hook-form";
 import { CigarThumbnailIcon } from "@/components/icons";
-import { useRouter } from "next/navigation";
 import { UseFormRegister, Control } from "react-hook-form";
+import { ReactNode } from "react";
 
 type Cigar = {
   name: string;
@@ -38,7 +32,7 @@ type EditCigarDetailProps = {
   cigarsMetaData: any;
   control: Control<FormValues>;
   onSubmit: (_data: FormValues) => void;
-  isLoading: boolean;
+  renderActiveButtonView: () => ReactNode;
 };
 
 const addCigarFields = [
@@ -49,7 +43,6 @@ const addCigarFields = [
     required: true,
     key: "name",
     validationRules: addCigarValidationRules.cigarName,
-    disabled: true,
   },
   {
     name: "brand",
@@ -58,7 +51,6 @@ const addCigarFields = [
     required: true,
     key: "brand",
     validationRules: addCigarValidationRules.brand,
-    disabled: true,
   },
   {
     name: "manufacturer",
@@ -67,7 +59,6 @@ const addCigarFields = [
     required: true,
     key: "manufacturer",
     validationRules: addCigarValidationRules.manufacturer,
-    disabled: true,
   },
   {
     name: "origin",
@@ -76,7 +67,6 @@ const addCigarFields = [
     required: true,
     key: "origin",
     validationRules: addCigarValidationRules.origin,
-    disabled: true,
   },
   {
     name: "vitola",
@@ -85,7 +75,6 @@ const addCigarFields = [
     required: true,
     key: "vitola",
     validationRules: addCigarValidationRules.vitola,
-    disabled: true,
   },
 ];
 
@@ -98,9 +87,8 @@ const EditCigarDetail = ({
   cigarsMetaData,
   control,
   onSubmit,
-  isLoading,
+  renderActiveButtonView,
 }: EditCigarDetailProps) => {
-  const router = useRouter();
   return (
     <div>
       <BackButton />
@@ -129,22 +117,7 @@ const EditCigarDetail = ({
               <p className="font-light text-xs leading-none">{cigar?.rating}</p>
             </div>
           </div>
-          <div className="flex space-x-3 self-end">
-            <Button
-              type="submit"
-              title="Add to DB"
-              className="w-[134px]"
-              loading={isLoading}
-              disabled={isLoading}
-            />
-            <Button
-              type="button"
-              title="Cancel"
-              variant="secondary"
-              className="w-[120px]"
-              onClick={() => router.back()}
-            />
-          </div>
+          {renderActiveButtonView()}
         </div>
 
         <div className="my-8">
@@ -159,11 +132,7 @@ const EditCigarDetail = ({
                     name={field.name}
                     register={register}
                     errors={errors}
-                    validationRules={
-                      !field.disabled ? field.validationRules : {}
-                    }
-                    // TODO: Need to Remove this disable props when we implement EditCigar Functionality in Admin Page
-                    disabled={field.disabled}
+                    validationRules={field.validationRules}
                   />
                   <InputError messages={error[field?.name]} className="!mt-1" />
                 </div>
@@ -182,9 +151,7 @@ const EditCigarDetail = ({
                   register={register}
                   errors={errors}
                   step=".01"
-                  // TODO: Need to enable these validation when we implement EditCigar Functionality in the Admin Page Currently All field are disable with values.
-                  // validationRules={addCigarValidationRules.length}
-                  disabled
+                  validationRules={addCigarValidationRules.length}
                 />
                 <InputError messages={error.length} className="!mt-1" />
 
@@ -194,9 +161,7 @@ const EditCigarDetail = ({
                   name="ringGauge"
                   register={register}
                   errors={errors}
-                  // TODO: Need to enable these validation when we implement EditCigar Functionality in the Admin Page currently all field are disable with values.
-                  // validationRules={addCigarValidationRules.ringGauge}
-                  disabled
+                  validationRules={addCigarValidationRules.ringGauge}
                 />
                 <InputError messages={error.ringGauge} className="!mt-1" />
               </div>
@@ -213,7 +178,6 @@ const EditCigarDetail = ({
                   name="color"
                   register={register}
                   errors={errors}
-                  disabled
                 />
                 <InputError messages={error.color} className="!mt-1" />
                 <InputField
@@ -223,14 +187,12 @@ const EditCigarDetail = ({
                   register={register}
                   errors={errors}
                   isRequired={false}
-                  disabled
                 />
                 <InputError messages={error.flavour} className="!mt-1" />{" "}
                 <Controller
                   name="strength"
                   control={control}
                   rules={{ required: "Strength is required" }}
-                  disabled
                   render={({ field }) => (
                     <Dropdown
                       field={field}
@@ -242,7 +204,6 @@ const EditCigarDetail = ({
                       placeholder="Strength"
                       error={errors.strength?.message}
                       searchable
-                      disabled
                     />
                   )}
                 />
@@ -262,7 +223,6 @@ const EditCigarDetail = ({
                       placeholder="Wrapper"
                       error={errors.wrapper?.message}
                       searchable
-                      disabled
                     />
                   )}
                 />
@@ -282,7 +242,6 @@ const EditCigarDetail = ({
                       placeholder="Binder"
                       error={errors.binder?.message}
                       searchable
-                      disabled
                     />
                   )}
                 />
@@ -302,7 +261,6 @@ const EditCigarDetail = ({
                       placeholder="Filler"
                       error={errors.filler?.message}
                       searchable
-                      disabled
                     />
                   )}
                 />

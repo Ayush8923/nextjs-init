@@ -34,6 +34,17 @@ const Sidebar = ({
   const pathname = usePathname();
   const disabledClass = "opacity-50 cursor-not-allowed pointer-events-none";
 
+  const getActiveSubmenuHref = (
+    subMenu: Route["subMenu"] = [],
+    pathname: string
+  ) => {
+    return subMenu
+      .filter(
+        ({ href }) => pathname === href || pathname.startsWith(`${href}/`)
+      )
+      .sort((a, b) => b.href.length - a.href.length)[0]?.href;
+  };
+
   return (
     <div className="pl-6 md:pl-12 h-full w-full border-r border-gray-200 flex flex-col text-xs font-normal">
       <div className="pt-12 border-gray-200">
@@ -54,7 +65,7 @@ const Sidebar = ({
               <div key={href}>
                 <Link
                   href={disabled ? "#" : href}
-                  className={`flex items-center rounded-md py-3 transition-all text-sm ${
+                  className={`flex items-center rounded-md py-3 transition-all text-xs font-normal ${
                     isParentActive
                       ? "text-primary-100"
                       : "text-gray-500 hover:text-primary-100"
@@ -73,15 +84,17 @@ const Sidebar = ({
                         label: subLabel,
                         disabled = false,
                       }) => {
-                        const isSubmenuActive = pathname === subHref;
+                        const activeSubmenuHref = getActiveSubmenuHref(
+                          subMenu,
+                          pathname
+                        );
+                        const isSubmenuActive = subHref === activeSubmenuHref;
                         return (
                           <Link
                             key={subHref}
                             href={disabled ? "#" : subHref}
                             className={`block pl-6 text-gray-500 hover:text-primary-100 mb-6 ${
-                              isSubmenuActive
-                                ? "text-primary-100 font-semibold"
-                                : ""
+                              isSubmenuActive ? "text-primary-100" : ""
                             } ${disabled && disabledClass} `}
                           >
                             {subLabel}

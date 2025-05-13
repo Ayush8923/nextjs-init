@@ -2,6 +2,7 @@ import axios from "@/lib/axios";
 import { getQueryString } from "@/lib/common";
 import {
   CigarDetailsApiData,
+  CigarDetailsFormData,
   CreateHumidorData,
   RequestParams,
   UserData,
@@ -64,50 +65,7 @@ const getCigarsMeta = async () => {
 };
 
 const create = async ({ cigarDetails, image }: CigarDetailsApiData) => {
-  const formData = new FormData();
-
-  const {
-    name,
-    brand,
-    manufacturer,
-    origin,
-    wrapper,
-    binder,
-    filler,
-    vitola,
-    strength,
-    color,
-    length,
-    ringGauge,
-    flavour,
-  } = cigarDetails;
-
-  const fields: Record<string, string | undefined> = {
-    name,
-    brand,
-    manufacturer,
-    origin,
-    wrapper,
-    binder,
-    filler,
-    vitola,
-    strength,
-    color,
-    dimensions: `${length} x ${ringGauge}`,
-  };
-
-  Object.entries(fields).forEach(([key, value]) => {
-    formData.append(key, value ?? "");
-  });
-
-  (flavour?.split(/[\s,]+/) ?? []).forEach((f) => {
-    formData.append("flavour[]", f);
-  });
-
-  if (image) {
-    formData.append("image", image);
-  }
-
+  const formData = buildCigarFormData(cigarDetails, false, image);
   const { data } = await axios.post("/api/cigars", formData);
   return data;
 };
@@ -178,6 +136,72 @@ const finishCigar = async (cigarId: number) => {
   return response?.data;
 };
 
+const updateCigar = async (
+  cigarDetails: CigarDetailsFormData,
+  cigarId: number
+) => {
+  const formData = buildCigarFormData(cigarDetails, true);
+  const response = await axios.post(`/api/cigars/${cigarId}`, formData);
+  return response?.data;
+};
+
+const buildCigarFormData = (
+  cigarDetails: CigarDetailsFormData,
+  includeStatusAndMethod = false,
+  image?: File | null
+) => {
+  const {
+    name,
+    brand,
+    manufacturer,
+    origin,
+    wrapper,
+    binder,
+    filler,
+    vitola,
+    strength,
+    color,
+    length,
+    ringGauge,
+    flavour,
+  } = cigarDetails;
+
+  const formData = new FormData();
+
+  const fields: Record<string, string | undefined> = {
+    name,
+    brand,
+    manufacturer,
+    origin,
+    wrapper,
+    binder,
+    filler,
+    vitola,
+    strength,
+    color,
+    dimensions: `${length} x ${ringGauge}`,
+  };
+
+  if (includeStatusAndMethod) {
+    fields.status = "active";
+    fields._method = "PUT";
+  }
+
+  Object.entries(fields).forEach(([key, value]) => {
+    formData.append(key, value ?? "");
+  });
+
+  (flavour?.split(/[\s,]+/) ?? []).forEach((f) => {
+    formData.append("flavour[]", f);
+  });
+
+  if (image) {
+    formData.append("image", image);
+  }
+
+  return formData;
+};
+
 export default {
   createHumidor,
   getHumidors,
@@ -191,4 +215,5 @@ export default {
   deleteHumidor,
   deleteCigarFromHumidor,
   finishCigar,
+  updateCigar,
 };

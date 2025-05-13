@@ -3,7 +3,6 @@
 import { CustomTable, SearchInput } from "@/components";
 import { CigarData } from "@/lib/types";
 import { getTotalPages } from "@/lib/common";
-import { useRouter } from "next/navigation";
 
 const headers = [
   "Name",
@@ -24,6 +23,7 @@ interface CigarTableProps {
   currentPage: number;
   loading: boolean;
   setSearchQuery: (_val: string) => void;
+  onRowClick: (_selectedCigar: any) => void;
 }
 
 const CigarTable = ({
@@ -34,8 +34,8 @@ const CigarTable = ({
   currentPage,
   loading,
   setSearchQuery,
+  onRowClick,
 }: CigarTableProps) => {
-  const router = useRouter();
   const extractCigarDB =
     initialData?.map((cigar: CigarData) => [
       [
@@ -71,9 +71,9 @@ const CigarTable = ({
         lastPage={getTotalPages(total)}
         onPageChange={onPageChange}
         isRowClickable={true}
-        onRowClick={(index) => {
+        onRowClick={(index: number) => {
           const selectedCigar = initialData[index];
-          router.push(`/admin/cigars/${selectedCigar.id}/edit`);
+          onRowClick(selectedCigar);
         }}
       />
     </div>

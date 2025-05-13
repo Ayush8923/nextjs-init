@@ -16,6 +16,7 @@ import { CigarData, CollectionPagesParams, HumidorsData } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
 import { formatDisplayDate } from "@/lib/common";
 import { useCigar } from "@/app/(app)/collection/hooks";
+import CigarRating from "@/components/CigarRating";
 
 const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
   const { cigarId } = params;
@@ -141,7 +142,8 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
     <Container>
       <div className="flex flex-col h-full justify-between">
         <CigarInfo cigar={cigarData} />
-        <div className="mt-9 -mx-6">
+        <CigarRating cigar={cigarData} />
+        <div className="-mx-6">
           <HumidorLocationInfo
             humidors={cigarData?.humidors || []}
             onCigarDelete={(cigar, humidor) => onHandleDelete(cigar, humidor)}

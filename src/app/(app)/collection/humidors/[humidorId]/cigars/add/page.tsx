@@ -1,6 +1,7 @@
 "use client";
 
 import collection from "@/apis/collection";
+import { useCigarMeta } from "@/app/(app)/collection/hooks";
 import {
   Button,
   Container,
@@ -16,7 +17,6 @@ import { addCigarValidationRules } from "@/lib/validations/collectionValidation"
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import useSWR from "swr";
 
 const addCigarFields = [
   {
@@ -64,10 +64,7 @@ const addCigarFields = [
 const CigarsAdd = ({ params }: { params: CollectionPagesParams }) => {
   const { humidorId } = params;
   const router = useRouter();
-  const { data: cigarsMetaData } = useSWR(
-    "/api/cigars/meta",
-    collection.getCigarsMeta
-  );
+  const { cigarMetaData: cigarsMetaData } = useCigarMeta();
   const {
     register,
     handleSubmit,

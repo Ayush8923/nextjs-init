@@ -38,7 +38,7 @@ export const routes = [
     activeIcon: ActiveCigarTabIcon,
     subMenu: [
       { href: "/admin/cigars", label: "CIGAR DB" },
-      { href: "/admin/cigars/cigars-by-user", label: "Added by Users" },
+      { href: "/admin/cigars/cigars-by-user", label: "ADDED BY USERS" },
     ],
   },
   {
@@ -117,4 +117,12 @@ export const humidificationMethods = [
   { label: "Humidity Packs", value: "humidity_packs" },
   { label: "Electronic", value: "electronic" },
   { label: "Other", value: "other" },
+];
+
+export const cigarStrengths = [
+  "Mild",
+  "Mild-Medium",
+  "Medium",
+  "Medium-Full",
+  "Full",
 ];

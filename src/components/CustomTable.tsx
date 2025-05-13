@@ -57,7 +57,10 @@ const CustomTable = ({
         <Table.Header>
           <Table.Row>
             {headers.map((header, index) => (
-              <Table.ColumnHeaderCell key={index}>
+              <Table.ColumnHeaderCell
+                key={index}
+                className="!font-light !text-gray-500 text-xs"
+              >
                 {header}
               </Table.ColumnHeaderCell>
             ))}
@@ -80,10 +83,16 @@ const CustomTable = ({
                 >
                   {row.map((cell, cellIndex) =>
                     cellIndex === 0 ? (
-                      <Table.RowHeaderCell key={cellIndex}>
+                      <Table.RowHeaderCell
+                        key={cellIndex}
+                        className="font-medium text-base"
+                      >
                         {Array.isArray(cell)
                           ? cell.map((item, idx) => (
-                              <div key={idx}>
+                              <div
+                                key={idx}
+                                className="leading-none mt-1 font-medium text-base"
+                              >
                                 <span
                                   className={`${idx !== 0 && "font-light text-xs"}`}
                                 >
@@ -94,7 +103,12 @@ const CustomTable = ({
                           : cell}
                       </Table.RowHeaderCell>
                     ) : (
-                      <Table.Cell key={cellIndex}>{cell}</Table.Cell>
+                      <Table.Cell
+                        key={cellIndex}
+                        className="font-medium text-base"
+                      >
+                        {cell}
+                      </Table.Cell>
                     )
                   )}
                   {actionRenderer && (

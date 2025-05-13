@@ -93,14 +93,14 @@ const HumidorLocationInfo = ({
               </span>
             </div>
             <div className="flex items-center">
-              <span className="font-light text-xs mr-[26px]">
+              <span className="font-light text-xs mr-[37px]">
                 {cigar?.price ? "$" + cigar.price : "N/A"}
               </span>
               <button
-                className="cursor-pointer mr-4"
+                className="flex items-center cursor-pointer mr-5 font-semibold text-xs border rounded-[18px] border-white px-2.5 py-1.5 gap-1.5"
                 onClick={() => onCigarSmoke(cigar, currentHumidor)}
               >
-                <SmokeIcon />
+                <SmokeIcon /> Smoke
               </button>
               <button
                 className="cursor-pointer"

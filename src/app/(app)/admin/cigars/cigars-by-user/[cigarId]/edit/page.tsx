@@ -1,35 +1,28 @@
 "use client";
 
+import admin from "@/apis/admin";
+import { useCigarMeta } from "@/app/(app)/collection/hooks";
 import { useCigar } from "@/app/(app)/collection/hooks";
+import { Button } from "@/components";
+import EditCigarDetail from "@/components/admin/EditCigarDetail";
 import { useAuth } from "@/hooks/auth";
 import { CigarDetailsFormData } from "@/lib/types";
-import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { Spinner } from "@radix-ui/themes";
-import EditCigarDetail from "@/components/admin/EditCigarDetail";
-import { useCigarMeta } from "@/app/(app)/collection/hooks";
-import { Button } from "@/components";
 import { useRouter } from "next/navigation";
-import collection from "@/apis/collection";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 type PageParams = {
   cigarId: number;
 };
 
-const EditCigar = ({ params }: { params: PageParams }) => {
+const AddedByUserCigarEdit = ({ params }: { params: PageParams }) => {
   const { cigarId } = params;
   const router = useRouter();
   const [error, setError] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth({ middleware: "admin" });
-  const {
-    cigar,
-    isLoading: hasApiLoading,
-    mutate,
-  } = useCigar({
-    user,
-    cigarId,
-  });
+  const { cigar, isLoading: hasApiLoading } = useCigar({ user, cigarId });
   const { cigarMetaData } = useCigarMeta();
 
   const {
@@ -67,12 +60,15 @@ const EditCigar = ({ params }: { params: PageParams }) => {
     }
   }, [cigar, reset]);
 
-  const onSubmit = async (cigarData: CigarDetailsFormData) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     setError({});
     try {
-      await collection.updateCigar(cigarData, cigarId);
-      await mutate();
+      await admin.updateCigarStatus(cigarId, {
+        status: "active",
+      });
+      // Refresh the page to get the updated list in the cigar by users page.
+      window.location.replace("/admin/cigars/cigars-by-user");
     } catch (err: any) {
       setError(err?.response?.data?.errors);
     } finally {
@@ -93,7 +89,7 @@ const EditCigar = ({ params }: { params: PageParams }) => {
       <div className="flex space-x-3 self-end">
         <Button
           type="submit"
-          title="Save"
+          title="Add to DB"
           className="w-[134px]"
           loading={isLoading}
           disabled={isLoading}
@@ -124,4 +120,4 @@ const EditCigar = ({ params }: { params: PageParams }) => {
   );
 };
 
-export default EditCigar;
+export default AddedByUserCigarEdit;
