@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Spinner } from "@radix-ui/themes";
 import EditCigarDetail from "@/components/admin/EditCigarDetail";
-import { useCigarMeta } from "@/app/(app)/collection/hooks";
+import { useCigarOptions } from "@/app/(app)/collection/hooks";
 import { Button } from "@/components";
 import { useRouter } from "next/navigation";
 import collection from "@/apis/collection";
@@ -30,7 +30,7 @@ const EditCigar = ({ params }: { params: PageParams }) => {
     user,
     cigarId,
   });
-  const { cigarMetaData } = useCigarMeta();
+  const { cigarOptionsData } = useCigarOptions();
 
   const {
     register,
@@ -116,7 +116,7 @@ const EditCigar = ({ params }: { params: PageParams }) => {
       errors={errors}
       control={control}
       cigar={cigar}
-      cigarsMetaData={cigarMetaData}
+      cigarOptionsData={cigarOptionsData}
       error={error}
       onSubmit={onSubmit}
       renderActiveButtonView={() => renderActiveButtonView()}

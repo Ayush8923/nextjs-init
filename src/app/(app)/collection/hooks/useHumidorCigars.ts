@@ -10,6 +10,7 @@ interface UseHumidorCigarsOptions {
   query: string;
   enabled: boolean;
   onInitialLoad?: () => void;
+  filters?: { [key: string]: string };
 }
 
 export function useHumidorCigars({
@@ -17,6 +18,7 @@ export function useHumidorCigars({
   query,
   enabled,
   onInitialLoad,
+  filters,
 }: UseHumidorCigarsOptions) {
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (!enabled || !humidorId) return null;
@@ -27,6 +29,7 @@ export function useHumidorCigars({
       limit: PAGINATION_SIZE,
       name: query,
       key: "humidor",
+      ...filters,
     });
   };
 

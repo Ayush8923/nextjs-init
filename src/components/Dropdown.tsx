@@ -74,7 +74,7 @@ const DropdownPopover: React.FC<DropdownProps> = ({
             }`}
             disabled={disabled}
           >
-            <span className={field.value ? "text-black" : "text-gray-400"}>
+            <span className={field.value ? "text-black" : "text-gray-500"}>
               {selectedItem?.label || placeholder}
             </span>
             <DropdownAppearanceIcon />

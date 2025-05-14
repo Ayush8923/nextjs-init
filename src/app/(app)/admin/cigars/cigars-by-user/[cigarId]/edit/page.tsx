@@ -1,7 +1,7 @@
 "use client";
 
 import admin from "@/apis/admin";
-import { useCigarMeta } from "@/app/(app)/collection/hooks";
+import { useCigarOptions } from "@/app/(app)/collection/hooks";
 import { useCigar } from "@/app/(app)/collection/hooks";
 import { Button } from "@/components";
 import EditCigarDetail from "@/components/admin/EditCigarDetail";
@@ -23,7 +23,7 @@ const AddedByUserCigarEdit = ({ params }: { params: PageParams }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth({ middleware: "admin" });
   const { cigar, isLoading: hasApiLoading } = useCigar({ user, cigarId });
-  const { cigarMetaData } = useCigarMeta();
+  const { cigarOptionsData } = useCigarOptions();
 
   const {
     register,
@@ -112,7 +112,7 @@ const AddedByUserCigarEdit = ({ params }: { params: PageParams }) => {
       errors={errors}
       control={control}
       cigar={cigar}
-      cigarsMetaData={cigarMetaData}
+      cigarOptionsData={cigarOptionsData}
       error={error}
       onSubmit={onSubmit}
       renderActiveButtonView={() => renderActiveButtonView()}

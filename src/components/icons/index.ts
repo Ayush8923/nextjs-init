@@ -38,4 +38,5 @@ export { default as AccordionIcon } from "./AccordionIcon";
 export { default as LeftArrowIcon } from "./LeftArrowIcon";
 export { default as DeleteIcon } from "./DeleteIcon";
 export { default as CalendarIcon } from "./CalendarIcon";
+export { default as CheckIcon } from "./CheckIcon";
 export { default as SmallRatingIcon } from "./SmallRatingIcon";

@@ -29,7 +29,7 @@ type EditCigarDetailProps = {
   register: UseFormRegister<FormValues>;
   errors: any;
   error: Record<string, string[]>;
-  cigarsMetaData: any;
+  cigarOptionsData: any;
   control: Control<FormValues>;
   onSubmit: (_data: FormValues) => void;
   renderActiveButtonView: () => ReactNode;
@@ -84,7 +84,7 @@ const EditCigarDetail = ({
   register,
   errors,
   error,
-  cigarsMetaData,
+  cigarOptionsData,
   control,
   onSubmit,
   renderActiveButtonView,
@@ -198,7 +198,7 @@ const EditCigarDetail = ({
                       field={field}
                       items={
                         formatArrayToLabelValueOptions(
-                          cigarsMetaData?.strengths
+                          cigarOptionsData?.strengths
                         ) ?? []
                       }
                       placeholder="Strength"
@@ -217,7 +217,7 @@ const EditCigarDetail = ({
                       field={field}
                       items={
                         formatArrayToLabelValueOptions(
-                          cigarsMetaData?.wrappers
+                          cigarOptionsData?.wrappers
                         ) ?? []
                       }
                       placeholder="Wrapper"
@@ -236,7 +236,7 @@ const EditCigarDetail = ({
                       field={field}
                       items={
                         formatArrayToLabelValueOptions(
-                          cigarsMetaData?.binders
+                          cigarOptionsData?.binders
                         ) ?? []
                       }
                       placeholder="Binder"
@@ -255,7 +255,7 @@ const EditCigarDetail = ({
                       field={field}
                       items={
                         formatArrayToLabelValueOptions(
-                          cigarsMetaData?.fillers
+                          cigarOptionsData?.fillers
                         ) ?? []
                       }
                       placeholder="Filler"

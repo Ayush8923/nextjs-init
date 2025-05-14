@@ -1,7 +1,7 @@
 "use client";
 
 import collection from "@/apis/collection";
-import { useCigarMeta } from "@/app/(app)/collection/hooks";
+import { useCigarOptions } from "@/app/(app)/collection/hooks";
 import {
   Button,
   Container,
@@ -64,7 +64,7 @@ const addCigarFields = [
 const CigarsAdd = ({ params }: { params: CollectionPagesParams }) => {
   const { humidorId } = params;
   const router = useRouter();
-  const { cigarMetaData: cigarsMetaData } = useCigarMeta();
+  const { cigarOptionsData: cigarsMetaData } = useCigarOptions();
   const {
     register,
     handleSubmit,

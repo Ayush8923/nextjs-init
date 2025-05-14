@@ -37,7 +37,14 @@ const CigarRating = ({ cigar }: any) => {
         <div className="bg-gray-400 rounded-xl p-2 pb-[27px] flex-1">
           <div>
             <div className="text-gray-500 text-sm">Your Rating</div>
-            <StarRating rating={cigar.user_rating} />
+            {cigar.user_rating ? (
+              <StarRating rating={cigar.user_rating} />
+            ) : (
+              <div className="text-base font-extralight mt-1.5 text-primary-100 leading-[130%]">
+                Nothing here yet, smoke the cigar & add your rating based on
+                your experience.
+              </div>
+            )}
           </div>
 
           <div className="my-3">

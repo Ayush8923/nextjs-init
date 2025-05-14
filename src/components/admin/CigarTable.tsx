@@ -3,6 +3,9 @@
 import { CustomTable, SearchInput } from "@/components";
 import { CigarData } from "@/lib/types";
 import { getTotalPages } from "@/lib/common";
+import { FilterIcon } from "../icons";
+import { useState } from "react";
+import { FilterModal } from "@/components";
 
 const headers = [
   "Name",
@@ -24,6 +27,15 @@ interface CigarTableProps {
   loading: boolean;
   setSearchQuery: (_val: string) => void;
   onRowClick: (_selectedCigar: any) => void;
+  setAppliedFilters: (_filters: { [key: string]: string }) => void;
+  cigarOptionsData?: {
+    brands: string[];
+    wrappers: string[];
+    binders: string[];
+    fillers: string[];
+    strengths: string[];
+    manufacturers?: string[];
+  };
 }
 
 const CigarTable = ({
@@ -35,7 +47,10 @@ const CigarTable = ({
   loading,
   setSearchQuery,
   onRowClick,
+  setAppliedFilters,
+  cigarOptionsData,
 }: CigarTableProps) => {
+  const [showFilter, setShowFilter] = useState(false);
   const extractCigarDB =
     initialData?.map((cigar: CigarData) => [
       [
@@ -56,11 +71,20 @@ const CigarTable = ({
   return (
     <div>
       <h1 className="font-medium text-2xl mb-9">{title}</h1>
-      <div className="space-y-4 max-w-sm mb-10">
-        <SearchInput
-          placeholder="Search Cigars"
-          onSearch={(val: string) => setSearchQuery(val)}
-        />
+      <div className="flex items-center mb-10">
+        <div className="w-[231px] mr-3">
+          <SearchInput
+            placeholder="Search Cigars"
+            onSearch={(val: string) => setSearchQuery(val)}
+          />
+        </div>
+        <button
+          className="flex items-center space-x-1.5 h-[39px] border-primary-100 border rounded-md px-3.5 py-2.5"
+          onClick={() => setShowFilter(true)}
+        >
+          <FilterIcon />
+          <div className="text-sm font-semibold">Filter</div>
+        </button>
       </div>
       <CustomTable
         headers={headers}
@@ -75,6 +99,16 @@ const CigarTable = ({
           const selectedCigar = initialData[index];
           onRowClick(selectedCigar);
         }}
+      />
+      <FilterModal
+        isOpen={showFilter}
+        onClose={() => setShowFilter(false)}
+        onApply={(selectedFilters: { [key: string]: string }) => {
+          setAppliedFilters(selectedFilters);
+          setShowFilter(false);
+        }}
+        cigarOptionsData={cigarOptionsData}
+        centered
       />
     </div>
   );

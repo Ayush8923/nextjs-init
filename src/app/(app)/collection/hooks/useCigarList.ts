@@ -11,6 +11,7 @@ interface UseCigarListOptions {
   user: UserData;
   enabled: boolean;
   onInitialLoad?: () => void;
+  filters?: { [key: string]: string };
 }
 
 export function useCigarList({
@@ -18,12 +19,16 @@ export function useCigarList({
   user,
   enabled,
   onInitialLoad,
+  filters,
 }: UseCigarListOptions) {
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (!enabled || !user) return null;
     if (previousPageData && !previousPageData.data.length) return null;
 
-    return [{ page: pageIndex + 1, limit: PAGINATION_SIZE, name: query }, user];
+    return [
+      { page: pageIndex + 1, limit: PAGINATION_SIZE, name: query, ...filters },
+      user,
+    ];
   };
 
   const { data, setSize, isValidating, error } = useSWRInfinite(

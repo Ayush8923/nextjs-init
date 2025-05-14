@@ -8,6 +8,7 @@ import {
   HumidorList,
   SearchInput,
   ToggleSwitch,
+  FilterModal,
 } from "@/components";
 import { AddPlusIcon, FilterIcon } from "@/components/icons";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
@@ -15,15 +16,24 @@ import { HumidorsData } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/auth";
-import { useCigarList, useHumidorList } from "@/app/(app)/collection/hooks";
+import {
+  useCigarList,
+  useCigarOptions,
+  useHumidorList,
+} from "@/app/(app)/collection/hooks";
 
 const HumidorsList = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isCigarView, setIsCigarView] = useState(false);
-  const router = useRouter();
-  const debouncedSearchQuery = useDebouncedValue(searchQuery);
   const { user } = useAuth({ middleware: "auth" });
+  const router = useRouter();
+  const { cigarOptionsData } = useCigarOptions();
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebouncedValue(searchQuery);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [showFilter, setShowFilter] = useState(false);
+  const [isCigarView, setIsCigarView] = useState(false);
+  const [appliedFilters, setAppliedFilters] = useState<{
+    [key: string]: string;
+  }>({});
 
   const {
     humidors,
@@ -44,6 +54,7 @@ const HumidorsList = () => {
     query: debouncedSearchQuery,
     user,
     enabled: isCigarView,
+    filters: appliedFilters,
     onInitialLoad: () => setIsInitialLoad(false),
   });
 
@@ -170,12 +181,10 @@ const HumidorsList = () => {
               />
             </div>
 
-            {/* TODO: Need to enable this button when we have the list of the brands & Pricing etc. */}
             {isCigarView && (
               <button
-                className="flex items-center space-x-1.5 !ml-3 h-[48px] border-primary-100 border rounded-md px-3.5 py-2.5 opacity-50"
-                disabled
-                onClick={() => {}}
+                className="flex items-center space-x-1.5 !ml-3 h-[48px] border-primary-100 border rounded-md px-3.5 py-2.5"
+                onClick={() => setShowFilter(true)}
               >
                 <FilterIcon />
                 <div className="text-sm font-semibold">Filter</div>
@@ -195,6 +204,16 @@ const HumidorsList = () => {
           </div>
         </div>
       </div>
+
+      <FilterModal
+        isOpen={showFilter}
+        onClose={() => setShowFilter(false)}
+        onApply={(selectedFilters: { [key: string]: string }) => {
+          setAppliedFilters(selectedFilters);
+          setShowFilter(false);
+        }}
+        cigarOptionsData={cigarOptionsData}
+      />
     </Container>
   );
 };

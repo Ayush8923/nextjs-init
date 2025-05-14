@@ -126,3 +126,14 @@ export const cigarStrengths = [
   "Medium-Full",
   "Full",
 ];
+
+export const cigarFilterCategories = [
+  { id: "brand", label: "Brand" },
+  { id: "pricing", label: "Pricing" },
+  { id: "added_on", label: "Added on" },
+  { id: "wrapper", label: "Wrapper" },
+  { id: "binder", label: "Binder" },
+  { id: "filler", label: "Filler" },
+  { id: "strength", label: "Strength" },
+  { id: "manufacturer", label: "Manufacturer" },
+];

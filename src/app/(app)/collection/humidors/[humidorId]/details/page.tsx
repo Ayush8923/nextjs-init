@@ -8,6 +8,7 @@ import {
   Container,
   DeleteModal,
   SearchInput,
+  FilterModal,
 } from "@/components";
 import HumidorCard from "@/components/HumidorCard";
 import { AddPlusIcon, FilterIcon, RightArrowIcon } from "@/components/icons";
@@ -16,7 +17,10 @@ import { CollectionPagesParams } from "@/lib/types";
 import { Spinner } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
-import { useHumidorCigars } from "@/app/(app)/collection/hooks";
+import {
+  useCigarOptions,
+  useHumidorCigars,
+} from "@/app/(app)/collection/hooks";
 
 const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
   const { humidorId } = params;
@@ -25,8 +29,13 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
   const [hasDeleteModal, setHasDeleteModal] = useState(false);
   const [isApiLoading, setIsApiLoading] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [showFilter, setShowFilter] = useState(false);
   const [isHumidorDataLoading, setIsHumidorDataLoading] = useState(true);
   const debouncedSearchQuery = useDebouncedValue(searchQuery);
+  const { cigarOptionsData } = useCigarOptions();
+  const [appliedFilters, setAppliedFilters] = useState<{
+    [key: string]: string;
+  }>({});
   const { data: humidor } = useSWR(
     `/api/humidors/${humidorId}`,
     () => collection.getHumidorById(humidorId),
@@ -42,6 +51,7 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
     humidorId,
     query: debouncedSearchQuery,
     enabled: !!humidorId,
+    filters: appliedFilters,
     onInitialLoad: () => setIsInitialLoad(false),
   });
 
@@ -97,6 +107,8 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
   };
 
   const renderCigarListView = () => {
+    const filtersApplied =
+      debouncedSearchQuery || Object.keys(appliedFilters).length > 0;
     return (
       <div>
         <div className="flex space-x-2 my-9">
@@ -107,11 +119,9 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
             />
           </div>
 
-          {/* TODO: Need to enable this button when we have the list of the brands & Pricing etc. */}
           <button
-            className="flex items-center space-x-1.5 !ml-3 h-[48px] border-primary-100 border rounded-md px-3.5 py-2.5 opacity-50"
-            disabled
-            onClick={() => {}}
+            className="flex items-center space-x-1.5 !ml-3 h-[48px] border-primary-100 border rounded-md px-3.5 py-2.5"
+            onClick={() => setShowFilter(true)}
           >
             <FilterIcon />
             <div className="text-sm font-semibold">Filter</div>
@@ -120,13 +130,11 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
 
         {renderCigarsList()}
 
-        {!isCigarValidating &&
-          debouncedSearchQuery &&
-          humidorCigars.length === 0 && (
-            <div className="h-full flex justify-center items-center flex-col text-center">
-              <p className="text-base font-light">No cigars found.</p>
-            </div>
-          )}
+        {!isCigarValidating && humidorCigars.length === 0 && filtersApplied && (
+          <div className="h-full flex justify-center items-center flex-col text-center">
+            <p className="text-base font-light">No cigars found.</p>
+          </div>
+        )}
       </div>
     );
   };
@@ -142,11 +150,13 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
   };
 
   const renderContent = () => {
+    const filtersApplied =
+      debouncedSearchQuery || Object.keys(appliedFilters).length > 0;
     if (isInitialLoad) {
       return renderSpinner(isInitialLoad);
     }
 
-    if (!debouncedSearchQuery && humidorCigars.length === 0) {
+    if (!filtersApplied && humidorCigars.length === 0) {
       return renderNoCigarView();
     }
 
@@ -207,6 +217,15 @@ const HumidorDetails = ({ params }: { params: CollectionPagesParams }) => {
         onHandleDelete={() => onHandleDelete()}
         isApiLoading={isApiLoading}
         onHandleCancel={() => setHasDeleteModal(false)}
+      />
+      <FilterModal
+        isOpen={showFilter}
+        onClose={() => setShowFilter(false)}
+        onApply={(selectedFilters: { [key: string]: string }) => {
+          setAppliedFilters(selectedFilters);
+          setShowFilter(false);
+        }}
+        cigarOptionsData={cigarOptionsData}
       />
     </Container>
   );
