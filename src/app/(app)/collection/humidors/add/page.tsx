@@ -11,7 +11,7 @@ import {
 import { Dropdown } from "@/components";
 import { humidificationMethods, humidorTypes } from "@/lib/constant";
 import { AddingHumidorFormData } from "@/lib/types";
-import { collectionValidationRules } from "@/lib/validations/collectionValidation";
+import { humidorValidationRules } from "@/lib/validations/collectionValidation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -80,13 +80,14 @@ const AddingHumidor = () => {
             name="humidorName"
             register={register}
             errors={errors}
+            validationRules={humidorValidationRules.humidorName}
           />
           <InputError messages={error.name} className="!mt-1" />
 
           <Controller
             name="humidorType"
             control={control}
-            rules={collectionValidationRules.humidorType}
+            rules={humidorValidationRules.humidorType}
             render={({ field }) => (
               <Dropdown
                 field={field}
@@ -106,7 +107,7 @@ const AddingHumidor = () => {
             register={register}
             errors={errors}
             isRequired={false}
-            validationRules={collectionValidationRules.cigarHoldingCapacity}
+            validationRules={humidorValidationRules.cigarHoldingCapacity}
           />
           <InputError messages={error.capacity} className="!mt-1" />
 
@@ -131,7 +132,7 @@ const AddingHumidor = () => {
                 name="customHumidificationMethod"
                 register={register}
                 validationRules={
-                  collectionValidationRules.customHumidificationMethod
+                  humidorValidationRules.customHumidificationMethod
                 }
                 errors={errors}
                 isRequired={selectedHumidificationMethod === "other"}

@@ -170,3 +170,8 @@ export type CollectionPagesParams = {
   humidorId: number;
   cigarId: number;
 };
+
+export type CigarUpdateFormDataOptions = {
+  includeMethod?: boolean;
+  includeStatus?: boolean;
+};

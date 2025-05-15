@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import InputError from "@/components/InputError";
 import Image from "next/image";
@@ -15,6 +15,7 @@ interface ImageUploaderProps {
   imageHeight?: number;
   setSelectedFile?: React.Dispatch<React.SetStateAction<File | null>>;
   maxFileSize?: number;
+  initialImageUrl?: string | null;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({
@@ -28,9 +29,18 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   imageHeight = 120,
   setSelectedFile,
   maxFileSize = MAX_FILE_SIZE,
+  initialImageUrl = null,
 }) => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    initialImageUrl
+  );
   const [fileError, setFileError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (initialImageUrl) {
+      setImagePreview(initialImageUrl);
+    }
+  }, [initialImageUrl]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -78,7 +88,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           <Image
             src={imagePreview}
             alt="Profile"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-fill"
             width={imageWidth}
             height={imageHeight}
           />

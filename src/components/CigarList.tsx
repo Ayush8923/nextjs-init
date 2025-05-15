@@ -26,7 +26,7 @@ const CigarList = ({ cigars, onCigarSelected }: CigarListProps) => {
           alt={cigar.name}
           width={74}
           height={74}
-          className="rounded-[10px] mr-3 h-[74px] w-[74px] "
+          className="rounded-[10px] mr-3 h-[74px] w-[74px] object-fill"
         />
       ) : (
         <div className="h-[74px] w-[74px] rounded-[10px] mr-3">

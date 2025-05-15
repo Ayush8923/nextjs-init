@@ -101,7 +101,7 @@ const EditCigarDetail = ({
                 alt={cigar?.name}
                 width={97}
                 height={97}
-                className="rounded-md mr-3 h-24 w-24"
+                className="rounded-md mr-3 h-24 w-24 object-fill"
               />
             ) : (
               <div className="h-24 w-24 rounded-[10px] mr-4 flex items-center justify-center">

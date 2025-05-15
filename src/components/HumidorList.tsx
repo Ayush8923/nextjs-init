@@ -34,7 +34,7 @@ const HumidorList = ({ humidors, selectedHumidor }: HumidorListProps) => {
           alt={humidor.name}
           width={132}
           height={132}
-          className="rounded-sm mr-3 h-[132px] w-[132px] "
+          className="rounded-sm mr-3 h-[132px] w-[132px] object-fill"
         />
       ) : (
         <div className="h-[132px] w-[132px] rounded-sm mr-4 bg-gray-100"></div>

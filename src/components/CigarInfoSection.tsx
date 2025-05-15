@@ -71,7 +71,7 @@ const CigarInfoSection = ({
           alt="cigarImage"
           width={74}
           height={74}
-          className="rounded-full w-[74px] h-[74px]"
+          className="rounded-[10px] w-[74px] h-[74px] mr-4 object-fill"
         />
       ) : (
         <div className="w-[74px] h-[74px] rounded-lg mr-4">

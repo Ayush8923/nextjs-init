@@ -3,6 +3,7 @@ import { getQueryString } from "@/lib/common";
 import {
   CigarDetailsApiData,
   CigarDetailsFormData,
+  CigarUpdateFormDataOptions,
   CreateHumidorData,
   RequestParams,
   UserData,
@@ -65,7 +66,7 @@ const getCigarsMeta = async () => {
 };
 
 const create = async ({ cigarDetails, image }: CigarDetailsApiData) => {
-  const formData = buildCigarFormData(cigarDetails, false, image);
+  const formData = buildCigarFormData(cigarDetails, image);
   const { data } = await axios.post("/api/cigars", formData);
   return data;
 };
@@ -136,19 +137,32 @@ const finishCigar = async (cigarId: number) => {
   return response?.data;
 };
 
+/**
+ * Updates a cigar.
+ *
+ * @param cigarDetails - Core cigar fields
+ * @param image - image file (null if no update)
+ * @param options - Controls method spoofing or status flags
+ */
 const updateCigar = async (
   cigarDetails: CigarDetailsFormData,
-  cigarId: number
+  selectedCigarImage: File | null,
+  cigarId: number,
+  options: CigarUpdateFormDataOptions = {}
 ) => {
-  const formData = buildCigarFormData(cigarDetails, true);
+  const formData = buildCigarFormData(
+    cigarDetails,
+    selectedCigarImage,
+    options
+  );
   const response = await axios.post(`/api/cigars/${cigarId}`, formData);
   return response?.data;
 };
 
 const buildCigarFormData = (
   cigarDetails: CigarDetailsFormData,
-  includeStatusAndMethod = false,
-  image?: File | null
+  image?: File | null,
+  options: CigarUpdateFormDataOptions = {}
 ) => {
   const {
     name,
@@ -182,9 +196,12 @@ const buildCigarFormData = (
     dimensions: `${length} x ${ringGauge}`,
   };
 
-  if (includeStatusAndMethod) {
-    fields.status = "active";
+  if (options?.includeMethod) {
     fields._method = "PUT";
+  }
+
+  if (options?.includeStatus) {
+    fields.status = "active";
   }
 
   Object.entries(fields).forEach(([key, value]) => {

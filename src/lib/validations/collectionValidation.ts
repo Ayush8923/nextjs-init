@@ -1,19 +1,4 @@
 export const collectionValidationRules = {
-  humidorType: {
-    required: "Type of Humidor * is required",
-  },
-  customHumidificationMethod: {
-    required: {
-      value: true,
-      message: "Please specify the humidification method.",
-    },
-  },
-  cigarHoldingCapacity: {
-    min: {
-      value: 1,
-      message: "Cigar holding capacity must be at least 1",
-    },
-  },
   cigarQuantity: {
     min: {
       value: 1,
@@ -24,6 +9,38 @@ export const collectionValidationRules = {
     min: {
       value: 1,
       message: "Cigar price must be at least 1",
+    },
+  },
+};
+
+export const humidorValidationRules = {
+  humidorType: {
+    required: "Type of Humidor * is required",
+  },
+  humidorName: {
+    required: "Humidor Name * is required",
+    pattern: {
+      value: /^[A-Za-z0-9\s.]+$/,
+      message: "Humidor Name cannot contain special characters",
+    },
+    maxLength: {
+      value: 15,
+      message: "Name must be 15 characters or fewer",
+    },
+  },
+  cigarHoldingCapacity: {
+    min: {
+      value: 1,
+      message: "Cigar holding capacity must be at least 1",
+    },
+    validate: (value: string) => {
+      if (parseInt(value) > 999) return "Maximum allowed is 999";
+    },
+  },
+  customHumidificationMethod: {
+    required: {
+      value: true,
+      message: "Please specify the humidification method.",
     },
   },
 };

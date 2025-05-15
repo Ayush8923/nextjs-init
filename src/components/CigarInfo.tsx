@@ -5,9 +5,18 @@ import { CigarData } from "@/lib/types";
 
 type CigarInfoProps = {
   cigar: CigarData;
+  onClickEditCigar: (_cigarId: number) => void;
+  isEditCigarVisible: boolean;
 };
 
-const CigarInfo = ({ cigar }: CigarInfoProps) => {
+const CigarInfo = ({
+  cigar,
+  onClickEditCigar,
+  isEditCigarVisible,
+}: CigarInfoProps) => {
+  if (!cigar) {
+    return null;
+  }
   return (
     <div>
       <BackButton />
@@ -32,7 +41,7 @@ const CigarInfo = ({ cigar }: CigarInfoProps) => {
             alt={cigar.name}
             width={120}
             height={120}
-            className="rounded-[10px] mr-3 h-[120px] w-[120px] "
+            className="rounded-[10px] mr-3 h-[120px] w-[120px] object-fill"
           />
         ) : (
           <div className="w-[120px] h-[120px] bg-gray-100 rounded-[10px]"></div>
@@ -110,15 +119,17 @@ const CigarInfo = ({ cigar }: CigarInfoProps) => {
 
       <hr className="border-gray-200" />
 
-      <div className="flex justify-between gap-[16px] relative">
-        <Button
-          className="w-full"
-          type="button"
-          title="Edit Details"
-          variant="secondary"
-          disabled
-        />
-      </div>
+      {isEditCigarVisible && (
+        <div className="flex justify-between gap-[16px] relative">
+          <Button
+            className="w-full"
+            type="button"
+            title="Edit Details"
+            variant="secondary"
+            onClick={() => onClickEditCigar(cigar.id)}
+          />
+        </div>
+      )}
     </div>
   );
 };

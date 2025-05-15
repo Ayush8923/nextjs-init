@@ -71,7 +71,10 @@ const EditCigar = ({ params }: { params: PageParams }) => {
     setIsLoading(true);
     setError({});
     try {
-      await collection.updateCigar(cigarData, cigarId);
+      await collection.updateCigar(cigarData, null, cigarId, {
+        includeMethod: true,
+        includeStatus: true,
+      });
       await mutate();
     } catch (err: any) {
       setError(err?.response?.data?.errors);

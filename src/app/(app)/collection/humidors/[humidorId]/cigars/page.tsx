@@ -99,7 +99,7 @@ const CigarsList = ({ params }: { params: CollectionPagesParams }) => {
               alt={cigar.name}
               width={74}
               height={74}
-              className="rounded-md mr-3 h-[74px] w-[74px] "
+              className="rounded-md mr-3 h-[74px] w-[74px] object-fill"
             />
           ) : (
             <div className="h-[74px] w-[74px] rounded-md mr-3">

@@ -17,10 +17,12 @@ import { Spinner } from "@radix-ui/themes";
 import { formatDisplayDate } from "@/lib/common";
 import { useCigar } from "@/app/(app)/collection/hooks";
 import CigarRating from "@/components/CigarRating";
+import { useRouter } from "next/navigation";
 
 const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
   const { cigarId } = params;
   const { user } = useAuth({ middleware: "auth" });
+  const router = useRouter();
   const [isApiLoading, setIsApiLoading] = useState(false);
   const [hasDeleteModal, setHasDeleteModal] = useState(false);
   const [hasSmokeCigarModalOpen, setHasSmokeCigarModalOpen] = useState(false);
@@ -141,7 +143,15 @@ const CigarInfoPage = ({ params }: { params: CollectionPagesParams }) => {
   return (
     <Container>
       <div className="flex flex-col h-full justify-between">
-        <CigarInfo cigar={cigarData} />
+        <CigarInfo
+          cigar={cigarData}
+          onClickEditCigar={(id: number) =>
+            router.push(`/collection/humidors/cigars/${id}/edit`)
+          }
+          isEditCigarVisible={
+            user.id === cigarData?.added_by && cigarData?.status !== "active"
+          }
+        />
         <CigarRating cigar={cigarData} />
         <div className="-mx-6">
           <HumidorLocationInfo
