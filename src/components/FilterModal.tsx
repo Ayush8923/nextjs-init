@@ -113,7 +113,7 @@ const FilterModal = ({
               Clear All
             </button>
             <div className="flex">
-              <div className="w-1/3 border-r">
+              <div className="w-1/4 border-r">
                 {cigarFilterCategories.map((category) => {
                   if (!hasOptions(category.id)) return null;
 
