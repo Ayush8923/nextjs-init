@@ -128,6 +128,7 @@ export const cigarStrengths = [
 ];
 
 export const cigarFilterCategories = [
+  { id: "manufacturer", label: "Manufacturer" },
   { id: "brand", label: "Brand" },
   { id: "pricing", label: "Pricing" },
   { id: "added_on", label: "Added on" },
@@ -135,5 +136,4 @@ export const cigarFilterCategories = [
   { id: "binder", label: "Binder" },
   { id: "filler", label: "Filler" },
   { id: "strength", label: "Strength" },
-  { id: "manufacturer", label: "Manufacturer" },
 ];
