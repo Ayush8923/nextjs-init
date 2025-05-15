@@ -73,7 +73,6 @@ const EditCigar = ({ params }: { params: PageParams }) => {
     try {
       await collection.updateCigar(cigarData, null, cigarId, {
         includeMethod: true,
-        includeStatus: true,
       });
       await mutate();
     } catch (err: any) {

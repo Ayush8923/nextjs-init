@@ -20,7 +20,7 @@ const AppHeader = ({
     <header className="pt-4 left-6 right-6 bg-white z-40">
       <div className="flex justify-between max-w-lg mx-auto">
         <div className="flex items-center">
-          <Link href="/">
+          <Link href="/dashboard">
             <div className="flex items-center cursor-pointer">
               <div className="relative">
                 <ApplicationLogo width="50" height="36" />

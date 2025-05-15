@@ -11,24 +11,24 @@ type FilterModalProps = {
   onApply: (_filters: { [key: string]: string }) => void;
   centered?: boolean;
   cigarOptionsData?: {
+    manufacturers?: string[];
     brands: string[];
     wrappers: string[];
     binders: string[];
     fillers: string[];
     strengths: string[];
-    manufacturers?: string[];
   };
 };
 
 const categoryOptionMap: {
   [key: string]: keyof NonNullable<FilterModalProps["cigarOptionsData"]>;
 } = {
+  manufacturer: "manufacturers",
   brand: "brands",
   wrapper: "wrappers",
   binder: "binders",
   filler: "fillers",
   strength: "strengths",
-  manufacturer: "manufacturers",
 };
 
 const FilterModal = ({

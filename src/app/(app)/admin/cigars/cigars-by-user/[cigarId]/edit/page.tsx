@@ -1,6 +1,6 @@
 "use client";
 
-import admin from "@/apis/admin";
+import collection from "@/apis/collection";
 import { useCigarOptions } from "@/app/(app)/collection/hooks";
 import { useCigar } from "@/app/(app)/collection/hooks";
 import { Button } from "@/components";
@@ -60,12 +60,13 @@ const AddedByUserCigarEdit = ({ params }: { params: PageParams }) => {
     }
   }, [cigar, reset]);
 
-  const onSubmit = async () => {
+  const onSubmit = async (cigarDetails: CigarDetailsFormData) => {
     setIsLoading(true);
     setError({});
     try {
-      await admin.updateCigarStatus(cigarId, {
-        status: "active",
+      await collection.updateCigar(cigarDetails, null, cigarId, {
+        includeMethod: true,
+        includeStatus: true,
       });
       // Refresh the page to get the updated list in the cigar by users page.
       window.location.replace("/admin/cigars/cigars-by-user");
